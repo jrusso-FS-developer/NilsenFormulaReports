@@ -1,0 +1,4 @@
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\bin\Debug\Nilsen.Framework.Repository.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\bin\Debug\Nilsen.Framework.Repository.pdb
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\obj\Debug\Nilsen.Framework.Repository.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\obj\Debug\Nilsen.Framework.Repository.pdb

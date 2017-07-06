@@ -1,0 +1,5 @@
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\DataAccessObjects\bin\Debug\Nilsen.Framework.DataClasses.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\DataAccessObjects\bin\Debug\Nilsen.Framework.DataClasses.pdb
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\DataAccessObjects\obj\Debug\Nilsen.Framework.DataClasses.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\DataAccessObjects\obj\Debug\Nilsen.Framework.DataClasses.pdb
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\DataAccessObjects\obj\Debug\Nilsen.Framework.DataClasses.csprojResolveAssemblyReference.cache

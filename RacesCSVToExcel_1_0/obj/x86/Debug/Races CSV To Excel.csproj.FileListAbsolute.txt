@@ -1,0 +1,10 @@
+C:\Users\Justin Russo\AppData\Local\Temporary Projects\Races CSV To Excel\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Justin Russo\AppData\Local\Temporary Projects\Races CSV To Excel\obj\x86\Debug\Races_CSV_To_Excel.RacesCSVtoExcel.resources
+C:\Users\Justin Russo\AppData\Local\Temporary Projects\Races CSV To Excel\obj\x86\Debug\Races_CSV_To_Excel.Properties.Resources.resources
+C:\Users\Justin Russo\AppData\Local\Temporary Projects\Races CSV To Excel\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Justin Russo\AppData\Local\Temporary Projects\Races CSV To Excel\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Justin Russo\AppData\Local\Temporary Projects\Races CSV To Excel\bin\Debug\Races CSV To Excel.exe
+C:\Users\Justin Russo\AppData\Local\Temporary Projects\Races CSV To Excel\bin\Debug\Races CSV To Excel.pdb
+C:\Users\Justin Russo\AppData\Local\Temporary Projects\Races CSV To Excel\obj\x86\Debug\Races CSV To Excel.exe
+C:\Users\Justin Russo\AppData\Local\Temporary Projects\Races CSV To Excel\obj\x86\Debug\Races CSV To Excel.pdb
+C:\Users\Justin Russo\AppData\Local\Temporary Projects\Races CSV To Excel\obj\x86\Debug\Races CSV To Excel.csproj.ResolveComReference.cache

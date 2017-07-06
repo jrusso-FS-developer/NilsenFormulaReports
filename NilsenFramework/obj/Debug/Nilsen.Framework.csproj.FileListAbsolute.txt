@@ -1,0 +1,18 @@
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\bin\Debug\Nilsen.Framework.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\bin\Debug\Nilsen.Framework.pdb
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\bin\Debug\Nilsen.Framework.Data.Factory.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\bin\Debug\Nilsen.Framework.Data.Repository.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\bin\Debug\Nilsen.Framework.Data.Factory.pdb
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\bin\Debug\Nilsen.Framework.Data.Repository.pdb
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\obj\Debug\Nilsen.Framework.csprojResolveAssemblyReference.cache
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\obj\Debug\Nilsen.Framework.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\obj\Debug\Nilsen.Framework.pdb
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\bin\Debug\Nilsen.Framework.dll
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\bin\Debug\Nilsen.Framework.pdb
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\bin\Debug\Nilsen.Framework.Data.Factory.dll
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\bin\Debug\Nilsen.Framework.Data.Repository.dll
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\bin\Debug\Nilsen.Framework.Data.Factory.pdb
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\bin\Debug\Nilsen.Framework.Data.Repository.pdb
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\obj\Debug\Nilsen.Framework.csprojResolveAssemblyReference.cache
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\obj\Debug\Nilsen.Framework.dll
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\obj\Debug\Nilsen.Framework.pdb

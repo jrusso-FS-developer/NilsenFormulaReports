@@ -1,0 +1,10 @@
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\bin\Release\Nilsen.Framework.Data.Repository.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\bin\Release\Nilsen.Framework.Data.Repository.pdb
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\obj\Release\Nilsen.Framework.Data.Repository.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\obj\Release\Nilsen.Framework.Data.Repository.pdb
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\obj\Release\Nilsen.Framework.Data.Repository.csprojResolveAssemblyReference.cache
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\bin\Release\Nilsen.Framework.Data.Repository.dll
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\bin\Release\Nilsen.Framework.Data.Repository.pdb
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\obj\Release\Nilsen.Framework.Data.Repository.dll
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\obj\Release\Nilsen.Framework.Data.Repository.pdb
+C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Repository\obj\Release\Nilsen.Framework.Data.Repository.csprojResolveAssemblyReference.cache

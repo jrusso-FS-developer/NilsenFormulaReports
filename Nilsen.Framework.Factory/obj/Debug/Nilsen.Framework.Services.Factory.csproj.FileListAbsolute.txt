@@ -1,0 +1,9 @@
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Services.Factory.csprojResolveAssemblyReference.cache
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Services.Factory.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Services.Factory.pdb
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Services.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Services.pdb
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Services.Factory.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Services.Factory.pdb
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.dll
+D:\Flicker City\Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.pdb
