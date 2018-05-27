@@ -27,6 +27,11 @@ namespace Nilsen.Framework.Common
             }
         }
 
+        public enum FormTypes
+        {
+            PaceForecasterFormula, TurfFormula
+        }
+
         public enum BasisTypes
         {
             BaseAmountOrHigher,
@@ -53,7 +58,13 @@ namespace Nilsen.Framework.Common
             Text, Background, Borders
         }
 
-        public struct Fields
+        public struct TurfFormulaFormatFields
+        {
+            public const string SR = "SR";
+            public const string TurfPedigree = "Turf Ped.";
+        }
+
+        public struct PaceForecasterFormatFields
         {
             public const string BCR = "B-CR";
             public const string BSR = "B-SR";
@@ -81,35 +92,44 @@ namespace Nilsen.Framework.Common
             public const string RnkWrkrsPercentage2 = "RnkWrkrsPercentage2";
         }
 
-        public static Dictionary<string, Type> GetFieldList()
+        public static Dictionary<string, Type> GetFieldList(FormTypes formType)
         {
-            var list = new Dictionary<string, Type>() { 
-                                             { Fields.BCR, System.Type.GetType("System.Decimal") }, 
-                                             { Fields.BSR, System.Type.GetType("System.Decimal") }, 
-                                             { Fields.CR, System.Type.GetType("System.Decimal") }, 
-                                             { Fields.DSLR, System.Type.GetType("System.Decimal") },
-                                             { Fields.DSR, System.Type.GetType("System.Decimal") },
-                                             { Fields.Distance, System.Type.GetType("System.Int32") },
-                                             { Fields.KeyTrainerStatCategory1, System.Type.GetType("System.String") },
-                                             { Fields.KeyTrainerStatCategory2, System.Type.GetType("System.String") },
-                                             { Fields.KeyTrainerStatCategory3, System.Type.GetType("System.String") },
-                                             { Fields.MDC, System.Type.GetType("System.Decimal") },
-                                             { Fields.MJS, System.Type.GetType("System.Decimal") },
-                                             { Fields.LP, System.Type.GetType("System.Decimal") },
-                                             { Fields.ML, System.Type.GetType("System.Decimal") },
-                                             { Fields.Pace, System.Type.GetType("System.Int32") },
-                                             { Fields.PP, System.Type.GetType("System.Int32") },
-                                             { Fields.PPWR, System.Type.GetType("System.Decimal") },
-                                             { Fields.RQ, System.Type.GetType("System.Int32") },
-                                             { Fields.RBC, System.Type.GetType("System.Decimal") },
-                                             { Fields.TB, System.Type.GetType("System.Decimal") },
-                                             { Fields.TSR, System.Type.GetType("System.Decimal") },
-                                             { Fields.TotalPace, System.Type.GetType("System.Decimal") } ,
-                                             { Fields.RnkWrkrsPercentage1, System.Type.GetType("System.Boolean") },
-                                             { Fields.RnkWrkrsPercentage2, System.Type.GetType("System.Boolean") },
-                                             { Fields.Workout, System.Type.GetType("System.Int32") } };
+            switch(formType)
+            {
+                case FormTypes.PaceForecasterFormula:
+                    return new Dictionary<string, Type>() {
+                        { PaceForecasterFormatFields.BCR, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.BSR, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.CR, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.DSLR, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.DSR, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.Distance, Type.GetType("System.Int32") },
+                        { PaceForecasterFormatFields.KeyTrainerStatCategory1, Type.GetType("System.String") },
+                        { PaceForecasterFormatFields.KeyTrainerStatCategory2, Type.GetType("System.String") },
+                        { PaceForecasterFormatFields.KeyTrainerStatCategory3, Type.GetType("System.String") },
+                        { PaceForecasterFormatFields.MDC, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.MJS, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.LP, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.ML, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.Pace, Type.GetType("System.Int32") },
+                        { PaceForecasterFormatFields.PP, Type.GetType("System.Int32") },
+                        { PaceForecasterFormatFields.PPWR, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.RQ, Type.GetType("System.Int32") },
+                        { PaceForecasterFormatFields.RBC, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.TB, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.TSR, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.TotalPace, Type.GetType("System.Decimal") } ,
+                        { PaceForecasterFormatFields.RnkWrkrsPercentage1, Type.GetType("System.Boolean") },
+                        { PaceForecasterFormatFields.RnkWrkrsPercentage2, Type.GetType("System.Boolean") },
+                        { PaceForecasterFormatFields.Workout, Type.GetType("System.Int32") }
+                    };
+                case FormTypes.TurfFormula:
+                    return new Dictionary<string, Type>() {
+                        { TurfFormulaFormatFields.SR, Type.GetType("System.Decimal") },
+                    };
+            }
 
-            return list;
+            return new Dictionary<string, Type>();
         }
     }
 

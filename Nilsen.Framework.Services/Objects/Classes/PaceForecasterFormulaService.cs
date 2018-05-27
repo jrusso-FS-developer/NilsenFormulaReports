@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Globalization;
-using System.Configuration;
-using System.Reflection;
-using Microsoft.Office.Interop.Excel;
+﻿using Microsoft.Office.Interop.Excel;
 using Microsoft.VisualBasic.FileIO;
-using Nilsen.Framework.Services;
-using Nilsen.Framework.Objects.Class;
-using Nilsen.Framework.Objects.Enums;
-using Nilsen.Framework.Services.Objects.Interfaces;
-using Nilsen.Framework.Objects.Interfaces;
 using Nilsen.Framework.Common;
+using Nilsen.Framework.Objects.Class;
+using Nilsen.Framework.Objects.Interfaces;
+using Nilsen.Framework.Services.Objects.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using static Nilsen.Framework.Common.RaceFieldsFormat;
 
 namespace Nilsen.Framework.Services.Objects.Classes
 {
@@ -142,7 +137,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 foreach (var line in Lines)
                 {
                     lineParser = new TextFieldParser(new StringReader(line));
-                    lineParser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                    lineParser.TextFieldType = FieldType.Delimited;
                     lineParser.SetDelimiters(new string[] {","});
                     lineParser.HasFieldsEnclosedInQuotes = true;
 
@@ -152,9 +147,9 @@ namespace Nilsen.Framework.Services.Objects.Classes
                         //New Race Record
                         if (!Fields[2].ToLower().Equals(sRaceName))
                         {
-                            if (!(race == null))
+                            if (race != null)
                             {
-                                iRow = ListHorses(race, ws, iRow, iHeaderRow);
+                                iRow = listHorses(race, ws, iRow, iHeaderRow);
                                 ws.Cells[iTotalRow, 5].Value = race.GetTop3Total();
                             }
 
@@ -332,7 +327,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                 if (race != null)
                 {
-                    iRow = ListHorses(race, ws, iRow, iHeaderRow);
+                    iRow = listHorses(race, ws, iRow, iHeaderRow);
                     ws.Cells[iTotalRow, 5].Value = race.GetTop3Total();
                 }
             }
@@ -348,7 +343,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
             Marshal.ReleaseComObject(ws);
         }
 
-        private Int32 ListHorses(IRace race, Worksheet ws, Int32 iRowRangeStart, Int32 iHeaderRow)
+        private Int32 listHorses(IRace race, Worksheet ws, Int32 iRowRangeStart, Int32 iHeaderRow)
         {
             var iRow = iRowRangeStart;
             var iRowRangeEnd = 0;
@@ -483,7 +478,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
             var keyTrainerStatIndex = 0;
 
             //process
-            foreach (var f in RaceFieldsFormat.GetFieldList())
+            foreach (var f in GetFieldList(FormTypes.PaceForecasterFormula))
             {
                 var dt = new System.Data.DataTable();
                 var ktscStyles = new List<string>();
@@ -499,11 +494,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                     switch (f.Key)
                     {
-                        case RaceFieldsFormat.Fields.BCR: //BCR
+                        case PaceForecasterFormatFields.BCR: //BCR
                             var bcrStyles = new List<string>();
                             var bcrEvaluationValues = new List<decimal>();
 
-                            bcrStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            bcrStyles.Add(Text.Style.Bold);
                             bcrEvaluationValues.Add((decimal)2.5);
                             
                             dr = dt.NewRow();
@@ -512,8 +507,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.BCR,
-                                BasisType = RaceFieldsFormat.BasisTypes.HighestValue,
+                                Field = PaceForecasterFormatFields.BCR,
+                                BasisType = BasisTypes.HighestValue,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = bcrStyles,
@@ -521,8 +516,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             });
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.BCR,
-                                BasisType = RaceFieldsFormat.BasisTypes.WithinRange,
+                                Field = PaceForecasterFormatFields.BCR,
+                                BasisType = BasisTypes.WithinRange,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = bcrStyles,
@@ -532,11 +527,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = h.BCR;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.BSR: //BSR
+                        case PaceForecasterFormatFields.BSR: //BSR
                             var bsrStyles = new List<string>();
                             var bsrEvaluationValues = new List<decimal>();
 
-                            bsrStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            bsrStyles.Add(Text.Style.Bold);
                             bsrEvaluationValues.Add(7);
                             
                             dr = dt.NewRow();
@@ -545,8 +540,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.BCR,
-                                BasisType = RaceFieldsFormat.BasisTypes.HighestValue,
+                                Field = PaceForecasterFormatFields.BCR,
+                                BasisType = BasisTypes.HighestValue,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = bsrStyles,
@@ -554,8 +549,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             });
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.BSR,
-                                BasisType = RaceFieldsFormat.BasisTypes.WithinRange,
+                                Field = PaceForecasterFormatFields.BSR,
+                                BasisType = BasisTypes.WithinRange,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = bsrStyles,
@@ -565,11 +560,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = h.BSR;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.CR: //CR
+                        case PaceForecasterFormatFields.CR: //CR
                             var crStyles = new List<string>();
                             var crEvaluationValues = new List<decimal>();
 
-                            crStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            crStyles.Add(Text.Style.Bold);
                             crEvaluationValues.Add((decimal)1);
                             
                             dr = dt.NewRow();
@@ -578,8 +573,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.CR,
-                                BasisType = RaceFieldsFormat.BasisTypes.HighestValue,
+                                Field = PaceForecasterFormatFields.CR,
+                                BasisType = BasisTypes.HighestValue,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = crStyles,
@@ -587,8 +582,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             });
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.CR,
-                                BasisType = RaceFieldsFormat.BasisTypes.WithinRange,
+                                Field = PaceForecasterFormatFields.CR,
+                                BasisType = BasisTypes.WithinRange,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = crStyles,
@@ -598,11 +593,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = h.CR;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.DSR: //DSR
+                        case PaceForecasterFormatFields.DSR: //DSR
                             var dsrStyles = new List<string>();
                             var dsrEvaluationValues = new List<decimal>();
 
-                            dsrStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            dsrStyles.Add(Text.Style.Bold);
                             dsrEvaluationValues.Add(3);
 
                             dr = dt.NewRow();
@@ -611,8 +606,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.DSR,
-                                BasisType = RaceFieldsFormat.BasisTypes.HighestValue,
+                                Field = PaceForecasterFormatFields.DSR,
+                                BasisType = BasisTypes.HighestValue,
                                 BackgroundColor = XlRgbColor.rgbLightGray,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = dsrStyles,
@@ -621,8 +616,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.DSR,
-                                BasisType = RaceFieldsFormat.BasisTypes.HighestValueWithinFloorRange,
+                                Field = PaceForecasterFormatFields.DSR,
+                                BasisType = BasisTypes.HighestValueWithinFloorRange,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = dsrStyles,
@@ -632,15 +627,15 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = (decimal)h.DSR;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.DSLR: //DSLR
+                        case PaceForecasterFormatFields.DSLR: //DSLR
                             var dslrStyles = new List<string>();
                             var dslrStyles1 = new List<string>();
                             var dslrEvaluationValues = new List<decimal>();
                             var dslrEvaluationValues1 = new List<decimal>();
                             var dslrEvaluationValues2 = new List<decimal>();
 
-                            dslrStyles.Add(RaceFieldsFormat.Text.Style.Bold);
-                            dslrStyles1.Add(RaceFieldsFormat.Text.Style.Italic);
+                            dslrStyles.Add(Text.Style.Bold);
+                            dslrStyles1.Add(Text.Style.Italic);
                             dslrEvaluationValues.Add((decimal)280);
                             dslrEvaluationValues1.Add((decimal)11);
                             dslrEvaluationValues2.Add((decimal)60);
@@ -652,8 +647,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.DSLR,
-                                BasisType = RaceFieldsFormat.BasisTypes.BaseAmountOrHigher,
+                                Field = PaceForecasterFormatFields.DSLR,
+                                BasisType = BasisTypes.BaseAmountOrHigher,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbRed,
                                 TextStyles = dslrStyles,
@@ -662,8 +657,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             });
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.DSLR,
-                                BasisType = RaceFieldsFormat.BasisTypes.BaseAmountOrLower,
+                                Field = PaceForecasterFormatFields.DSLR,
+                                BasisType = BasisTypes.BaseAmountOrLower,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = dslrStyles,
@@ -672,8 +667,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             });
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.DSLR,
-                                BasisType = RaceFieldsFormat.BasisTypes.BetweenTwoValues,
+                                Field = PaceForecasterFormatFields.DSLR,
+                                BasisType = BasisTypes.BetweenTwoValues,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = dslrStyles1,
@@ -683,7 +678,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = (decimal)h.DSLR;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.KeyTrainerStatCategory1: //KeyTrainerStatCategory1
+                        case PaceForecasterFormatFields.KeyTrainerStatCategory1: //KeyTrainerStatCategory1
                             ktscStyles = new List<string>();
                             ktsIndex = ktscFirstIndex;
 
@@ -693,8 +688,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.KeyTrainerStatCategory3,
-                                BasisType = RaceFieldsFormat.BasisTypes.ValueExists,
+                                Field = PaceForecasterFormatFields.KeyTrainerStatCategory3,
+                                BasisType = BasisTypes.ValueExists,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = ktscStyles,
@@ -705,7 +700,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[1] = h;
 
                             break;
-                        case RaceFieldsFormat.Fields.KeyTrainerStatCategory2: //KeyTrainerStatCategory2
+                        case PaceForecasterFormatFields.KeyTrainerStatCategory2: //KeyTrainerStatCategory2
                             ktscStyles = new List<string>();
                             ktsIndex = ktscFirstIndex + 1;
 
@@ -715,8 +710,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.KeyTrainerStatCategory3,
-                                BasisType = RaceFieldsFormat.BasisTypes.ValueExists,
+                                Field = PaceForecasterFormatFields.KeyTrainerStatCategory3,
+                                BasisType = BasisTypes.ValueExists,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = ktscStyles,
@@ -728,7 +723,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             keyTrainerStatIndex++;
                             break;
-                        case RaceFieldsFormat.Fields.KeyTrainerStatCategory3: //KeyTrainerStatCategory3
+                        case PaceForecasterFormatFields.KeyTrainerStatCategory3: //KeyTrainerStatCategory3
                             ktscStyles = new List<string>();
                             ktsIndex = ktscFirstIndex + 2;
 
@@ -738,8 +733,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.KeyTrainerStatCategory3,
-                                BasisType = RaceFieldsFormat.BasisTypes.ValueExists,
+                                Field = PaceForecasterFormatFields.KeyTrainerStatCategory3,
+                                BasisType = BasisTypes.ValueExists,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = ktscStyles,
@@ -750,10 +745,10 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[1] = h;
 
                             break;
-                        case RaceFieldsFormat.Fields.LP: //LP
+                        case PaceForecasterFormatFields.LP: //LP
                             var lpStyles = new List<string>();
 
-                            lpStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            lpStyles.Add(Text.Style.Bold);
                             
                             dr = dt.NewRow();
                             dt.Rows.Add(dr);
@@ -761,8 +756,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.LP,
-                                BasisType = RaceFieldsFormat.BasisTypes.HighestValue,
+                                Field = PaceForecasterFormatFields.LP,
+                                BasisType = BasisTypes.HighestValue,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = lpStyles,
@@ -770,8 +765,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             });
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.LP,
-                                BasisType = RaceFieldsFormat.BasisTypes.SecondHighestValue,
+                                Field = PaceForecasterFormatFields.LP,
+                                BasisType = BasisTypes.SecondHighestValue,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = lpStyles,
@@ -780,10 +775,10 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = (decimal)h.LP;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.MDC: //MDC
+                        case PaceForecasterFormatFields.MDC: //MDC
                             var mdcStyles = new List<string>();
                             
-                            mdcStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            mdcStyles.Add(Text.Style.Bold);
 
                             dr = dt.NewRow();
                             dt.Rows.Add(dr);
@@ -791,8 +786,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.MDC,
-                                BasisType = RaceFieldsFormat.BasisTypes.GreaterThanOrEqualTo,
+                                Field = PaceForecasterFormatFields.MDC,
+                                BasisType = BasisTypes.GreaterThanOrEqualTo,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 EvaluationValues = new List<decimal>() { (decimal)1.40, h.ClaimingPrice + (h.ClaimingPrice * (decimal)0.33) },
                                 HorseValues = new List<decimal>() { Math.Round((h.LastPurse / h.RacePurse), 2), h.ClaimingPriceLastRace },
@@ -804,10 +799,10 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = Math.Round(h.LastPurse / h.RacePurse);
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.MJS: //MJS
+                        case PaceForecasterFormatFields.MJS: //MJS
                             var mjsStyles = new List<string>();
 
-                            mjsStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            mjsStyles.Add(Text.Style.Bold);
 
                             dr = dt.NewRow();
                             dt.Rows.Add(dr);
@@ -815,22 +810,22 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.MJS,
-                                BasisType = RaceFieldsFormat.BasisTypes.GreaterThanOrEqualTo,
+                                Field = PaceForecasterFormatFields.MJS,
+                                BasisType = BasisTypes.GreaterThanOrEqualTo,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 EvaluationValues = new List<decimal>() { (decimal).38 },
                                 TextColor = XlRgbColor.rgbBlack,
-                                TextStyles = new List<string>() { RaceFieldsFormat.Text.Style.Regular },
+                                TextStyles = new List<string>() { Text.Style.Regular },
                                 WsColumnIndex = 17
                             });
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.MJS,
-                                BasisType = RaceFieldsFormat.BasisTypes.GreaterThanOrEqualTo,
+                                Field = PaceForecasterFormatFields.MJS,
+                                BasisType = BasisTypes.GreaterThanOrEqualTo,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 EvaluationValues = new List<decimal>() { (decimal).59 },
                                 TextColor = XlRgbColor.rgbBlack,
-                                TextStyles = new List<string>() { RaceFieldsFormat.Text.Style.Bold },
+                                TextStyles = new List<string>() { Text.Style.Bold },
                                 WsColumnIndex = 17
                             });
 
@@ -840,10 +835,10 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = winPercentage + top3FinishPercentage;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.ML: //ML
+                        case PaceForecasterFormatFields.ML: //ML
                             var mlStyles = new List<string>();
 
-                            mlStyles.Add(RaceFieldsFormat.Text.Style.Regular);
+                            mlStyles.Add(Text.Style.Regular);
 
                             dr = dt.NewRow();
                             dt.Rows.Add(dr);
@@ -851,8 +846,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.ML,
-                                BasisType = RaceFieldsFormat.BasisTypes.LowestValue,
+                                Field = PaceForecasterFormatFields.ML,
+                                BasisType = BasisTypes.LowestValue,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbRed,
                                 TextStyles = mlStyles,
@@ -861,10 +856,10 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = h.MorningLine;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.PP: //PP
+                        case PaceForecasterFormatFields.PP: //PP
                             var ppStyles = new List<string>();
 
-                            ppStyles.Add(RaceFieldsFormat.Text.Style.Regular);
+                            ppStyles.Add(Text.Style.Regular);
                             
                             dr = dt.NewRow();
                             dt.Rows.Add(dr);
@@ -872,8 +867,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.PP,
-                                BasisType = RaceFieldsFormat.BasisTypes.LessThanZero,
+                                Field = PaceForecasterFormatFields.PP,
+                                BasisType = BasisTypes.LessThanZero,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbRed,
                                 TextStyles = ppStyles,
@@ -882,11 +877,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = (decimal)h.PostPoints;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.Pace: //Pace
+                        case PaceForecasterFormatFields.Pace: //Pace
                             var paceStyles = new List<string>();
                             var paceEvaluationValues = new List<decimal>();
 
-                            paceStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            paceStyles.Add(Text.Style.Bold);
                             paceEvaluationValues.Add((decimal)2);
                             
                             dr = dt.NewRow();
@@ -895,8 +890,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.Pace,
-                                BasisType = RaceFieldsFormat.BasisTypes.HighestValue,
+                                Field = PaceForecasterFormatFields.Pace,
+                                BasisType = BasisTypes.HighestValue,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = paceStyles,
@@ -904,8 +899,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             });
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.Pace,
-                                BasisType = RaceFieldsFormat.BasisTypes.WithinRange,
+                                Field = PaceForecasterFormatFields.Pace,
+                                BasisType = BasisTypes.WithinRange,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = paceStyles,
@@ -915,15 +910,15 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = (decimal)h.Pace;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.PPWR: //PPWR
+                        case PaceForecasterFormatFields.PPWR: //PPWR
                             var ppwrStyles = new List<string>();
                             var ppwrStyles1 = new List<string>();
                             var ppwrStyles2 = new List<string>();
                             var ppwrEvaluationValues = new List<decimal>();
 
-                            ppwrStyles.Add(RaceFieldsFormat.Text.Style.Regular);
-                            ppwrStyles1.Add(RaceFieldsFormat.Text.Style.Bold);
-                            ppwrStyles2.Add(RaceFieldsFormat.Text.Style.Italic);
+                            ppwrStyles.Add(Text.Style.Regular);
+                            ppwrStyles1.Add(Text.Style.Bold);
+                            ppwrStyles2.Add(Text.Style.Italic);
 
                             ppwrEvaluationValues.Add((decimal)3.5);
                             
@@ -933,8 +928,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.PPWR,
-                                BasisType = RaceFieldsFormat.BasisTypes.Top5,
+                                Field = PaceForecasterFormatFields.PPWR,
+                                BasisType = BasisTypes.Top5,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = ppwrStyles,
@@ -942,8 +937,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             });
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.PPWR,
-                                BasisType = RaceFieldsFormat.BasisTypes.HighestValue,
+                                Field = PaceForecasterFormatFields.PPWR,
+                                BasisType = BasisTypes.HighestValue,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = ppwrStyles1,
@@ -951,8 +946,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             });
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.PPWR,
-                                BasisType = RaceFieldsFormat.BasisTypes.WithinRangeOfLastHorseInTopFive,
+                                Field = PaceForecasterFormatFields.PPWR,
+                                BasisType = BasisTypes.WithinRangeOfLastHorseInTopFive,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = ppwrStyles2,
@@ -962,7 +957,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = Decimal.Round(h.PPWR, 1);
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.RBC: //RBC
+                        case PaceForecasterFormatFields.RBC: //RBC
                             var rbcStyles = new List<string>();
                             var rbcStyles1 = new List<string>();
                             var rbcStyles2 = new List<string>();
@@ -971,7 +966,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             var rbcEvaluationValues2 = new List<decimal>();
                             var rbcEvaluationValues3 = new List<decimal>();
 
-                            rbcStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            rbcStyles.Add(Text.Style.Bold);
                             rbcEvaluationValues.Add((decimal)0.5);
                             rbcEvaluationValues1.Add((decimal)1);
                             rbcEvaluationValues2.Add((decimal)0.33);
@@ -983,8 +978,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.RBC,
-                                BasisType = RaceFieldsFormat.BasisTypes.BaseAmountOrHigher,
+                                Field = PaceForecasterFormatFields.RBC,
+                                BasisType = BasisTypes.BaseAmountOrHigher,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rbcStyles,
@@ -993,30 +988,30 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             });
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.RBC,
-                                BasisType = RaceFieldsFormat.BasisTypes.Equals,
+                                Field = PaceForecasterFormatFields.RBC,
+                                BasisType = BasisTypes.Equals,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rbcStyles,
                                 WsColumnIndex = 13,
                                 EvaluationValues = rbcEvaluationValues1
                             });
-                            rbcStyles1.Add(RaceFieldsFormat.Text.Style.Italic);
+                            rbcStyles1.Add(Text.Style.Italic);
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.RBC,
-                                BasisType = RaceFieldsFormat.BasisTypes.Equals,
+                                Field = PaceForecasterFormatFields.RBC,
+                                BasisType = BasisTypes.Equals,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextStyles = rbcStyles1,
                                 TextColor = XlRgbColor.rgbBlack,
                                 WsColumnIndex = 13,
                                 EvaluationValues = rbcEvaluationValues2
                             });
-                            rbcStyles2.Add(RaceFieldsFormat.Text.Style.Regular);
+                            rbcStyles2.Add(Text.Style.Regular);
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.RBC,
-                                BasisType = RaceFieldsFormat.BasisTypes.Equals,
+                                Field = PaceForecasterFormatFields.RBC,
+                                BasisType = BasisTypes.Equals,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextStyles = rbcStyles2,
                                 TextColor = XlRgbColor.rgbRed,
@@ -1026,11 +1021,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = Decimal.Round(h.RBCPercent, 2);
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.RQ: //RQ
+                        case PaceForecasterFormatFields.RQ: //RQ
                             var rqStyles = new List<string>();
                             var rqEvaluationValues = new List<decimal>();
 
-                            rqStyles.Add(RaceFieldsFormat.Text.Style.Regular);
+                            rqStyles.Add(Text.Style.Regular);
                             rqEvaluationValues.Add((decimal)70);
                             
                             dr = dt.NewRow();
@@ -1039,8 +1034,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.RQ,
-                                BasisType = RaceFieldsFormat.BasisTypes.HighestValue,
+                                Field = PaceForecasterFormatFields.RQ,
+                                BasisType = BasisTypes.HighestValue,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rqStyles,
@@ -1048,8 +1043,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             });
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.RQ,
-                                BasisType = RaceFieldsFormat.BasisTypes.BaseAmountOrHigher,
+                                Field = PaceForecasterFormatFields.RQ,
+                                BasisType = BasisTypes.BaseAmountOrHigher,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rqStyles,
@@ -1059,11 +1054,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = (decimal)(h.RunStyle + h.Quirin);
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.TB: //TB
+                        case PaceForecasterFormatFields.TB: //TB
                             var tbStyles = new List<string>();
                             var tbEvaluationValues = new List<decimal>();
 
-                            tbStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            tbStyles.Add(Text.Style.Bold);
                             tbEvaluationValues.Add((decimal)219.00);
 
                             dr = dt.NewRow();
@@ -1072,8 +1067,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.TB,
-                                BasisType = RaceFieldsFormat.BasisTypes.GreaterThanOrEqualTo,
+                                Field = PaceForecasterFormatFields.TB,
+                                BasisType = BasisTypes.GreaterThanOrEqualTo,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 EvaluationValues = tbEvaluationValues,
                                 TextColor = XlRgbColor.rgbBlack,
@@ -1083,10 +1078,10 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = h.TB;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.TotalPace: //TotalPace
+                        case PaceForecasterFormatFields.TotalPace: //TotalPace
                             var totalPaceStyles = new List<string>();
 
-                            totalPaceStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            totalPaceStyles.Add(Text.Style.Bold);
 
                             dr = dt.NewRow();
                             dt.Rows.Add(dr);
@@ -1094,8 +1089,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.TotalPace,
-                                BasisType = RaceFieldsFormat.BasisTypes.HighestValue,
+                                Field = PaceForecasterFormatFields.TotalPace,
+                                BasisType = BasisTypes.HighestValue,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = totalPaceStyles,
@@ -1104,11 +1099,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = h.Total;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.TSR: //TSR
+                        case PaceForecasterFormatFields.TSR: //TSR
                             var tsrStyles = new List<string>();
                             var tsrEvaluationValues = new List<decimal>();
 
-                            tsrStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            tsrStyles.Add(Text.Style.Bold);
                             tsrEvaluationValues.Add(3);
 
                             dr = dt.NewRow();
@@ -1117,8 +1112,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.TSR,
-                                BasisType = RaceFieldsFormat.BasisTypes.HighestValue,
+                                Field = PaceForecasterFormatFields.TSR,
+                                BasisType = BasisTypes.HighestValue,
                                 BackgroundColor = XlRgbColor.rgbLightGray,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = tsrStyles,
@@ -1127,8 +1122,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.TSR,
-                                BasisType = RaceFieldsFormat.BasisTypes.HighestValueWithinFloorRange,
+                                Field = PaceForecasterFormatFields.TSR,
+                                BasisType = BasisTypes.HighestValueWithinFloorRange,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = tsrStyles,
@@ -1138,11 +1133,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = h.TSR;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.RnkWrkrsPercentage1:
+                        case PaceForecasterFormatFields.RnkWrkrsPercentage1:
                             var rnkWrkrsStyles1 = new List<string>();
                             var rnkWrkrsEvaluationValues1 = new List<decimal>();
 
-                            rnkWrkrsStyles1.Add(RaceFieldsFormat.Text.Style.Bold);
+                            rnkWrkrsStyles1.Add(Text.Style.Bold);
                             
                             dr = dt.NewRow();
                             dt.Rows.Add(dr);
@@ -1150,8 +1145,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.RnkWrkrsPercentage1,
-                                BasisType = RaceFieldsFormat.BasisTypes.RnkWrkrsCustom,
+                                Field = PaceForecasterFormatFields.RnkWrkrsPercentage1,
+                                BasisType = BasisTypes.RnkWrkrsCustom,
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rnkWrkrsStyles1,
@@ -1161,11 +1156,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = (h.RnkWrkrsPct < (decimal)16) && (h.Workers >= 40);
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.RnkWrkrsPercentage2:
+                        case PaceForecasterFormatFields.RnkWrkrsPercentage2:
                             var rnkWrkrsStyles2 = new List<string>();
                             var rnkWrkrsEvaluationValues2 = new List<decimal>();
 
-                            rnkWrkrsStyles2.Add(RaceFieldsFormat.Text.Style.Bold);
+                            rnkWrkrsStyles2.Add(Text.Style.Bold);
                             
                             dr = dt.NewRow();
                             dt.Rows.Add(dr);
@@ -1173,8 +1168,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.RnkWrkrsPercentage2,
-                                BasisType = RaceFieldsFormat.BasisTypes.RnkWrkrsCustom,
+                                Field = PaceForecasterFormatFields.RnkWrkrsPercentage2,
+                                BasisType = BasisTypes.RnkWrkrsCustom,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rnkWrkrsStyles2,
@@ -1184,11 +1179,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = (((h.RnkWrkrsPct >= (decimal)16) && (h.RnkWrkrsPct <= (decimal)30)) && (h.Workers >= 40)) || ((h.RnkWrkrsPct <= (decimal)30) && (h.RnkWrkrsPct > (decimal)0) && (h.Workers < 40));
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.Distance:
+                        case PaceForecasterFormatFields.Distance:
                             var distanceStyles = new List<string>();
                             var distanceEvaluationValues = new List<decimal>();
 
-                            distanceStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            distanceStyles.Add(Text.Style.Bold);
                             distanceEvaluationValues.Add(3500);
                             
                             dr = dt.NewRow();
@@ -1197,8 +1192,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.Distance,
-                                BasisType = RaceFieldsFormat.BasisTypes.BaseAmountOrHigher,
+                                Field = PaceForecasterFormatFields.Distance,
+                                BasisType = BasisTypes.BaseAmountOrHigher,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = distanceStyles,
@@ -1208,11 +1203,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = (decimal)h.Distance;
                             dr[1] = h;
                             break;
-                        case RaceFieldsFormat.Fields.Workout:
+                        case PaceForecasterFormatFields.Workout:
                             var workoutStyles = new List<string>();
                             var workoutEvaluationValues = new List<decimal>();
 
-                            workoutStyles.Add(RaceFieldsFormat.Text.Style.Bold);
+                            workoutStyles.Add(Text.Style.Bold);
                             workoutEvaluationValues.Add(4);
                             
                             dr = dt.NewRow();
@@ -1221,8 +1216,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             fieldFormats.Add(new FieldFormat
                             {
-                                Field = RaceFieldsFormat.Fields.Workout,
-                                BasisType = RaceFieldsFormat.BasisTypes.BaseAmountOrHigher,
+                                Field = PaceForecasterFormatFields.Workout,
+                                BasisType = BasisTypes.BaseAmountOrHigher,
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = workoutStyles,
@@ -1242,17 +1237,17 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                     switch (ff.BasisType)
                     {
-                        case RaceFieldsFormat.BasisTypes.HighestValue:
-                        case RaceFieldsFormat.BasisTypes.HighestValueWithinFloorRange:
-                        case RaceFieldsFormat.BasisTypes.Top5:
-                            ff.SortDirection = RaceFieldsFormat.SortDirections.Desc;
+                        case BasisTypes.HighestValue:
+                        case BasisTypes.HighestValueWithinFloorRange:
+                        case BasisTypes.Top5:
+                            ff.SortDirection = SortDirections.Desc;
                             break;
-                        case RaceFieldsFormat.BasisTypes.LowestValue:
-                            ff.SortDirection = RaceFieldsFormat.SortDirections.Asc;
+                        case BasisTypes.LowestValue:
+                            ff.SortDirection = SortDirections.Asc;
                             break;
-                        case RaceFieldsFormat.BasisTypes.SecondHighestValue:
-                        case RaceFieldsFormat.BasisTypes.WithinRangeOfLastHorseInTopFive:
-                            ff.SortDirection = RaceFieldsFormat.SortDirections.Desc;
+                        case BasisTypes.SecondHighestValue:
+                        case BasisTypes.WithinRangeOfLastHorseInTopFive:
+                            ff.SortDirection = SortDirections.Desc;
                             break;
                     }
 
@@ -1265,24 +1260,24 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                     switch (f.Key)
                     {
-                        case RaceFieldsFormat.Fields.TotalPace: 
-                        case RaceFieldsFormat.Fields.CR:
-                        case RaceFieldsFormat.Fields.DSLR:
-                        case RaceFieldsFormat.Fields.DSR: 
-                        case RaceFieldsFormat.Fields.LP:
-                        case RaceFieldsFormat.Fields.MDC:
-                        case RaceFieldsFormat.Fields.MJS:
-                        case RaceFieldsFormat.Fields.ML: 
-                        case RaceFieldsFormat.Fields.BCR:
-                        case RaceFieldsFormat.Fields.BSR:
-                        case RaceFieldsFormat.Fields.PP:
-                        case RaceFieldsFormat.Fields.Pace:
-                        case RaceFieldsFormat.Fields.RQ:
+                        case PaceForecasterFormatFields.TotalPace: 
+                        case PaceForecasterFormatFields.CR:
+                        case PaceForecasterFormatFields.DSLR:
+                        case PaceForecasterFormatFields.DSR: 
+                        case PaceForecasterFormatFields.LP:
+                        case PaceForecasterFormatFields.MDC:
+                        case PaceForecasterFormatFields.MJS:
+                        case PaceForecasterFormatFields.ML: 
+                        case PaceForecasterFormatFields.BCR:
+                        case PaceForecasterFormatFields.BSR:
+                        case PaceForecasterFormatFields.PP:
+                        case PaceForecasterFormatFields.Pace:
+                        case PaceForecasterFormatFields.RQ:
                             val = Convert.ToDecimal(dtHorses.Rows[0][0]);
                             break;
-                        case RaceFieldsFormat.Fields.TSR:
-                        case RaceFieldsFormat.Fields.PPWR:  
-                            if (f.Key == RaceFieldsFormat.Fields.PPWR && ff.BasisType == RaceFieldsFormat.BasisTypes.WithinRangeOfLastHorseInTopFive){
+                        case PaceForecasterFormatFields.TSR:
+                        case PaceForecasterFormatFields.PPWR:  
+                            if (f.Key == PaceForecasterFormatFields.PPWR && ff.BasisType == BasisTypes.WithinRangeOfLastHorseInTopFive){
                                 val = (decimal)dtHorses.Rows[4][0];
                             } else {
                                 val = (decimal)dtHorses.Rows[0][0];
@@ -1292,7 +1287,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                     switch (ff.BasisType)
                     {
-                        case RaceFieldsFormat.BasisTypes.BaseAmountOrHigher:
+                        case BasisTypes.BaseAmountOrHigher:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if (Convert.ToDecimal(r[0]) >= ff.EvaluationValues[0])
@@ -1301,7 +1296,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.BaseAmountOrLower:
+                        case BasisTypes.BaseAmountOrLower:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if (Convert.ToDecimal(r[0]) <= ff.EvaluationValues[0])
@@ -1310,7 +1305,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.BetweenTwoValues:
+                        case BasisTypes.BetweenTwoValues:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if (Convert.ToDecimal(r[0]) >= ff.EvaluationValues[0] && Convert.ToDecimal(r[0]) <= ff.EvaluationValues[1])
@@ -1319,7 +1314,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.Equals:
+                        case BasisTypes.Equals:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if (Convert.ToDecimal(r[0]) == ff.EvaluationValues[0])
@@ -1328,7 +1323,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.HighestValueWithinFloorRange:
+                        case BasisTypes.HighestValueWithinFloorRange:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 var highValue = (decimal)val;
@@ -1342,7 +1337,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.HighestValue:
+                        case BasisTypes.HighestValue:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if (Convert.ToDecimal(r[0]).Equals(val) && (Convert.ToDecimal(r[0]) > ((decimal)0)))
@@ -1351,7 +1346,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.GreaterThanOrEqualTo:
+                        case BasisTypes.GreaterThanOrEqualTo:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 for (var iIndex = 0; iIndex < ff.EvaluationValues.Count(); iIndex++)
@@ -1366,7 +1361,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.LowestValue:
+                        case BasisTypes.LowestValue:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if (r[0].Equals(val))
@@ -1375,7 +1370,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.LessThanZero:
+                        case BasisTypes.LessThanZero:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if (Convert.ToDecimal(r[0]) < (decimal)0.00)
@@ -1384,7 +1379,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.Top5:
+                        case BasisTypes.Top5:
                             var iHorseCount = 0;
                             foreach (DataRow r in dtHorses.Rows)
                             {
@@ -1402,7 +1397,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 iHorseCount++;
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.RnkWrkrsCustom:
+                        case BasisTypes.RnkWrkrsCustom:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if (Convert.ToBoolean(r[0]))
@@ -1411,7 +1406,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.SecondHighestValue:
+                        case BasisTypes.SecondHighestValue:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if (Convert.ToDecimal(r[0]) < Convert.ToDecimal(val))
@@ -1428,7 +1423,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.ValueExists:
+                        case BasisTypes.ValueExists:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if (!string.IsNullOrWhiteSpace(r[0].ToString()))
@@ -1437,7 +1432,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.WithinRange:
+                        case BasisTypes.WithinRange:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if ((Convert.ToDecimal(r[0]) <= Convert.ToDecimal(val) + ff.EvaluationValues[0]) && (Convert.ToDecimal(r[0]) >= Convert.ToDecimal(val) - ff.EvaluationValues[0]))
@@ -1446,7 +1441,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.WithinRangeOfLastHorseInTopFive:
+                        case BasisTypes.WithinRangeOfLastHorseInTopFive:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if (Convert.ToDecimal(r[0]) >= Convert.ToDecimal(val) - ff.EvaluationValues[0] && Convert.ToDecimal(r[0]) < Convert.ToDecimal(val))
@@ -1455,7 +1450,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case RaceFieldsFormat.BasisTypes.None:
+                        case BasisTypes.None:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 sortedHorses.Add((IHorse)r[1]);
@@ -1486,7 +1481,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                         {
                                             cell.Interior.Color = ff.BackgroundColor;
 
-                                            if (ff.BasisType == RaceFieldsFormat.BasisTypes.RnkWrkrsCustom)
+                                            if (ff.BasisType == BasisTypes.RnkWrkrsCustom)
                                             {
                                                 var indexAdjust = ff.WsColumnIndex;
                                                 ws.Cells[iIndex, --indexAdjust].Interior.Color = ff.BackgroundColor;
@@ -1498,20 +1493,20 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                         cell.Font.Color = ff.TextColor;
                                         foreach (var style in ff.TextStyles)
                                         {
-                                            cell.Font.Bold = style.Equals(RaceFieldsFormat.Text.Style.Bold);
-                                            cell.Font.Italic = style.Equals(RaceFieldsFormat.Text.Style.Italic);
+                                            cell.Font.Bold = style.Equals(Text.Style.Bold);
+                                            cell.Font.Italic = style.Equals(Text.Style.Italic);
 
-                                            if (ff.BasisType == RaceFieldsFormat.BasisTypes.RnkWrkrsCustom)
+                                            if (ff.BasisType == BasisTypes.RnkWrkrsCustom)
                                             {
                                                 var indexAdjust = ff.WsColumnIndex;
-                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(RaceFieldsFormat.Text.Style.Bold);
-                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(RaceFieldsFormat.Text.Style.Italic);
-                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(RaceFieldsFormat.Text.Style.Bold);
-                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(RaceFieldsFormat.Text.Style.Italic);
-                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(RaceFieldsFormat.Text.Style.Bold);
-                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(RaceFieldsFormat.Text.Style.Italic);
-                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(RaceFieldsFormat.Text.Style.Bold);
-                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(RaceFieldsFormat.Text.Style.Italic);
+                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
+                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
+                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
+                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
+                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
+                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
+                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
+                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
                                             }
                                         }
                                     }
@@ -1557,7 +1552,6 @@ namespace Nilsen.Framework.Services.Objects.Classes
             }
 
             return iRangeEnd;
-            Marshal.ReleaseComObject(ws);
         }
     }
 }
