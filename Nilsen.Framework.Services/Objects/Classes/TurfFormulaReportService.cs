@@ -32,6 +32,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
         {
             Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
             var wb = ExcelApp.Workbooks.Add(Type.Missing);
+            ExcelApp.DisplayAlerts = false;
             Worksheet ws = new Worksheet();
             StringBuilder sbFullFileName = new StringBuilder();
             StringBuilder sbFileName = new StringBuilder();
@@ -151,9 +152,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                             if (!Fields[2].ToLower().Equals(sRaceName))
                             {
-                                if (!iHorse.Equals(0))
+                                if (race != null)
                                 {
-                                    top5AndOr400PlusCalc(ws, iHorse, iTop5Row, race);
+                                    ws.Cells[iTop5Row, 1].Value = top5AndOr400PlusCalc(race);
+                                    ws.get_Range(string.Format("A{0}", iTop5Row), string.Format("D{0}", iTop5Row)).Merge(Type.Missing);
+                                    iRow = listHorses(race, ws, iHeaderRow++);
                                 }
 
                                 race = RaceService.GetRace(Fields);
@@ -233,87 +236,71 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 ws.get_Range(string.Format("A{0}", iRow), string.Format("C{0}", iRow)).Merge(Type.Missing);
 
                                 iTop5Row = ++iRow;
-                                iRow = iRow + 2;
-                                iHeaderRow = iRow;
+                                iHeaderRow = iTop5Row + 2;
 
                                 //row headers
-                                ws.Cells[iRow, 1].Value = "Prg #";
-                                ws.Cells[iRow, 2].Value = "ML";
-                                ws.Cells[iRow, 3].Value = "Horse Name";
-                                ws.Cells[iRow, 4].Value = "Turf Rating";
-                                ws.Cells[iRow, 5].Value = "Sts.";
-                                ws.Cells[iRow, 6].Value = "Win";
-                                ws.Cells[iRow, 7].Value = "Win%";
-                                ws.Cells[iRow, 8].Value = "Place";
-                                ws.Cells[iRow, 9].Value = "WP%";
-                                ws.Cells[iRow, 10].Value = "Show";
-                                ws.Cells[iRow, 11].Value = "WPS%";
-                                ws.Cells[iRow, 12].Value = "Earnings";
-                                ws.Cells[iRow, 13].Value = "AE";
-                                ws.Cells[iRow, 14].Value = "SR";
-                                ws.Cells[iRow, 15].Value = "Turf Ped.";
-                                ws.Cells[iRow, 16].Value = "DSLR";
+                                ws.Cells[iHeaderRow, 1].Value = "Prg #";
+                                ws.Cells[iHeaderRow, 2].Value = "ML";
+                                ws.Cells[iHeaderRow, 3].Value = "Horse Name";
+                                ws.Cells[iHeaderRow, 4].Value = "Turf Rating";
+                                ws.Cells[iHeaderRow, 5].Value = "Sts.";
+                                ws.Cells[iHeaderRow, 6].Value = "Win";
+                                ws.Cells[iHeaderRow, 7].Value = "Win%";
+                                ws.Cells[iHeaderRow, 8].Value = "Place";
+                                ws.Cells[iHeaderRow, 9].Value = "WP%";
+                                ws.Cells[iHeaderRow, 10].Value = "Show";
+                                ws.Cells[iHeaderRow, 11].Value = "WPS%";
+                                ws.Cells[iHeaderRow, 12].Value = "Earnings";
+                                ws.Cells[iHeaderRow, 13].Value = "AE";
+                                ws.Cells[iHeaderRow, 14].Value = "SR";
+                                ws.Cells[iHeaderRow, 15].Value = "Turf Ped.";
+                                ws.Cells[iHeaderRow, 16].Value = "DSLR";
 
-                                ws.Cells[iRow, 1].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 2].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 3].HorizontalAlignment = XlHAlign.xlHAlignLeft;
-                                ws.Cells[iRow, 4].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 5].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 6].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 7].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 8].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 9].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 10].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 11].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 12].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 13].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 14].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 15].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                                ws.Cells[iRow, 16].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 1].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 2].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 3].HorizontalAlignment = XlHAlign.xlHAlignLeft;
+                                ws.Cells[iHeaderRow, 4].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 5].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 6].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 7].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 8].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 9].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 10].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 11].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 12].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 13].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 14].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 15].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 16].HorizontalAlignment = XlHAlign.xlHAlignRight;
                             }
-
-                            iRow++;
-
-                            //calcs
-                            foreach (Char c in Fields[1265].ToCharArray())
-                            {
-                                if (Char.IsNumber(c))
-                                    sbTurfPed.Append(c);
-                                else
-                                    sbTurfPedChars.Append(c);
-                            }
-
                             race.Horses.Add(new Horse(Fields, race));
                         }
                     }
                 }
 
                 if (race != null)
-                    listHorses(race, ws, iRow, iHeaderRow);
-
-                if (!iHorse.Equals(0))
-                    top5AndOr400PlusCalc(ws, iHorse, iTop5Row, race);
+                {
+                    ws.Cells[iTop5Row, 1].Value = top5AndOr400PlusCalc(race);
+                    ws.get_Range(string.Format("A{0}", iTop5Row), string.Format("D{0}", iTop5Row)).Merge(Type.Missing);
+                    iRow = listHorses(race, ws, iHeaderRow++);
+                }
             }
 
             //Column Widths
             consoleSvc.UpdateConsoleText("Auto-Fitting columns...", false);
-            foreach (Range c in ws.get_Range("A1", "P1"))
-            {
+            foreach (Range c in ws.get_Range("A1", "Q1"))
                 c.EntireColumn.AutoFit();
-            }
         }
 
-        private void listHorses(IRace race, Worksheet ws, Int32 iRowRangeStart, Int32 iHeaderRow)
+        private int listHorses(IRace race, Worksheet ws, int iRow)
         {
-            var iRow = iRowRangeStart;
-            var iRowRangeEnd = 0;
-
             race.SortHorses();
 
             foreach(Horse horse in race.Horses)
             {
                 iRow++;
-                int iHorse = 0;
+                var sNote = horse.TurfStarts.Equals(0) && horse.DSLR > 0 ? "TURF DEBUT" : horse.DSLR.Equals(0) ? "FTS" : string.Empty;
+                sNote = horse.TurfStarts.Equals(1) && horse.DSLR > 0 ? "2nd TF" : sNote;
 
                 ws.Cells[iRow, 1].Value = string.Format("{0})", horse.ProgramNumber);
                 ws.Cells[iRow, 2].Value = horse.MorningLine;
@@ -331,9 +318,9 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 ws.Cells[iRow, 14].Value = horse.SR.ToString();
                 ws.Cells[iRow, 15].Value = horse.TurfPedigreeDisplay;
                 ws.Cells[iRow, 16].Value = horse.DSLR.ToString();
-                ws.Cells[iRow, 17].Value = horse.TurfStarts.Equals(0) && horse.DSLR > 0 ? "TURF DEBUT" : horse.DSLR.Equals(0) ? "FTS" : string.Empty;
-                ws.Cells[iRow, 17].Value = horse.TurfStarts.Equals(1) && horse.DSLR > 0 ? "2nd TF" : string.Empty;
-                ws.Cells[iRow, 17].Interior.Color = (horse.TurfStarts.Equals(0) || horse.TurfStarts.Equals(1)) && horse.DSLR > 0 ? XlRgbColor.rgbLightGray : XlRgbColor.rgbWhite;
+                ws.Cells[iRow, 17].Value = sNote;
+                if ((horse.TurfStarts.Equals(0) || horse.TurfStarts.Equals(1)) && horse.DSLR > 0)
+                    ws.Cells[iRow, 17].Interior.Color = XlRgbColor.rgbLightGray;
 
                 ws.Cells[iRow, 1].HorizontalAlignment = XlHAlign.xlHAlignRight;
                 ws.Cells[iRow, 2].HorizontalAlignment = XlHAlign.xlHAlignRight;
@@ -353,12 +340,10 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 ws.Cells[iRow, 16].HorizontalAlignment = XlHAlign.xlHAlignRight;
                 ws.Cells[iRow, 17].HorizontalAlignment = XlHAlign.xlHAlignRight;
             }
-
-            iRowRangeEnd = iRow;
-            FormatFields(race.Horses, ws, iRowRangeStart, iRowRangeEnd);
+            return FormatFields(race.Horses, ws, iRow);
         }
 
-        public void FormatFields(List<IHorse> horses, Worksheet ws, int iRangeStart, int iRangeEnd)
+        public int FormatFields(List<IHorse> horses, Worksheet ws, int iRow)
         {
             //declares and assigns
             DataRow dr = null;
@@ -370,9 +355,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
             foreach (var f in GetFieldList(FormTypes.TurfFormula))
             {
             }
+
+            return iRow;
         }
 
-        private void top5AndOr400PlusCalc(Worksheet ws, Int32 iHorse, Int32 iTop5Row, IRace race)
+        private string top5AndOr400PlusCalc(IRace race)
         {
             var horseList = (((from h in race.Horses select h).OrderByDescending(x => x.NilsenRating).Take(5)).Concat
                              (from h in race.Horses where h.NilsenRating >= 400 select h).Distinct()).OrderByDescending(x => x.NilsenRating);
@@ -383,14 +370,13 @@ namespace Nilsen.Framework.Services.Objects.Classes
             {
                 var greaterThan80Gap = (!horse.Equals(horseList.First()) && ((horse.NilsenRating - lastHorseRanking) >= 80 || ((horse.NilsenRating - lastHorseRanking) * -1) >= 80));
                 var asterisk = (horse.MorningLine >= (decimal)6.1) ? "*" : string.Empty;
-                var separator = (!horse.Equals(horseList.First()) ? ((greaterThan80Gap) ? "/" : "*") : string.Empty);
+                var separator = (!horse.Equals(horseList.First()) ? ((greaterThan80Gap) ? "/" : "-") : string.Empty);
 
                 sbHorses.AppendFormat("{0}{1}{2}", asterisk, separator, horse.ProgramNumber);
                 lastHorseRanking = horse.NilsenRating;
             }
 
-            ws.Cells[iTop5Row, 1].Value = string.Format("Turf:   {0}", sbHorses.ToString());
-            ws.get_Range(string.Format("A{0}", iTop5Row), string.Format("C{0}", iTop5Row)).Merge(Type.Missing);
+            return string.Format("Turf:   {0}", sbHorses.ToString()); 
         }
     }
 }
