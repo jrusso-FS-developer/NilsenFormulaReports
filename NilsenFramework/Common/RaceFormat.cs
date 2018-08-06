@@ -126,6 +126,7 @@ namespace Nilsen.Framework.Common
                 case FormTypes.TurfFormula:
                     return new Dictionary<string, Type>() {
                         { TurfFormulaFormatFields.SR, Type.GetType("System.Decimal") },
+                        { TurfFormulaFormatFields.TurfPedigree, Type.GetType("System.Decimal") },
                     };
             }
 

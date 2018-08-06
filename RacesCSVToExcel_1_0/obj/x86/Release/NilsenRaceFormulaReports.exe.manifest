@@ -43,38 +43,38 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nilsen.Framework.dll" size="43520">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nilsen.Framework.dll" size="47104">
       <assemblyIdentity name="Nilsen.Framework" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>1L8p9UnwOD26SCP0z2bDvtxeQG3mGUgsyj9SDWRGZ+Q=</dsig:DigestValue>
+        <dsig:DigestValue>M1aXkDxwtmhiikP4C5Ah5wNTp6Pa3XWU6IzJvp5oxWQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nilsen.Framework.Data.Factory.dll" size="4608">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nilsen.Framework.Data.Factory.dll" size="5120">
       <assemblyIdentity name="Nilsen.Framework.Data.Factory" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>vUmEfZB+a8Ddmcmn0zxUB1u0EPHllaF0jJYjuQfytqo=</dsig:DigestValue>
+        <dsig:DigestValue>Mn6dCRxsaxuQbeyUKZ2yrh8t1QHG9qKEi9Cf6ylgG2k=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nilsen.Framework.Data.Repository.dll" size="5632">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nilsen.Framework.Data.Repository.dll" size="6144">
       <assemblyIdentity name="Nilsen.Framework.Data.Repository" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>DjVu2savewNx7UqOf/Yx2dvIrBGn0TkdDvvhN22FnKI=</dsig:DigestValue>
+        <dsig:DigestValue>B+HClpwNpQBR1bUW490XHR94T8nOTEndTgzH/zN6/Js=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,31 +86,31 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>N8roKsIKjvmLt2l3LLMUCi+vxzgsoe/O7VuY9oxLDy0=</dsig:DigestValue>
+        <dsig:DigestValue>6OVznWyiKCSgKxHTj/keRUfxty+PE7M5tWnLt9zzoX8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nilsen.Framework.Services.dll" size="95232">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nilsen.Framework.Services.dll" size="99840">
       <assemblyIdentity name="Nilsen.Framework.Services" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>RVL5FNpYNSGmGcnqPIGf3m/r2UXVG8+wvs6kOovmAdg=</dsig:DigestValue>
+        <dsig:DigestValue>tcmLpxA0guL8+u5AWua5NsqvdX7NG4yGGnZCr0cwj/4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="NilsenRaceFormulaReports.exe" size="1170944">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="NilsenRaceFormulaReports.exe" size="1171416">
       <assemblyIdentity name="NilsenRaceFormulaReports" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>FwS+Av3zGgyPl8RNSDsu7LJzreUM8XdOHIv5WReHW/0=</dsig:DigestValue>
+        <dsig:DigestValue>mVOOKLWKkhfcZxXrZwWWG3sXborgRKPWGdOHrTuwPRc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

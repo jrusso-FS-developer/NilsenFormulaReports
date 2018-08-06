@@ -45,7 +45,6 @@ C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExce
 C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\RacesCSVToExcel_1_0\obj\x86\Debug\NilsenRaceFormulaReports.exe.manifest
 C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\RacesCSVToExcel_1_0\obj\x86\Debug\NilsenRaceFormulaReports.application
 C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\RacesCSVToExcel_1_0\obj\x86\Debug\Races_CSV_To_Excel.frmRacesCSVtoExcel.resources
-C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\RacesCSVToExcel_1_0\obj\x86\Debug\NilsenRaceFormulaReports.csprojResolveAssemblyReference.cache
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\RacesCSVToExcel_1_0\obj\x86\Debug\NilsenRaceFormulaReports.exe
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\RacesCSVToExcel_1_0\obj\x86\Debug\NilsenRaceFormulaReports.pdb
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\RacesCSVToExcel_1_0\bin\Debug\NilsenRaceFormulaReports.exe.config
@@ -71,3 +70,4 @@ C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\RacesCSVToExcel_1_0\obj\x86\D
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\RacesCSVToExcel_1_0\obj\x86\Debug\NilsenRaceFormulaReports.exe.manifest
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\RacesCSVToExcel_1_0\obj\x86\Debug\NilsenRaceFormulaReports.application
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\RacesCSVToExcel_1_0\obj\x86\Debug\NilsenRaceFormulaReports.csproj.CopyComplete
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\RacesCSVToExcel_1_0\obj\x86\Debug\NilsenRaceFormulaReports.csprojAssemblyReference.cache

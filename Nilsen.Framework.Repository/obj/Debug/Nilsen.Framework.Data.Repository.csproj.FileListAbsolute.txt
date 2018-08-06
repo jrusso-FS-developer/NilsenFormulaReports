@@ -12,4 +12,3 @@ C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Repository\b
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Repository\obj\Debug\Nilsen.Framework.Data.Repository.csproj.CoreCompileInputs.cache
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Repository\obj\Debug\Nilsen.Framework.Data.Repository.dll
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Repository\obj\Debug\Nilsen.Framework.Data.Repository.pdb
-C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Repository\obj\Debug\Nilsen.Framework.Data.Repository.csprojResolveAssemblyReference.cache

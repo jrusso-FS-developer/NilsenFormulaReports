@@ -78,7 +78,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
             if (bContinue)
             {
-                wb.SaveAs(sbFullFileName.ToString(), XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false,
+                wb.SaveAs(sbFullFileName.ToString(), XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, Type.Missing, false,
                         XlSaveAsAccessMode.xlShared, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
                 consoleSvc.UpdateConsoleText(string.Format("File Saved As: {0}.xlsx", sbFullFileName.ToString()), false);
             }
@@ -104,7 +104,6 @@ namespace Nilsen.Framework.Services.Objects.Classes
             Range rHeader;
             var iTop5Row = 0;
             var iHeaderRow = 0;
-            var iHorse = 0;
             var sAllHorses = new String[100, 2];
             var decAllHorses = new Decimal[100];
             var Top5Horses = new String[5, 2];
@@ -144,8 +143,6 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                         if (Fields[6].ToLower().Equals("t")) //Either 'T' or 't', per spec.  
                         {
-                            Int32 iDSLR;
-                            Decimal decTotalNilsenRating;
                             Decimal furlongs;
                             var sbTurfPed = new StringBuilder();
                             var sbTurfPedChars = new StringBuilder();
@@ -294,13 +291,15 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
         private int listHorses(IRace race, Worksheet ws, int iRow)
         {
-            race.SortHorses();
+            //race.SortHorses();
+            var iRangeStart = iRow;
+            iRangeStart++;
 
-            foreach(Horse horse in race.Horses)
+            foreach (Horse horse in race.Horses)
             {
                 iRow++;
-                var sNote = horse.TurfStarts.Equals(0) && horse.DSLR > 0 ? "TURF DEBUT" : horse.DSLR.Equals(0) ? "FTS" : string.Empty;
-                sNote = horse.TurfStarts.Equals(1) && horse.DSLR > 0 ? "2nd TF" : sNote;
+                var sNote = horse.TurfStarts.Equals(0) && horse.DSLR > 0 ? "TF DEBUT" : horse.DSLR.Equals(0) ? "FTS" : string.Empty;
+                sNote = horse.TurfStarts.Equals(1) && horse.DSLR > 0 ? "2ND TF" : sNote;
 
                 ws.Cells[iRow, 1].Value = string.Format("{0})", horse.ProgramNumber);
                 ws.Cells[iRow, 2].Value = horse.MorningLine;
@@ -308,13 +307,13 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 ws.Cells[iRow, 4].Value = !horse.Note.Equals("M") ? Convert.ToInt32(Math.Round(horse.NilsenRating, MidpointRounding.AwayFromZero)).ToString() : "MTO";
                 ws.Cells[iRow, 5].Value = horse.TurfStarts.ToString();
                 ws.Cells[iRow, 6].Value = horse.Wins.ToString();
-                ws.Cells[iRow, 7].Value = string.Format("{0}%", horse.WinPercent.ToString());
+                ws.Cells[iRow, 7].Value = string.Format("{0}%", Convert.ToInt32(horse.WinPercent));
                 ws.Cells[iRow, 8].Value = horse.Place.ToString();
-                ws.Cells[iRow, 9].Value = string.Format("{0}%", horse.WinPlacePercent.ToString());
+                ws.Cells[iRow, 9].Value = string.Format("{0}%", Convert.ToInt32(horse.WinPlacePercent));
                 ws.Cells[iRow, 10].Value = horse.Show.ToString();
-                ws.Cells[iRow, 11].Value = string.Format("{0}%", horse.WinPlaceShowPercent.ToString());
-                ws.Cells[iRow, 12].Value = string.Format("{0:C0}", horse.Earnings.ToString());
-                ws.Cells[iRow, 13].Value = string.Format("{0:C0}", horse.AverageEarnings.ToString());
+                ws.Cells[iRow, 11].Value = string.Format("{0}%", Convert.ToInt32(horse.WinPlaceShowPercent));
+                ws.Cells[iRow, 12].Value = string.Format("{0:C0}", horse.Earnings);
+                ws.Cells[iRow, 13].Value = string.Format("{0:C0}", horse.AverageEarnings);
                 ws.Cells[iRow, 14].Value = horse.SR.ToString();
                 ws.Cells[iRow, 15].Value = horse.TurfPedigreeDisplay;
                 ws.Cells[iRow, 16].Value = horse.DSLR.ToString();
@@ -340,23 +339,352 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 ws.Cells[iRow, 16].HorizontalAlignment = XlHAlign.xlHAlignRight;
                 ws.Cells[iRow, 17].HorizontalAlignment = XlHAlign.xlHAlignRight;
             }
-            return FormatFields(race.Horses, ws, iRow);
+            return FormatFields(race.Horses, ws, iRangeStart, iRow);
         }
 
-        public int FormatFields(List<IHorse> horses, Worksheet ws, int iRow)
+        public int FormatFields(List<IHorse> horses, Worksheet ws, int iRangeStart, int iRangeEnd)
         {
             //declares and assigns
             DataRow dr = null;
             List<FieldFormat> fieldFormats = null;
             var sortedHorses = new List<IHorse>();
-            var keyTrainerStatIndex = 0;
 
             //process
             foreach (var f in GetFieldList(FormTypes.TurfFormula))
             {
+                var dt = new System.Data.DataTable();
+                System.Data.DataTable dtHorses = null;
+
+                dt.Columns.Add(new DataColumn("Value", f.Value));
+                dt.Columns.Add(new DataColumn("Horse", System.Type.GetType("System.Object")));
+
+                foreach (var h in horses)
+                {
+                    fieldFormats = new List<FieldFormat>();
+
+                    switch (f.Key)
+                    {
+                        case TurfFormulaFormatFields.SR:
+                            var srStyles = new List<string>();
+
+                            srStyles.Add(Text.Style.Bold);
+
+                            dr = dt.NewRow();
+                            dt.Rows.Add(dr);
+                            dr = dt.Rows[dt.Rows.Count - 1];
+
+                            fieldFormats.Add(new FieldFormat
+                            {
+                                Field = TurfFormulaFormatFields.SR,
+                                BasisType = BasisTypes.HighestValue,
+                                BackgroundColor = XlRgbColor.rgbLightGrey,
+                                TextColor = XlRgbColor.rgbBlack,
+                                TextStyles = srStyles,
+                                WsColumnIndex = 14
+                            });
+                            dr[0] = h.SR;
+                            dr[1] = h;
+                            break;
+                        case TurfFormulaFormatFields.TurfPedigree:
+                            var turfPedigreeStyles = new List<string>();
+
+                            turfPedigreeStyles.Add(Text.Style.Bold);
+
+                            dr = dt.NewRow();
+                            dt.Rows.Add(dr);
+                            dr = dt.Rows[dt.Rows.Count - 1];
+
+                            fieldFormats.Add(new FieldFormat
+                            {
+                                Field = TurfFormulaFormatFields.TurfPedigree,
+                                BasisType = BasisTypes.HighestValue,
+                                BackgroundColor = XlRgbColor.rgbLightGrey,
+                                TextColor = XlRgbColor.rgbBlack,
+                                TextStyles = turfPedigreeStyles,
+                                WsColumnIndex = 15
+                            });
+                            dr[0] = h.TurfPedigree;
+                            dr[1] = h;
+                            break;
+                    }
+                }
+
+                foreach (var ff in fieldFormats)
+                {
+                    var val = new Object();
+                    sortedHorses.Clear();
+
+                    switch (ff.BasisType)
+                    {
+                        case BasisTypes.HighestValue:
+                        case BasisTypes.HighestValueWithinFloorRange:
+                        case BasisTypes.Top5:
+                            ff.SortDirection = SortDirections.Desc;
+                            break;
+                        case BasisTypes.LowestValue:
+                            ff.SortDirection = SortDirections.Asc;
+                            break;
+                        case BasisTypes.SecondHighestValue:
+                        case BasisTypes.WithinRangeOfLastHorseInTopFive:
+                            ff.SortDirection = SortDirections.Desc;
+                            break;
+                    }
+
+                    //process sort
+                    if (!string.IsNullOrEmpty(ff.SortDirection))
+                    {
+                        dt.DefaultView.Sort = string.Format("Value {0}", ff.SortDirection);
+                    }
+                    dtHorses = dt.DefaultView.ToTable();
+
+                    switch (f.Key)
+                    {
+                        case TurfFormulaFormatFields.SR:
+                        case TurfFormulaFormatFields.TurfPedigree:
+                            val = Convert.ToDecimal(dtHorses.Rows[0][0]);
+                            break;
+                    }
+
+                    switch (ff.BasisType)
+                    {
+                        case BasisTypes.BaseAmountOrHigher:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (Convert.ToDecimal(r[0]) >= ff.EvaluationValues[0])
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.BaseAmountOrLower:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (Convert.ToDecimal(r[0]) <= ff.EvaluationValues[0])
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.BetweenTwoValues:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (Convert.ToDecimal(r[0]) >= ff.EvaluationValues[0] && Convert.ToDecimal(r[0]) <= ff.EvaluationValues[1])
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.Equals:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (Convert.ToDecimal(r[0]) == ff.EvaluationValues[0])
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.HighestValueWithinFloorRange:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                var highValue = (decimal)val;
+                                var floorValue = (decimal)val - ff.EvaluationValues[0];
+
+                                if ((Convert.ToDecimal(r[0]) <= highValue) &&
+                                    (Convert.ToDecimal(r[0]) >= floorValue) &&
+                                    (!Convert.ToDecimal(r[0]).Equals((decimal)0)))
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.HighestValue:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (Convert.ToDecimal(r[0]).Equals(val) && (Convert.ToDecimal(r[0]) > ((decimal)0)))
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.GreaterThanOrEqualTo:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                for (var iIndex = 0; iIndex < ff.EvaluationValues.Count(); iIndex++)
+                                {
+                                    var evalValue = ff.EvaluationValues[iIndex];
+                                    var horseValue = (ff.HorseValues.Count() > 0) ? ff.HorseValues[iIndex] : r[0];
+
+                                    if (Convert.ToDecimal(r[0]) > evalValue)
+                                    {
+                                        sortedHorses.Add((IHorse)r[1]);
+                                    }
+                                }
+                            }
+                            break;
+                        case BasisTypes.LowestValue:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (r[0].Equals(val))
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.LessThanZero:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (Convert.ToDecimal(r[0]) < (decimal)0.00)
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.Top5:
+                            var iHorseCount = 0;
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (iHorseCount < 5)
+                                {
+                                    if (Convert.ToDecimal(r[0]) > (decimal)0)
+                                    {
+                                        sortedHorses.Add((IHorse)r[1]);
+                                    }
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                                iHorseCount++;
+                            }
+                            break;
+                        case BasisTypes.RnkWrkrsCustom:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (Convert.ToBoolean(r[0]))
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.SecondHighestValue:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (Convert.ToDecimal(r[0]) < Convert.ToDecimal(val))
+                                {
+                                    val = r[0];
+                                    break;
+                                }
+                            }
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (r[0].Equals(val))
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.ValueExists:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (!string.IsNullOrWhiteSpace(r[0].ToString()))
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.WithinRange:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if ((Convert.ToDecimal(r[0]) <= Convert.ToDecimal(val) + ff.EvaluationValues[0]) && (Convert.ToDecimal(r[0]) >= Convert.ToDecimal(val) - ff.EvaluationValues[0]))
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.WithinRangeOfLastHorseInTopFive:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                if (Convert.ToDecimal(r[0]) >= Convert.ToDecimal(val) - ff.EvaluationValues[0] && Convert.ToDecimal(r[0]) < Convert.ToDecimal(val))
+                                {
+                                    sortedHorses.Add((IHorse)r[1]);
+                                }
+                            }
+                            break;
+                        case BasisTypes.None:
+                            foreach (DataRow r in dtHorses.Rows)
+                            {
+                                sortedHorses.Add((IHorse)r[1]);
+                            }
+                            break;
+                    }
+
+                    if (sortedHorses != null)
+                    {
+                        for (var iIndex = iRangeStart; iIndex <= iRangeEnd; iIndex++)
+                        {
+                            //Get the name cell
+                            var cell = ws.Cells[iIndex, 3];
+                            var row = ws.Rows[iIndex];
+                            var name = cell.Value;
+
+                            foreach (var h in sortedHorses)
+                            {
+                                //Check to see if it's our selected horse.  
+                                if (name.Equals(h.HorseName))
+                                {
+                                    //now on the same row, find the cell, and format it.  
+                                    cell = ws.Cells[iIndex, ff.WsColumnIndex];
+
+                                    if ((cell.Value != null) && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                                    {
+                                        if (!(ff.BackgroundColor.Equals(XlRgbColor.rgbWhite)))
+                                        {
+                                            cell.Interior.Color = ff.BackgroundColor;
+
+                                            if (ff.BasisType == BasisTypes.RnkWrkrsCustom)
+                                            {
+                                                var indexAdjust = ff.WsColumnIndex;
+                                                ws.Cells[iIndex, --indexAdjust].Interior.Color = ff.BackgroundColor;
+                                                ws.Cells[iIndex, --indexAdjust].Interior.Color = ff.BackgroundColor;
+                                                ws.Cells[iIndex, --indexAdjust].Interior.Color = ff.BackgroundColor;
+                                                ws.Cells[iIndex, --indexAdjust].Interior.Color = ff.BackgroundColor;
+                                            }
+                                        }
+                                        cell.Font.Color = ff.TextColor;
+                                        foreach (var style in ff.TextStyles)
+                                        {
+                                            cell.Font.Bold = style.Equals(Text.Style.Bold);
+                                            cell.Font.Italic = style.Equals(Text.Style.Italic);
+
+                                            if (ff.BasisType == BasisTypes.RnkWrkrsCustom)
+                                            {
+                                                var indexAdjust = ff.WsColumnIndex;
+                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
+                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
+                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
+                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
+                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
+                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
+                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
+                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+
+                            Marshal.ReleaseComObject(cell);
+                            cell = null;
+
+                            GC.Collect();
+                            GC.WaitForPendingFinalizers();
+                        }
+                    }
+                }
             }
 
-            return iRow;
+            return iRangeEnd;
         }
 
         private string top5AndOr400PlusCalc(IRace race)
@@ -369,10 +697,10 @@ namespace Nilsen.Framework.Services.Objects.Classes
             foreach (var horse in horseList)
             {
                 var greaterThan80Gap = (!horse.Equals(horseList.First()) && ((horse.NilsenRating - lastHorseRanking) >= 80 || ((horse.NilsenRating - lastHorseRanking) * -1) >= 80));
-                var asterisk = (horse.MorningLine >= (decimal)6.1) ? "*" : string.Empty;
-                var separator = (!horse.Equals(horseList.First()) ? ((greaterThan80Gap) ? "/" : "-") : string.Empty);
+                var asterisk = (horse.MorningLine >= (decimal)6.0) ? "*" : string.Empty;
+                var separator = (!horse.Equals(horseList.First()) ? ((greaterThan80Gap) ? " / " : " - ") : string.Empty);
 
-                sbHorses.AppendFormat("{0}{1}{2}", asterisk, separator, horse.ProgramNumber);
+                sbHorses.AppendFormat("{0}{1}{2}", separator, horse.ProgramNumber, asterisk);
                 lastHorseRanking = horse.NilsenRating;
             }
 

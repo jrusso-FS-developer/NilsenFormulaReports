@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nilsen.Framework.dll" size="48128">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nilsen.Framework.dll" size="48640">
       <assemblyIdentity name="Nilsen.Framework" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>sytsGrAAkF6QPSOhokwwZtOBtK6C+npokJT9AXz2nKQ=</dsig:DigestValue>
+        <dsig:DigestValue>YpIVOKSvIE1e3G++etF3B33WG4nK6IC5jU7GrsRYO2c=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>lg/tqCQMk5pd0JiWqr/7Rty3pPe31zouu+V6gIb2PKQ=</dsig:DigestValue>
+        <dsig:DigestValue>mzZriIpfH2A3n5epToOweLXgTqXt5Fv4hC2gyB2UFsM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>BXqUAVgdUhtHJt0nV5eDdyvyJW6+u0rsFLmNq9mUbk8=</dsig:DigestValue>
+        <dsig:DigestValue>YY+rrYANLINfpILNQwWvkrSef/Ncf6ObnOcxv71UdJg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,19 +86,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>fDtIQGS7E37Wo4bnMlhcTLhMxqNPHSbIU1yfbIqW0BU=</dsig:DigestValue>
+        <dsig:DigestValue>PFSe9KPemFrg6jzat5tIwT9mow4NS/j/LOC4JMMNm5U=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nilsen.Framework.Services.dll" size="93696">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nilsen.Framework.Services.dll" size="102912">
       <assemblyIdentity name="Nilsen.Framework.Services" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>554RBmpftfTRFpBhkBmsI3fPuRoNzXgPR27s8rAz3vg=</dsig:DigestValue>
+        <dsig:DigestValue>6igS+zZlOXZ2Cgel2iWHLjTr3wZZAi8I6eYxwEe9R14=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>mMtgBs1rmzcuJh52f154LtUX9NLgGRdknsPsNWH/haQ=</dsig:DigestValue>
+        <dsig:DigestValue>QveKIAc4jyz29JeDUo1IYycFghomLQMldhIqO9P58mg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

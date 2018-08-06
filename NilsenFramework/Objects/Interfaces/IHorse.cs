@@ -41,7 +41,7 @@ namespace Nilsen.Framework.Objects.Interfaces
         string Note2 { get; set; }
         string Note3 { get; set; }
         int Pace { get; set; }
-        decimal Place { get; set; }
+        int Place { get; set; }
         int PostPoints { get; set; }
         string ProgramNumber { get; set; }
         int Quirin { get; set; }
@@ -52,6 +52,7 @@ namespace Nilsen.Framework.Objects.Interfaces
         decimal RnkWrkrsPct { get; set; }
         int RunStyle { get; set; }
         int Show { get; set; }
+        int SR { get; set; }
         int TurfStarts { get; set; }
         decimal TB { get; set; }
         decimal Total { get; set; }

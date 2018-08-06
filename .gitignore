@@ -18,3 +18,5 @@
 *.exe
 RacesCSVToExcel_1_0/bin/Debug/NilsenRaceFormulaReports.application
 *.manifest
+*.dll
+*.dll

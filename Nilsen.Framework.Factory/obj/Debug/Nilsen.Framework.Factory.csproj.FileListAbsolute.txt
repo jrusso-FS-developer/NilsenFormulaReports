@@ -34,8 +34,8 @@ C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Services.pdb
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.pdb
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Data.Factory.pdb
-C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.csprojResolveAssemblyReference.cache
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.csproj.CoreCompileInputs.cache
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.csproj.CopyComplete
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.dll
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.csprojAssemblyReference.cache

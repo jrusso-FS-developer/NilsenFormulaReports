@@ -33,9 +33,9 @@ namespace Nilsen.Framework.Objects.Class
             Note2 = (Fields[61].Trim().Equals("4") || Fields[61].Trim().Equals("5")) ? "LASIX" : string.Empty;
             Note3 = string.Empty;
             DSLR = (int.TryParse(Fields[223].Trim(), out outint)) ? outint : 0;
-            Earnings = Convert.ToDecimal((string.IsNullOrEmpty(Fields[78]) ? "0" : Fields[76]));
+            Earnings = Convert.ToDecimal((string.IsNullOrEmpty(Fields[78]) ? "0" : Fields[78]));
             ExtendedComment = Fields[1382];
-            Place = Convert.ToDecimal((string.IsNullOrEmpty(Fields[76]) ? "0" : Fields[76]));
+            Place = Convert.ToInt32((string.IsNullOrEmpty(Fields[76]) ? "0" : Fields[76]));
             PPWR = (Decimal.TryParse(Fields[250].Trim(), out outDec)) ? outDec : (Decimal)0.00;
             CR = (Decimal.TryParse(Fields[1145].Trim(), out outDec)) ? outDec : (Decimal)0.00;
             Trk = (int.TryParse(Fields[70].Trim(), out outInt)) ? (outInt >= 1) ? "T" : string.Empty : string.Empty;
@@ -141,7 +141,7 @@ namespace Nilsen.Framework.Objects.Class
 
         public int Pace { get; set; }
 
-        public decimal Place { get; set; }
+        public int Place { get; set; }
 
         public int PostPoints { get; set; }
 
@@ -677,11 +677,18 @@ namespace Nilsen.Framework.Objects.Class
         
         private void CalcNilsenRating(string[] Fields)
         {
-            if (TurfStarts <= 1 && Wins == 0)
-                NilsenRating = Convert.ToDecimal(TurfPedigree) * (decimal)2.6;
+            if (Note.Equals("M"))
+            {
+                NilsenRating = 0;
+            }
             else
-                NilsenRating = (WinPercent * 5 + WinPlacePercent * 2 + WinPlaceShowPercent + AverageEarnings / 200 + SR + ((TurfPedigree < 40) ?
-                    110 : TurfPedigree)) - ((Convert.ToDecimal(DSLR / 5))) + (Convert.ToDecimal(TurfStarts) * Convert.ToDecimal(1.7));
+            {
+                if (TurfStarts <= 1 && Wins == 0 && Place == 0 && Show == 0)
+                    NilsenRating = Convert.ToDecimal(TurfPedigree) * (decimal)2.6;
+                else
+                    NilsenRating = (WinPercent * 5 + WinPlacePercent * 2 + WinPlaceShowPercent + AverageEarnings / 200 + SR + ((TurfPedigree < 40) ?
+                        110 : TurfPedigree)) - ((Convert.ToDecimal(DSLR / 5))) + (Convert.ToDecimal(TurfStarts) * Convert.ToDecimal(1.7));
+            }
         }
 
         private void CalcWinPercent(string[] Fields)
@@ -703,21 +710,24 @@ namespace Nilsen.Framework.Objects.Class
                     sbTurfPedChars.Append(c);
             }
 
-            TurfPedigree = Convert.ToInt32(sbTurfPed.ToString()) >= 40 ? Convert.ToInt32(sbTurfPed.ToString()) : 110;
+            TurfPedigree = 110;
+
+            if (!string.IsNullOrWhiteSpace(sbTurfPed.ToString()))
+                TurfPedigree = Convert.ToInt32(sbTurfPed.ToString()) >= 40 ? Convert.ToInt32(sbTurfPed.ToString()) : TurfPedigree;
 
             TurfPedigreeDisplay = string.Format("{0}{1}", TurfPedigree.ToString(), sbTurfPedChars.ToString());
         }
 
         private void CalcWinPlacePercent(string[] Fields)
         {
-            WinPlacePercent = ((Place + Convert.ToDecimal(Wins)).Equals(0) || Convert.ToDecimal(TurfStarts).Equals(0)) ?
-                0 : Convert.ToInt32(Place + Convert.ToDecimal(Wins)) / Convert.ToDecimal(TurfStarts) * 100;
+            WinPlacePercent = ((Place + Wins).Equals(0) || TurfStarts.Equals(0)) ?
+                0 : Convert.ToInt32(Convert.ToDecimal(Place + Wins) / TurfStarts * 100);
         }
 
         private void CalcWinPlaceShowPercent(string[] Fields)
         {
-            WinPlaceShowPercent = ((Convert.ToDecimal(Show) + Place + Convert.ToDecimal(Wins)).Equals(0) || TurfStarts.Equals(0)) ? 
-                0 : Convert.ToInt32((Convert.ToDecimal(Show) + Place + Convert.ToDecimal(Wins)) / Convert.ToDecimal(TurfStarts) * 100);
+            WinPlaceShowPercent = ((Show + Place + Wins).Equals(0) || TurfStarts.Equals(0)) ? 
+                0 : Convert.ToInt32(Convert.ToDecimal(Show + Place + Wins) / TurfStarts * 100);
         }        
 
         private void CalcWorkouts(string[] Fields, IRace race)

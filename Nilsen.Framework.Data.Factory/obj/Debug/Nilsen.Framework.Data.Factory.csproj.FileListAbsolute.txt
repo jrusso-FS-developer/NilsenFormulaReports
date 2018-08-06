@@ -16,8 +16,8 @@ C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Data.Factory
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Data.Factory\bin\Debug\Nilsen.Framework.Data.Factory.pdb
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Data.Factory\bin\Debug\Nilsen.Framework.Data.Repository.dll
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Data.Factory\bin\Debug\Nilsen.Framework.Data.Repository.pdb
-C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Data.Factory\obj\Debug\Nilsen.Framework.Data.Factory.csprojResolveAssemblyReference.cache
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Data.Factory\obj\Debug\Nilsen.Framework.Data.Factory.csproj.CoreCompileInputs.cache
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Data.Factory\obj\Debug\Nilsen.Framework.Data.Factory.csproj.CopyComplete
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Data.Factory\obj\Debug\Nilsen.Framework.Data.Factory.dll
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Data.Factory\obj\Debug\Nilsen.Framework.Data.Factory.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Data.Factory\obj\Debug\Nilsen.Framework.Data.Factory.csprojAssemblyReference.cache
