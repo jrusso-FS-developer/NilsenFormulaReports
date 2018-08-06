@@ -1,16 +1,13 @@
-﻿using System;
-using System.Data;
+﻿using Nilsen.Framework.Data.Factory.Objects.Classes;
+using Nilsen.Framework.Objects.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Xml;
-using System.Xml.Linq;
 using System.Threading;
-using System.Threading.Tasks;
-using Nilsen.Framework.Objects.Interfaces;
-using Nilsen.Framework.Data.Factory.Objects.Classes;
-using System.Configuration;
-using System.Globalization;
+using System.Xml.Linq;
 
 namespace Nilsen.Framework.Objects.Class
 {
@@ -21,12 +18,12 @@ namespace Nilsen.Framework.Objects.Class
         private const String TrackPostXmlFile = "TrackPost.xml";
         private const String CPXmlFile = "CP.xml";
 
-        public Horse(String[] Fields, IRace race)
+        public Horse(string[] Fields, IRace race)
         {            
             //declares and assigns
             Decimal outDec = (Decimal)0.00;
             Int16 outInt16 = 0;
-            Int32 outInt32 = 0;
+            int outint = 0;
             int outInt = 0;
             KeyTrainerStatCategory = new List<String>();
 
@@ -35,17 +32,24 @@ namespace Nilsen.Framework.Objects.Class
             Note = Fields[40].Trim();
             Note2 = (Fields[61].Trim().Equals("4") || Fields[61].Trim().Equals("5")) ? "LASIX" : string.Empty;
             Note3 = string.Empty;
-            DSLR = (Int32.TryParse(Fields[223].Trim(), out outInt32)) ? outInt32 : 0;
+            DSLR = (int.TryParse(Fields[223].Trim(), out outint)) ? outint : 0;
+            Earnings = Convert.ToDecimal((string.IsNullOrEmpty(Fields[78]) ? "0" : Fields[78]));
             ExtendedComment = Fields[1382];
+            Place = Convert.ToInt32((string.IsNullOrEmpty(Fields[76]) ? "0" : Fields[76]));
             PPWR = (Decimal.TryParse(Fields[250].Trim(), out outDec)) ? outDec : (Decimal)0.00;
             CR = (Decimal.TryParse(Fields[1145].Trim(), out outDec)) ? outDec : (Decimal)0.00;
             Trk = (int.TryParse(Fields[70].Trim(), out outInt)) ? (outInt >= 1) ? "T" : string.Empty : string.Empty;
             DIS = (int.TryParse(Fields[65].Trim(), out outInt)) ? (outInt >= 1) ? "D" : string.Empty : string.Empty;
             TSR = (Decimal.TryParse(Fields[1330].Trim(), out outDec)) ? outDec : (Decimal)0.00;
             DSR = (Decimal.TryParse(Fields[1180].Trim(), out outDec)) ? outDec : (Decimal)0.00; 
+            SR = Convert.ToInt32((string.IsNullOrEmpty(Fields[1178]) ? "0" : Fields[1178]));
+            Show = Convert.ToInt32((string.IsNullOrEmpty(Fields[77]) ? "0" : Fields[77]));
+            TurfStarts = Convert.ToInt32((string.IsNullOrEmpty(Fields[74]) ? "0" : Fields[74]));
             HorseName = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Fields[44].Trim().ToLower());
             Blinkers = (Int16.TryParse(Fields[63], out outInt16)) ? outInt16 : Convert.ToInt16(0);
+            Wins = Convert.ToInt32((string.IsNullOrEmpty(Fields[75]) ? "0" : Fields[75]));
 
+            CalcAverageEarnings(Fields);
             CalcCP(Fields, race);
             CalcPace(Fields);
             CalcLP(Fields, race.Track);
@@ -59,46 +63,55 @@ namespace Nilsen.Framework.Objects.Class
             CalcTB(Fields);
             CalcTotal();
             CalcRnkWrksPct();
+            CalcWinPercent(Fields);
+            CalcWinPlacePercent(Fields);
+            CalcWinPlaceShowPercent(Fields);
+            CalcTurfPedigree(Fields);
+            CalcNilsenRating(Fields);
             ProcessKeyTrainerChange(Fields, race);
             ProcessKeyTrainerStatCategories(Fields, race);
         }
-        
+
         #region IHorse Members
+        public decimal AverageEarnings { get; set; }
+
         public Int16 Blinkers { get; set; }
 
-        public Decimal ClaimingPrice { get; set; }
+        public decimal ClaimingPrice { get; set; }
 
-        public Decimal ClaimingPriceLastRace { get; set; }
+        public decimal ClaimingPriceLastRace { get; set; }
 
-        public Decimal CP { get; set; }
+        public decimal CP { get; set; }
 
-        public Decimal CR { get; set; }
+        public decimal CR { get; set; }
 
-        public Decimal BCR { get; set; }
+        public decimal BCR { get; set; }
 
-        public Decimal BSR { get; set; }
+        public decimal BSR { get; set; }
 
-        public String DIS { get; set; }
+        public string DIS { get; set; }
 
-        public Int32 Distance { get; set; }
+        public int Distance { get; set; }
 
-        public Int32 DSLR { get; set; }
+        public int DSLR { get; set; }
 
-        public Decimal DSR { get; set; }
+        public decimal DSR { get; set; }
 
-        public String ExtendedComment { get; set; }
+        public decimal Earnings { get; set; }
 
-        public String HorseName { get; set; }
+        public string ExtendedComment { get; set; }
 
-        public List<String> KeyTrainerStatCategory { get; set; }
+        public string HorseName { get; set; }
+
+        public List<string> KeyTrainerStatCategory { get; set; }
 
         public decimal LastPurse { get; set; }
 
-        public Int32 LP { get; set; }
+        public int LP { get; set; }
 
-        public String MDC { get; set; }
+        public string MDC { get; set; }
 
-        public String MJS { get; set; }
+        public string MJS { get; set; }
 
         public decimal MJS1156 { get; set; }
 
@@ -116,51 +129,78 @@ namespace Nilsen.Framework.Objects.Class
 
         public decimal MJS1164 { get; set; }
 
-        public Decimal MorningLine { get; set; }
+        public decimal MorningLine { get; set; }
 
-        public String Note { get; set; }
+        public decimal NilsenRating { get; set; }
 
-        public String Note2 { get; set; }
+        public string Note { get; set; }
 
-        public String Note3 { get; set; }
+        public string Note2 { get; set; }
 
-        public Int32 Pace { get; set; }
+        public string Note3 { get; set; }
 
-        public Int32 PostPoints { get; set; }
+        public int Pace { get; set; }
+
+        public int Place { get; set; }
+
+        public int PostPoints { get; set; }
 
         public Decimal PPWR { get; set; }
 
-        public String ProgramNumber { get; set; }
+        public string ProgramNumber { get; set; }
 
-        public Int32 Quirin { get; set; }
+        public int Quirin { get; set; }
 
         public decimal RBCPercent { get; set; }
 
         public decimal RacePurse { get; set; }
 
-        public Int32 Rank { get; set; }
+        public int Rank { get; set; }
 
-        public String RET { get; set; }
+        public string RET { get; set; }
 
         public decimal RnkWrkrsPct { get; set; }
 
-        public Int32 RunStyle { get; set; }
+        public int RunStyle { get; set; }
+
+        public int SR { get; set; }
+
+        public int Show { get; set; }
+
+        public int TurfStarts { get; set; }
 
         public decimal TB { get; set; }
 
-        public Decimal Total { get; set; }
+        public decimal Total { get; set; }
 
-        public String Trk { get; set; }
+        public string Trk { get; set; }
 
-        public Decimal TSR { get; set; }
+        public decimal TSR { get; set; }
 
-        public Int32 Workers { get; set; }
+        public int TurfPedigree { get; set; }
 
-        public Int32 Workout { get; set; }
+        public string TurfPedigreeDisplay { get; set; }
+
+        public int Wins { get; set; }
+
+        public decimal WinPercent { get; set; }
+
+        public decimal WinPlacePercent { get; set; }
+
+        public decimal WinPlaceShowPercent { get; set; }
+
+        public int Workers { get; set; }
+
+        public int Workout { get; set; }
         #endregion
 
         #region Private Methods
-        private void CalcLP(String[] Fields, ITrack track)
+        private void CalcAverageEarnings (string[] Fields)
+        {
+            AverageEarnings = (Convert.ToInt32(Earnings).Equals(0) || TurfStarts.Equals(0)) ? 0 : Earnings / TurfStarts;
+        }
+
+        private void CalcLP(string[] Fields, ITrack track)
         {
             //declares and assigns
             var dtRaces = new DataTable();
@@ -169,7 +209,7 @@ namespace Nilsen.Framework.Objects.Class
             var iSurfaceIndex = 325;
             var iPaceRatingsIndex = 815;
             var iAWSurfaceIndex = 1402;
-            Int32 iOutVal;
+            int iOutVal;
             LP = 0;
 
             dtRaces.Columns.Add(new DataColumn("PaceRating", System.Type.GetType("System.Decimal")));
@@ -234,7 +274,7 @@ namespace Nilsen.Framework.Objects.Class
             }
         }
 
-        private void CalcBCR(String[] Fields, IRace race)
+        private void CalcBCR(string[] Fields, IRace race)
         {
             //declares and assigns
             var dtRaces = new DataTable();
@@ -323,7 +363,7 @@ namespace Nilsen.Framework.Objects.Class
             }
         }
 
-        private void CalcBSR(String[] Fields, ITrack track)
+        private void CalcBSR(string[] Fields, ITrack track)
         {
             var iBSRIndex = 845;
             var iDaysSinceIndex = 265;
@@ -353,7 +393,7 @@ namespace Nilsen.Framework.Objects.Class
             BSR = (dtBSR.Rows.Count > 0) ? Convert.ToDecimal(dtBSR.DefaultView.ToTable().Rows[0]["SpeedRating"].ToString()) : BSR;
         }
 
-        private void CalcCP(String[] Fields, IRace race)
+        private void CalcCP(string[] Fields, IRace race)
         {
             //Get Runstyle Value
             var RunStyleTable = (from elem in DataFactory.GetXml(RunStyleXmlFile).Elements((XName)"Options").Elements((XName)"Option")
@@ -381,7 +421,7 @@ namespace Nilsen.Framework.Objects.Class
             //Get Post Value
             var PostElement = (from elem1 in
                                     ((from elem in DataFactory.GetXml(TrackPostXmlFile).Element((XName)"Options").Elements((XName)"Option")
-                                    where (Int32)(elem.Attribute("post")) <= Convert.ToInt32(Fields[3].Trim())
+                                    where (int)(elem.Attribute("post")) <= Convert.ToInt32(Fields[3].Trim())
                                     select elem).ToList().Last()).Element((XName)"Value").Elements((XName)"Track")
                                 where elem1.Attribute("type").Value.ToString().IndexOf(Fields[6].Trim()) > -1
                                 select elem1).ToList().FirstOrDefault();
@@ -415,7 +455,7 @@ namespace Nilsen.Framework.Objects.Class
             PostPoints = PostTable == null ? 0 : (PostTable.Count > 0) ? Convert.ToInt32(PostTable.FirstOrDefault().Value) : 0;
 
             //Get Contention Points. 
-            Int32[] iCPArray = new Int32[3];
+            int[] iCPArray = new int[3];
             var iParseOut = 0;
             var startCount = 0;
 
@@ -449,7 +489,7 @@ namespace Nilsen.Framework.Objects.Class
             CP = ((Decimal)CP * ((startCount == 1) ? (Decimal)3 : ((startCount == 2) ? (Decimal)1.5 : (Decimal)1.0)));
         }
 
-        private void CalcPace(String[] Fields)
+        private void CalcPace(string[] Fields)
         {
             var iFieldLower = 765;
             var iCnt = 0;
@@ -459,8 +499,8 @@ namespace Nilsen.Framework.Objects.Class
 
             for (var iIndex = iFieldLower; (iIndex <= iFieldLower + 9) && (iCnt < 4); iIndex++)
             {
-                Int32 output;
-                if (Int32.TryParse(Fields[iIndex].Trim(), out output))
+                int output;
+                if (int.TryParse(Fields[iIndex].Trim(), out output))
                 {
                     RacePaceDT.Rows.Add(RacePaceDT.NewRow());
                     RacePaceDT.Rows[iCnt++][0] = Convert.ToInt32(Fields[iIndex].Trim());
@@ -502,7 +542,7 @@ namespace Nilsen.Framework.Objects.Class
             }
         }
 
-        private void CalcTB(String[] Fields)
+        private void CalcTB(string[] Fields)
         {
             var todayDistanceOut = (decimal)0.00;
             var lastDistanceOut = (decimal)0.00;
@@ -515,7 +555,7 @@ namespace Nilsen.Framework.Objects.Class
             TB = lastDistance - todayDistance;
         }
 
-        private void CalcRBCPercent(String[] Fields)
+        private void CalcRBCPercent(string[] Fields)
         {
             const int secondCallIndex = 585;
             const int beatenLengthIndex = 685;
@@ -563,7 +603,7 @@ namespace Nilsen.Framework.Objects.Class
             }
         }
 
-        private void CalcRET(String[] Fields, IRace race)
+        private void CalcRET(string[] Fields, IRace race)
         {
             var raceDate = race.Date;
             var daysSinceLastRace1 = (!string.IsNullOrWhiteSpace(Fields[265]) ? Convert.ToInt32(Fields[265]) : 0);
@@ -593,7 +633,7 @@ namespace Nilsen.Framework.Objects.Class
             }
         }
 
-        private void CalcMDC(String[] Fields)
+        private void CalcMDC(string[] Fields)
         {
             var racePurse = 0;
             var stateBred = false;
@@ -621,7 +661,7 @@ namespace Nilsen.Framework.Objects.Class
             }
         }
 
-        private void CalcMJS(String[] Fields)
+        private void CalcMJS(string[] Fields)
         {
 
             MJS1156 = (!string.IsNullOrWhiteSpace(Fields[1156])) ? Convert.ToDecimal(Fields[1156]) : (decimal)0.00;
@@ -634,8 +674,63 @@ namespace Nilsen.Framework.Objects.Class
             MJS1164 = (!string.IsNullOrWhiteSpace(Fields[1164])) ? Convert.ToDecimal(Fields[1164]) : (decimal)0.00;
             MJS = (Fields[32].ToLower() != Fields[1065].ToLower()) ? "MJS" : string.Empty;
         }
+        
+        private void CalcNilsenRating(string[] Fields)
+        {
+            if (Note.Equals("M"))
+            {
+                NilsenRating = 0;
+            }
+            else
+            {
+                if (TurfStarts <= 1 && Wins == 0 && Place == 0 && Show == 0)
+                    NilsenRating = Convert.ToDecimal(TurfPedigree) * (decimal)2.6;
+                else
+                    NilsenRating = (WinPercent * 5 + WinPlacePercent * 2 + WinPlaceShowPercent + AverageEarnings / 200 + SR + ((TurfPedigree < 40) ?
+                        110 : TurfPedigree)) - ((Convert.ToDecimal(DSLR / 5))) + (Convert.ToDecimal(TurfStarts) * Convert.ToDecimal(1.7));
+            }
+        }
 
-        private void CalcWorkouts(String[] Fields, IRace race)
+        private void CalcWinPercent(string[] Fields)
+        {
+            WinPercent = (Convert.ToInt32(Wins).Equals(0) || TurfStarts.Equals(0)) ?
+                0 : Convert.ToInt32(Convert.ToDecimal(Wins) / TurfStarts * 100);
+        }
+
+        private void CalcTurfPedigree(string[] Fields)
+        {
+            var sbTurfPed = new StringBuilder();
+            var sbTurfPedChars = new StringBuilder();
+
+            foreach (Char c in Fields[1265].ToCharArray())
+            {
+                if (Char.IsNumber(c))
+                    sbTurfPed.Append(c);
+                else
+                    sbTurfPedChars.Append(c);
+            }
+
+            TurfPedigree = 110;
+
+            if (!string.IsNullOrWhiteSpace(sbTurfPed.ToString()))
+                TurfPedigree = Convert.ToInt32(sbTurfPed.ToString()) >= 40 ? Convert.ToInt32(sbTurfPed.ToString()) : TurfPedigree;
+
+            TurfPedigreeDisplay = string.Format("{0}{1}", TurfPedigree.ToString(), sbTurfPedChars.ToString());
+        }
+
+        private void CalcWinPlacePercent(string[] Fields)
+        {
+            WinPlacePercent = ((Place + Wins).Equals(0) || TurfStarts.Equals(0)) ?
+                0 : Convert.ToInt32(Convert.ToDecimal(Place + Wins) / TurfStarts * 100);
+        }
+
+        private void CalcWinPlaceShowPercent(string[] Fields)
+        {
+            WinPlaceShowPercent = ((Show + Place + Wins).Equals(0) || TurfStarts.Equals(0)) ? 
+                0 : Convert.ToInt32(Convert.ToDecimal(Show + Place + Wins) / TurfStarts * 100);
+        }        
+
+        private void CalcWorkouts(string[] Fields, IRace race)
         {
             var workoutIndex = 101;
             var distanceIndex = 137;
@@ -674,7 +769,7 @@ namespace Nilsen.Framework.Objects.Class
             }
         }
 
-        private void ProcessKeyTrainerChange(String[] Fields, IRace race)
+        private void ProcessKeyTrainerChange(string[] Fields, IRace race)
         {
             for (var keyTrainerChangeIndex = 1336; keyTrainerChangeIndex < 1365; keyTrainerChangeIndex += 5)
             {
@@ -694,7 +789,7 @@ namespace Nilsen.Framework.Objects.Class
             }
         }
 
-        private void ProcessKeyTrainerStatCategories(String[] Fields, IRace race)
+        private void ProcessKeyTrainerStatCategories(string[] Fields, IRace race)
         {
             for (var KeyTrainerStatCategoryIndex = 1336; KeyTrainerStatCategoryIndex < 1362; KeyTrainerStatCategoryIndex += 5)
             {
