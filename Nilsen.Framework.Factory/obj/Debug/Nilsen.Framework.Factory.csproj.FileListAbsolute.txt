@@ -24,3 +24,18 @@ C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExce
 C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.csprojResolveAssemblyReference.cache
 C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.dll
 C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Factory.dll
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Factory.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Data.Repository.dll
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Services.dll
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.dll
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Data.Factory.dll
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Data.Repository.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Services.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\bin\Debug\Nilsen.Framework.Data.Factory.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.csproj.CoreCompileInputs.cache
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.csproj.CopyComplete
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.dll
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Factory\obj\Debug\Nilsen.Framework.Factory.csprojAssemblyReference.cache

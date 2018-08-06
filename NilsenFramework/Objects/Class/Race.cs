@@ -166,5 +166,6 @@ namespace Nilsen.Framework.Objects.Class
 
             return greatestCount;
         }
+
     }
 }

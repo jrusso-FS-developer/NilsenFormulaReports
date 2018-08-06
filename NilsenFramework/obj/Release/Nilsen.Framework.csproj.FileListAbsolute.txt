@@ -16,3 +16,14 @@ C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExce
 C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\obj\Release\Nilsen.Framework.csprojResolveAssemblyReference.cache
 C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\obj\Release\Nilsen.Framework.dll
 C:\Users\Justin Russo\Documents\Flicker City Productions\Software\RacesCSVToExcel_1_0\NilsenFramework\obj\Release\Nilsen.Framework.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\NilsenFramework\bin\Release\Nilsen.Framework.dll
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\NilsenFramework\bin\Release\Nilsen.Framework.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\NilsenFramework\bin\Release\Nilsen.Framework.Data.Factory.dll
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\NilsenFramework\bin\Release\Nilsen.Framework.Data.Repository.dll
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\NilsenFramework\bin\Release\Nilsen.Framework.Data.Factory.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\NilsenFramework\bin\Release\Nilsen.Framework.Data.Repository.pdb
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\NilsenFramework\obj\Release\Nilsen.Framework.csprojAssemblyReference.cache
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\NilsenFramework\obj\Release\Nilsen.Framework.csproj.CoreCompileInputs.cache
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\NilsenFramework\obj\Release\Nilsen.Framework.csproj.CopyComplete
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\NilsenFramework\obj\Release\Nilsen.Framework.dll
+C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\NilsenFramework\obj\Release\Nilsen.Framework.pdb

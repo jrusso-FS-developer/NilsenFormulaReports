@@ -60,10 +60,10 @@
     <StartupObject>Races_CSV_To_Excel.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>BBFD154F9B0E6194843F12578BBB34117977EA47</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>5EAEF52811BD28AD26A2D4618160EC629345CCFB</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>RacesCSVToExcel_1_0_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>NilsenRaceFormulaReports_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -132,6 +132,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="NilsenRaceFormulaReports_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
