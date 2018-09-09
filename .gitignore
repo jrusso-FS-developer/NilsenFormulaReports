@@ -20,3 +20,6 @@ RacesCSVToExcel_1_0/bin/Debug/NilsenRaceFormulaReports.application
 *.manifest
 *.dll
 *.dll
+.vs/NilsenRaceFormulaReports/DesignTimeBuild/.dtbcache
+RacesCSVToExcel_1_0/obj/x86/Release/NilsenRaceFormulaReports.csproj.ResolveComReference.cache
+RacesCSVToExcel_1_0/obj/x86/Release/NilsenRaceFormulaReports.csproj.ResolveComReference.cache
