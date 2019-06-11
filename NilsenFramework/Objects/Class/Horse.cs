@@ -13,22 +13,22 @@ namespace Nilsen.Framework.Objects.Class
 {
     public sealed class Horse : IHorse
     {
-        private const String RunStyleXmlFile = "Runstyle.xml";
-        private const String QuirinSpeedPointsXmlFile = "QuirinSpeedPoints.xml";
-        private const String TrackPostXmlFile = "TrackPost.xml";
-        private const String CPXmlFile = "CP.xml";
+        private const string RunStyleXmlFile = "Runstyle.xml";
+        private const string QuirinSpeedPointsXmlFile = "QuirinSpeedPoints.xml";
+        private const string TrackPostXmlFile = "TrackPost.xml";
+        private const string CPXmlFile = "CP.xml";
 
         public Horse(string[] Fields, IRace race)
-        {            
+        {
             //declares and assigns
-            Decimal outDec = (Decimal)0.00;
-            Int16 outInt16 = 0;
-            int outint = 0;
-            int outInt = 0;
-            KeyTrainerStatCategory = new List<String>();
+            decimal outDec;
+            short outInt16;
+            int outint;
+            int outInt;
+            KeyTrainerStatCategory = new List<string>();
 
             ProgramNumber = Fields[42].Trim();
-            MorningLine = (Decimal.TryParse(Fields[43].Trim(), out outDec)) ? outDec : (Decimal)0.00;
+            MorningLine = (decimal.TryParse(Fields[43].Trim(), out outDec)) ? outDec : (Decimal)0.00;
             Note = Fields[40].Trim();
             Note2 = (Fields[61].Trim().Equals("4") || Fields[61].Trim().Equals("5")) ? "LASIX" : string.Empty;
             Note3 = string.Empty;
@@ -36,17 +36,20 @@ namespace Nilsen.Framework.Objects.Class
             Earnings = Convert.ToDecimal((string.IsNullOrEmpty(Fields[78]) ? "0" : Fields[78]));
             ExtendedComment = Fields[1382];
             Place = Convert.ToInt32((string.IsNullOrEmpty(Fields[76]) ? "0" : Fields[76]));
-            PPWR = (Decimal.TryParse(Fields[250].Trim(), out outDec)) ? outDec : (Decimal)0.00;
-            CR = (Decimal.TryParse(Fields[1145].Trim(), out outDec)) ? outDec : (Decimal)0.00;
+            PPWR = (decimal.TryParse(Fields[250].Trim(), out outDec)) ? outDec : (decimal)0.00;
+            CR = (decimal.TryParse(Fields[1145].Trim(), out outDec)) ? outDec : (decimal)0.00;
             Trk = (int.TryParse(Fields[70].Trim(), out outInt)) ? (outInt >= 1) ? "T" : string.Empty : string.Empty;
             DIS = (int.TryParse(Fields[65].Trim(), out outInt)) ? (outInt >= 1) ? "D" : string.Empty : string.Empty;
-            TSR = (Decimal.TryParse(Fields[1330].Trim(), out outDec)) ? outDec : (Decimal)0.00;
-            DSR = (Decimal.TryParse(Fields[1180].Trim(), out outDec)) ? outDec : (Decimal)0.00; 
+            TSR = (decimal.TryParse(Fields[1330].Trim(), out outDec)) ? outDec : (decimal)0.00;
+            DSR = (decimal.TryParse(Fields[1180].Trim(), out outDec)) ? outDec : (decimal)0.00; 
+            MUD = (decimal.TryParse(Fields[1264].Trim(), out outDec)) ? outDec : (decimal)0.00;
+            TRF = (decimal.TryParse(Fields[1265].Trim(), out outDec)) ? outDec : (decimal)0.00;
+            DST = (decimal.TryParse(Fields[1266].Trim(), out outDec)) ? outDec : (decimal)0.00;
             SR = Convert.ToInt32((string.IsNullOrEmpty(Fields[1178]) ? "0" : Fields[1178]));
             Show = Convert.ToInt32((string.IsNullOrEmpty(Fields[77]) ? "0" : Fields[77]));
             TurfStarts = Convert.ToInt32((string.IsNullOrEmpty(Fields[74]) ? "0" : Fields[74]));
             HorseName = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Fields[44].Trim().ToLower());
-            Blinkers = (Int16.TryParse(Fields[63], out outInt16)) ? outInt16 : Convert.ToInt16(0);
+            Blinkers = (short.TryParse(Fields[63], out outInt16)) ? outInt16 : Convert.ToInt16(0);
             Wins = Convert.ToInt32((string.IsNullOrEmpty(Fields[75]) ? "0" : Fields[75]));
 
             CalcAverageEarnings(Fields);
@@ -75,7 +78,7 @@ namespace Nilsen.Framework.Objects.Class
         #region IHorse Members
         public decimal AverageEarnings { get; set; }
 
-        public Int16 Blinkers { get; set; }
+        public short Blinkers { get; set; }
 
         public decimal ClaimingPrice { get; set; }
 
@@ -96,6 +99,8 @@ namespace Nilsen.Framework.Objects.Class
         public int DSLR { get; set; }
 
         public decimal DSR { get; set; }
+
+        public decimal DST { get; set; }
 
         public decimal Earnings { get; set; }
 
@@ -131,6 +136,8 @@ namespace Nilsen.Framework.Objects.Class
 
         public decimal MorningLine { get; set; }
 
+        public decimal MUD { get; set; }
+
         public decimal NilsenRating { get; set; }
 
         public string Note { get; set; }
@@ -145,7 +152,7 @@ namespace Nilsen.Framework.Objects.Class
 
         public int PostPoints { get; set; }
 
-        public Decimal PPWR { get; set; }
+        public decimal PPWR { get; set; }
 
         public string ProgramNumber { get; set; }
 
@@ -172,6 +179,8 @@ namespace Nilsen.Framework.Objects.Class
         public decimal TB { get; set; }
 
         public decimal Total { get; set; }
+
+        public decimal TRF { get; set; }
 
         public string Trk { get; set; }
 
@@ -397,7 +406,7 @@ namespace Nilsen.Framework.Objects.Class
         {
             //Get Runstyle Value
             var RunStyleTable = (from elem in DataFactory.GetXml(RunStyleXmlFile).Elements((XName)"Options").Elements((XName)"Option")
-                                 where (String)elem.Attribute("name").Value == Fields[209].Trim()
+                                 where (string)elem.Attribute("name").Value == Fields[209].Trim()
                                  select elem).ToList() ?? null;
             var furlongs = race.Track.Furlongs;
             List<XElement> PostTable = null;
@@ -413,7 +422,7 @@ namespace Nilsen.Framework.Objects.Class
 
             //Get Quirin Value
             var QuirinTable = (from elem in DataFactory.GetXml(QuirinSpeedPointsXmlFile).Elements((XName)"Options").Elements((XName)"Option")
-                               where (String)elem.Attribute("number").Value == Fields[210].Trim()
+                               where (string)elem.Attribute("number").Value == Fields[210].Trim()
                                select elem).ToList() ?? null;
 
             Quirin = QuirinTable == null ? 0 : (QuirinTable.Count > 0) ? Convert.ToInt32(QuirinTable.FirstOrDefault().Value) : 0;
@@ -673,6 +682,7 @@ namespace Nilsen.Framework.Objects.Class
             MJS1163 = (!string.IsNullOrWhiteSpace(Fields[1163])) ? Convert.ToDecimal(Fields[1163]) : (decimal)0.00;
             MJS1164 = (!string.IsNullOrWhiteSpace(Fields[1164])) ? Convert.ToDecimal(Fields[1164]) : (decimal)0.00;
             MJS = (Fields[32].ToLower() != Fields[1065].ToLower()) ? "MJS" : string.Empty;
+            MJS = (MJS != string.Empty && Fields[615] == "1") ? "MJS-W" : MJS;
         }
         
         private void CalcNilsenRating(string[] Fields)
@@ -800,12 +810,16 @@ namespace Nilsen.Framework.Objects.Class
 
                 if (numberOfStarts > 0)
                 {
-                    if (((winPercent >= .19) && (numberOfStarts > 19) && (twoDollarROI >= (double)0.00)) || 
-                        ((winPercent >= (double).30) && (numberOfStarts > 49)) ||
-                        (numberOfStarts >= 50 && winPercent >= .25) ||
-                        (numberOfStarts >= 75 && winPercent >= .20) ||
-                        (numberOfStarts >= 15 && winPercent >= .30 && twoDollarROI > (double)2.00) ||
-                        (numberOfStarts >= 9 && winPercent >= .40 && twoDollarROI > (double)1.00))
+                    if ((winPercent >= .40 && numberOfStarts >= 9 && twoDollarROI > 1.00) ||
+                        (winPercent >= .40 && numberOfStarts >= 10) ||
+                        (winPercent >= .30 && numberOfStarts > 49) ||
+                        (winPercent >= .30 && numberOfStarts >= 15 && twoDollarROI > 2.00) ||
+                        (winPercent >= .25 && numberOfStarts >= 40) ||
+                        (winPercent >= .20 && numberOfStarts >= 75) ||
+                        (winPercent >= .19 && numberOfStarts > 19 && twoDollarROI >= 0.00) ||
+                        (winPercent >= .18 && numberOfStarts >= 70) ||
+                        (winPercent >= .16 && numberOfStarts >= 150 && twoDollarROI >= 0.00) ||
+                        (numberOfStarts >= 8 && twoDollarROI >= 1.50))
                     {
                         KeyTrainerStatCategory.Add(keyTrainerStatCategory);
                     }

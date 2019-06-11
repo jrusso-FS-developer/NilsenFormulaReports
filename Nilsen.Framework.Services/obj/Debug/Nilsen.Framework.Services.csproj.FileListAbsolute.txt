@@ -33,3 +33,16 @@ C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Services\obj
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Services\obj\Debug\Nilsen.Framework.Services.dll
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Services\obj\Debug\Nilsen.Framework.Services.pdb
 C:\Users\PM2\Documents\GitHub\NilsenFormulaReports\Nilsen.Framework.Services\obj\Debug\Nilsen.Framework.Services.csprojAssemblyReference.cache
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\obj\Debug\Nilsen.Framework.Services.csprojAssemblyReference.cache
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\obj\Debug\Nilsen.Framework.Services.csproj.CoreCompileInputs.cache
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\obj\Debug\Nilsen.Framework.Services.dll
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\obj\Debug\Nilsen.Framework.Services.pdb
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\bin\Debug\Nilsen.Framework.Services.dll
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\bin\Debug\Nilsen.Framework.Services.pdb
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\bin\Debug\Nilsen.Framework.Data.Repository.dll
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\bin\Debug\Nilsen.Framework.dll
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\bin\Debug\Nilsen.Framework.Data.Factory.dll
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\bin\Debug\Nilsen.Framework.Data.Repository.pdb
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\bin\Debug\Nilsen.Framework.pdb
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\bin\Debug\Nilsen.Framework.Data.Factory.pdb
+C:\Users\owner\source\repos\NilsenFormulaReports\Nilsen.Framework.Services\obj\Debug\Nilsen.Framework.Services.csproj.CopyComplete

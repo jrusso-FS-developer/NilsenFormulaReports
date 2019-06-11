@@ -21,7 +21,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
     public class PaceForecasterFormulaReportService : IReportService
     {
         private ConsoleService consoleSvc;
-        private String _SavePath = string.Format("{0}\\Flicker City Productions\\RacesCSVToExcel\\files", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+        private string _SavePath = string.Format("{0}\\Flicker City Productions\\RacesCSVToExcel\\files", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
         private string[] Fields;
 
         public PaceForecasterFormulaReportService(System.Windows.Forms.TextBox consoleWindow, System.Windows.Forms.Button btnProcess)
@@ -34,11 +34,9 @@ namespace Nilsen.Framework.Services.Objects.Classes
             Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
             Workbook wb = ExcelApp.Workbooks.Add(Type.Missing);
             Worksheet ws = wb.Sheets.Add();
-            StringBuilder sbFullFileName = new StringBuilder();
-            StringBuilder sbFileName = new StringBuilder();
-            StringBuilder sbPath = new StringBuilder();
-            Int32 iLength = fi.Name.Split('.').GetLength(0);
-            Boolean bContinue = true;
+            var sbFullFileName = new StringBuilder();
+            var sbFileName = new StringBuilder();
+            var bContinue = true;
 
             consoleSvc.ToggleProcessButton(false);
 
@@ -108,12 +106,12 @@ namespace Nilsen.Framework.Services.Objects.Classes
             var iRow = 1;
             var iHeaderRow = 1;
             Range rHeader;
-            var sAllHorses = new String[100, 2];
+            var sAllHorses = new string[100, 2];
             var decAllHorses = new Decimal[100];
-            var Top5Horses = new String[5, 2];
+            var Top5Horses = new string[5, 2];
             var bInitialHeader = true;
             IRace race = null;
-            Int16 iTotalRow = 0;
+            var iTotalRow = 0;
             TextFieldParser lineParser = null;
             ws.Name = "Nilsen Pace Rating";
             ws.get_Range("A1", "E1").Merge(Type.Missing);
@@ -343,7 +341,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
             Marshal.ReleaseComObject(ws);
         }
 
-        private Int32 listHorses(IRace race, Worksheet ws, Int32 iRowRangeStart, Int32 iHeaderRow)
+        private int listHorses(IRace race, Worksheet ws, int iRowRangeStart, int iHeaderRow)
         {
             var iRow = iRowRangeStart;
             var iRowRangeEnd = 0;
