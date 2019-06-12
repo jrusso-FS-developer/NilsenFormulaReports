@@ -428,38 +428,40 @@ namespace Nilsen.Framework.Objects.Class
             Quirin = QuirinTable == null ? 0 : (QuirinTable.Count > 0) ? Convert.ToInt32(QuirinTable.FirstOrDefault().Value) : 0;
 
             //Get Post Value
-            var PostElement = (from elem1 in
-                                    ((from elem in DataFactory.GetXml(TrackPostXmlFile).Element((XName)"Options").Elements((XName)"Option")
-                                    where (int)(elem.Attribute("post")) <= Convert.ToInt32(Fields[3].Trim())
-                                    select elem).ToList().Last()).Element((XName)"Value").Elements((XName)"Track")
-                                where elem1.Attribute("type").Value.ToString().IndexOf(Fields[6].Trim()) > -1
-                                select elem1).ToList().FirstOrDefault();
-
-            var PostElement1 = (from elem in PostElement.Elements((XName)"length")
-                                where (!string.IsNullOrWhiteSpace(elem.Attribute("track-name").Value.ToString()) && (elem.Attribute("track-name").Value.ToString().Split(',').Contains(Fields[0].ToString().ToUpper())
-                                        && ((elem.Attribute("distances").Value.ToString().IndexOf(furlongs.ToString()) > -1)
-                                            || ((furlongs >= Convert.ToDecimal(elem.Attribute("distances").Value.ToString().Split((Char)',')[0])) &&
-                                            (furlongs <= Convert.ToDecimal(elem.Attribute("distances").Value.ToString().Split((Char)',')[elem.Attribute("distances").Value.ToString().Split((Char)',').Length - 1])
-                                                && furlongs >= Convert.ToDecimal(elem.Attribute("distances").Value.ToString().Split((Char)',')[0]))))))
-                                select elem);
-
-            if ((PostElement1 == null) || PostElement1.ToList().Count == 0)
+            if (Convert.ToInt32(Fields[3].Trim()) > 0)
             {
-                var PostElement2 = (from elem in PostElement.Elements((XName)"length")
-                                    where (string.IsNullOrWhiteSpace(elem.Attribute("track-name").Value.ToString())
+                var PostElement = (from elem1 in
+                                        ((from elem in DataFactory.GetXml(TrackPostXmlFile).Element((XName)"Options").Elements((XName)"Option")
+                                        where (int)(elem.Attribute("post")) <= Convert.ToInt32(Fields[3].Trim())
+                                        select elem).ToList().Last()).Element((XName)"Value").Elements((XName)"Track")
+                                    where elem1.Attribute("type").Value.ToString().IndexOf(Fields[6].Trim()) > -1
+                                    select elem1).ToList().FirstOrDefault();
+
+                var PostElement1 = (from elem in PostElement.Elements((XName)"length")
+                                    where (!string.IsNullOrWhiteSpace(elem.Attribute("track-name").Value.ToString()) && (elem.Attribute("track-name").Value.ToString().Split(',').Contains(Fields[0].ToString().ToUpper())
                                             && ((elem.Attribute("distances").Value.ToString().IndexOf(furlongs.ToString()) > -1)
                                                 || ((furlongs >= Convert.ToDecimal(elem.Attribute("distances").Value.ToString().Split((Char)',')[0])) &&
                                                 (furlongs <= Convert.ToDecimal(elem.Attribute("distances").Value.ToString().Split((Char)',')[elem.Attribute("distances").Value.ToString().Split((Char)',').Length - 1])
-                                                    && furlongs >= Convert.ToDecimal(elem.Attribute("distances").Value.ToString().Split((Char)',')[0])))))
+                                                    && furlongs >= Convert.ToDecimal(elem.Attribute("distances").Value.ToString().Split((Char)',')[0]))))))
                                     select elem);
-                                
-                PostTable = PostElement2 != null ? PostElement2.ToList() : null;
-            }
-            else
-            {
-                PostTable = PostElement1.ToList();
-            }
 
+                if ((PostElement1 == null) || PostElement1.ToList().Count == 0)
+                {
+                    var PostElement2 = (from elem in PostElement.Elements((XName)"length")
+                                        where (string.IsNullOrWhiteSpace(elem.Attribute("track-name").Value.ToString())
+                                                && ((elem.Attribute("distances").Value.ToString().IndexOf(furlongs.ToString()) > -1)
+                                                    || ((furlongs >= Convert.ToDecimal(elem.Attribute("distances").Value.ToString().Split((Char)',')[0])) &&
+                                                    (furlongs <= Convert.ToDecimal(elem.Attribute("distances").Value.ToString().Split((Char)',')[elem.Attribute("distances").Value.ToString().Split((Char)',').Length - 1])
+                                                        && furlongs >= Convert.ToDecimal(elem.Attribute("distances").Value.ToString().Split((Char)',')[0])))))
+                                        select elem);
+                                
+                    PostTable = PostElement2 != null ? PostElement2.ToList() : null;
+                }
+                else
+                {
+                    PostTable = PostElement1.ToList();
+                }
+            }
 
             PostPoints = PostTable == null ? 0 : (PostTable.Count > 0) ? Convert.ToInt32(PostTable.FirstOrDefault().Value) : 0;
 

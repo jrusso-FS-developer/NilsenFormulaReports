@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NilsenRaceFormulaReports", "RacesCSVToExcel_1_0\NilsenRaceFormulaReports.csproj", "{A3DC37F3-FACE-4C33-8E9A-4C11EFE2211A}"
 EndProject
@@ -14,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nilsen.Framework.Services", "Nilsen.Framework.Services\Nilsen.Framework.Services.csproj", "{CA18762C-8556-446B-97DA-97CA8CEB1A28}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nilsen.Framework.Data.Factory", "Nilsen.Framework.Data.Factory\Nilsen.Framework.Data.Factory.csproj", "{038705CE-E9F2-43E7-8CD4-F924DB09A34F}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "NilsenFormulaReports_Setup", "NilsenFormulaReports_Setup\NilsenFormulaReports_Setup.vdproj", "{360C44A9-0A16-4E7C-A39F-6F209BB2267D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -188,21 +186,6 @@ Global
 		{038705CE-E9F2-43E7-8CD4-F924DB09A34F}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{038705CE-E9F2-43E7-8CD4-F924DB09A34F}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
 		{038705CE-E9F2-43E7-8CD4-F924DB09A34F}.SingleImage|x86.ActiveCfg = Release|Any CPU
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.CD_ROM|Any CPU.ActiveCfg = Release
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.CD_ROM|Mixed Platforms.ActiveCfg = Release
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.CD_ROM|x86.ActiveCfg = Release
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.Debug|Any CPU.ActiveCfg = Debug
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.Debug|x86.ActiveCfg = Debug
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.DVD-5|Any CPU.ActiveCfg = Debug
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.DVD-5|Mixed Platforms.ActiveCfg = Debug
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.DVD-5|x86.ActiveCfg = Debug
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.Release|Any CPU.ActiveCfg = Release
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.Release|Mixed Platforms.ActiveCfg = Release
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.Release|x86.ActiveCfg = Release
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.SingleImage|Any CPU.ActiveCfg = Release
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.SingleImage|Mixed Platforms.ActiveCfg = Release
-		{360C44A9-0A16-4E7C-A39F-6F209BB2267D}.SingleImage|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

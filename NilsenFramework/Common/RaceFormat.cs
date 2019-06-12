@@ -45,6 +45,7 @@ namespace Nilsen.Framework.Common
             LowestValue,
             None,
             SecondHighestValue,
+            Top4,
             Top5,
             RnkWrkrsCustom,
             ValueExists,
@@ -71,6 +72,7 @@ namespace Nilsen.Framework.Common
             public const string CR = "CR";
             public const string DSLR = "DSLR";
             public const string DSR = "DSR";
+            public const string DST = "DST";
             public const string Distance = "F";
             public const string KeyTrainerStatCategory1 = "KeyTrainerStatCategories1";
             public const string KeyTrainerStatCategory2 = "KeyTrainerStatCategories2";
@@ -79,6 +81,7 @@ namespace Nilsen.Framework.Common
             public const string MDC = "MDC";
             public const string MJS = "MJS";
             public const string ML = "ML";
+            public const string MUD = "MUD";
             public const string PP = "PP";
             public const string Pace = "Pace";
             public const string PPWR = "PPwr";
@@ -86,6 +89,7 @@ namespace Nilsen.Framework.Common
             public const string RQ = "R/Q";
             public const string TotalPace = "Total";
             public const string TB = "TB";
+            public const string TRF = "TRF";
             public const string TSR = "TSR";
             public const string Workout = "W";
             public const string RnkWrkrsPercentage1 = "RnkWrkrsPercentage1";
@@ -103,6 +107,7 @@ namespace Nilsen.Framework.Common
                         { PaceForecasterFormatFields.CR, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.DSLR, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.DSR, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.DST, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.Distance, Type.GetType("System.Int32") },
                         { PaceForecasterFormatFields.KeyTrainerStatCategory1, Type.GetType("System.String") },
                         { PaceForecasterFormatFields.KeyTrainerStatCategory2, Type.GetType("System.String") },
@@ -111,12 +116,14 @@ namespace Nilsen.Framework.Common
                         { PaceForecasterFormatFields.MJS, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.LP, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.ML, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.MUD, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.Pace, Type.GetType("System.Int32") },
                         { PaceForecasterFormatFields.PP, Type.GetType("System.Int32") },
                         { PaceForecasterFormatFields.PPWR, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.RQ, Type.GetType("System.Int32") },
                         { PaceForecasterFormatFields.RBC, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.TB, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.TRF, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.TSR, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.TotalPace, Type.GetType("System.Decimal") } ,
                         { PaceForecasterFormatFields.RnkWrkrsPercentage1, Type.GetType("System.Boolean") },
