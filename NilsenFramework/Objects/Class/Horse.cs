@@ -21,24 +21,20 @@ namespace Nilsen.Framework.Objects.Class
         public Horse(string[] Fields, IRace race)
         {
             //declares and assigns
-            decimal outDec;
-            short outInt16;
-            int outint;
-            int outInt;
             KeyTrainerStatCategory = new List<string>();
 
             ProgramNumber = Fields[42].Trim();
-            MorningLine = (decimal.TryParse(Fields[43].Trim(), out outDec)) ? outDec : (Decimal)0.00;
+            MorningLine = (decimal.TryParse(Fields[43].Trim(), out decimal outDec)) ? outDec : (Decimal)0.00;
             Note = Fields[40].Trim();
             Note2 = (Fields[61].Trim().Equals("4") || Fields[61].Trim().Equals("5")) ? "LASIX" : string.Empty;
             Note3 = string.Empty;
-            DSLR = (int.TryParse(Fields[223].Trim(), out outint)) ? outint : 0;
+            DSLR = (int.TryParse(Fields[223].Trim(), out int outint)) ? outint : 0;
             Earnings = Convert.ToDecimal((string.IsNullOrEmpty(Fields[78]) ? "0" : Fields[78]));
             ExtendedComment = Fields[1382];
             Place = Convert.ToInt32((string.IsNullOrEmpty(Fields[76]) ? "0" : Fields[76]));
             PPWR = (decimal.TryParse(Fields[250].Trim(), out outDec)) ? outDec : (decimal)0.00;
             CR = (decimal.TryParse(Fields[1145].Trim(), out outDec)) ? outDec : (decimal)0.00;
-            Trk = (int.TryParse(Fields[70].Trim(), out outInt)) ? (outInt >= 1) ? "T" : string.Empty : string.Empty;
+            Trk = (int.TryParse(Fields[70].Trim(), out int outInt)) ? (outInt >= 1) ? "T" : string.Empty : string.Empty;
             DIS = (int.TryParse(Fields[65].Trim(), out outInt)) ? (outInt >= 1) ? "D" : string.Empty : string.Empty;
             TSR = (decimal.TryParse(Fields[1330].Trim(), out outDec)) ? outDec : (decimal)0.00;
             DSR = (decimal.TryParse(Fields[1180].Trim(), out outDec)) ? outDec : (decimal)0.00; 
@@ -49,7 +45,7 @@ namespace Nilsen.Framework.Objects.Class
             Show = Convert.ToInt32((string.IsNullOrEmpty(Fields[77]) ? "0" : Fields[77]));
             TurfStarts = Convert.ToInt32((string.IsNullOrEmpty(Fields[74]) ? "0" : Fields[74]));
             HorseName = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Fields[44].Trim().ToLower());
-            Blinkers = (short.TryParse(Fields[63], out outInt16)) ? outInt16 : Convert.ToInt16(0);
+            Blinkers = (short.TryParse(Fields[63], out short outInt16)) ? outInt16 : Convert.ToInt16(0);
             Wins = Convert.ToInt32((string.IsNullOrEmpty(Fields[75]) ? "0" : Fields[75]));
 
             CalcAverageEarnings(Fields);
@@ -303,10 +299,9 @@ namespace Nilsen.Framework.Objects.Class
             while (iIndex < 10)
             {
                 dOutVal = (Decimal)0.00;
-                DateTime horseRaceDate;
                 var raceDate = race.Date;
 
-                if ((DateTime.TryParseExact(Fields[iRaceDateIndex + iIndex], "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out horseRaceDate)))
+                if ((DateTime.TryParseExact(Fields[iRaceDateIndex + iIndex], "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime horseRaceDate)))
                 {
                     var raceDays = (raceDate - horseRaceDate).TotalDays;
 
@@ -510,8 +505,7 @@ namespace Nilsen.Framework.Objects.Class
 
             for (var iIndex = iFieldLower; (iIndex <= iFieldLower + 9) && (iCnt < 4); iIndex++)
             {
-                int output;
-                if (int.TryParse(Fields[iIndex].Trim(), out output))
+                if (int.TryParse(Fields[iIndex].Trim(), out int output))
                 {
                     RacePaceDT.Rows.Add(RacePaceDT.NewRow());
                     RacePaceDT.Rows[iCnt++][0] = Convert.ToInt32(Fields[iIndex].Trim());
@@ -555,13 +549,11 @@ namespace Nilsen.Framework.Objects.Class
 
         private void CalcTB(string[] Fields)
         {
-            var todayDistanceOut = (decimal)0.00;
-            var lastDistanceOut = (decimal)0.00;
-            var todayDistance = (decimal)0.00;
-            var lastDistance = (decimal)0.00;
+            decimal todayDistance;
+            decimal lastDistance;
 
-            todayDistance = (Decimal.TryParse(Fields[5].Trim(), out todayDistanceOut)) ? todayDistanceOut : (Decimal)0.00;
-            lastDistance = (Decimal.TryParse(Fields[315].Trim(), out lastDistanceOut)) ? lastDistanceOut : (Decimal)0.00;
+            todayDistance = (Decimal.TryParse(Fields[5].Trim(), out decimal todayDistanceOut)) ? todayDistanceOut : (Decimal)0.00;
+            lastDistance = (Decimal.TryParse(Fields[315].Trim(), out decimal lastDistanceOut)) ? lastDistanceOut : (Decimal)0.00;
 
             TB = lastDistance - todayDistance;
         }
@@ -646,17 +638,15 @@ namespace Nilsen.Framework.Objects.Class
 
         private void CalcMDC(string[] Fields)
         {
-            var racePurse = 0;
             var stateBred = false;
-            var lastRacePurse = 0;
             var lastRaceStateBred = false;
             var claimingPrice = (decimal)0.00;
             var claimingPriceLastRace = (decimal)0.00;
 
-            int.TryParse(Fields[11], out racePurse);
+            int.TryParse(Fields[11], out int racePurse);
             RacePurse = racePurse;
             stateBred = (Fields[238].ToLower().Equals("s"));
-            int.TryParse(Fields[555], out lastRacePurse);
+            int.TryParse(Fields[555], out int lastRacePurse);
             LastPurse = lastRacePurse;
             lastRaceStateBred = (Fields[1105].ToLower().Equals("s"));
             decimal.TryParse(Fields[12], out claimingPrice);
@@ -751,12 +741,11 @@ namespace Nilsen.Framework.Objects.Class
 
             for (var iIndex = 0; iIndex < 12; iIndex++)
             {
-                DateTime workoutDate;
                 var distance = 0;
                 var rank = 0;
                 var workers = 0;
 
-                if (DateTime.TryParseExact(Fields[workoutIndex + iIndex], "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out workoutDate))
+                if (DateTime.TryParseExact(Fields[workoutIndex + iIndex], "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime workoutDate))
                 {
                     if ((race.Date - workoutDate).TotalDays < 32)
                     {
@@ -789,11 +778,9 @@ namespace Nilsen.Framework.Objects.Class
 
                 if (keyTrainerChange.ToLower().Equals("1st after clm") || keyTrainerChange.ToLower().Equals("1st start w/trn"))
                 {
-                    double relativeWinPercent;
-                    double numberOfStarts;
 
-                    if ((double.TryParse(Fields[keyTrainerChangeIndex + 1], out numberOfStarts)) &&
-                        (double.TryParse(Fields[keyTrainerChangeIndex + 2], out relativeWinPercent)))
+                    if ((double.TryParse(Fields[keyTrainerChangeIndex + 1], out double numberOfStarts)) &&
+                        (double.TryParse(Fields[keyTrainerChangeIndex + 2], out double relativeWinPercent)))
                     {
                         Note3 = ((relativeWinPercent >= 19.00) && (numberOfStarts >= 20)) ? "MTS" : "TS";
                     }

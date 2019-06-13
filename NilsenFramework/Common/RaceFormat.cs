@@ -70,6 +70,7 @@ namespace Nilsen.Framework.Common
             public const string BCR = "B-CR";
             public const string BSR = "B-SR";
             public const string CR = "CR";
+            public const string CP = "CP";
             public const string DSLR = "DSLR";
             public const string DSR = "DSR";
             public const string DST = "DST";
@@ -104,6 +105,7 @@ namespace Nilsen.Framework.Common
                     return new Dictionary<string, Type>() {
                         { PaceForecasterFormatFields.BCR, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.BSR, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.CP, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.CR, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.DSLR, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.DSR, Type.GetType("System.Decimal") },
@@ -162,7 +164,6 @@ namespace Nilsen.Framework.Common
         #region Constructors
         public FieldFormat()
         {
-            EvaluationRangeValues = new RangeValues<decimal, decimal>();
             EvaluationValues = new List<decimal>();
             HorseValues = new List<decimal>();
         }
@@ -172,6 +173,11 @@ namespace Nilsen.Framework.Common
     [Serializable]
     public class RangeValues<TRangeStart, TRangeEnd>
     {
+        public RangeValues(TRangeStart rangeStart, TRangeEnd rangeEnd)
+        {
+            RangeStart = rangeStart;
+            RangeEnd = rangeEnd;
+        }
         public TRangeStart RangeStart { get; set; }
         public TRangeEnd RangeEnd { get; set; }
     }
