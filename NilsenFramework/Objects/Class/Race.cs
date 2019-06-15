@@ -135,7 +135,7 @@ namespace Nilsen.Framework.Objects.Class
         public Decimal GetTop3Total()
         {
             //declares and assigns
-            var Total = (Decimal)0.00;
+            var Total = (decimal)0.00;
             var iIndex = 0;
 
             //process

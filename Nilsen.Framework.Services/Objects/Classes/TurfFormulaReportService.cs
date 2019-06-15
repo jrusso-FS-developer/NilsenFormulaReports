@@ -270,7 +270,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 ws.Cells[iHeaderRow, 15].HorizontalAlignment = XlHAlign.xlHAlignRight;
                                 ws.Cells[iHeaderRow, 16].HorizontalAlignment = XlHAlign.xlHAlignRight;
                             }
-                            race.Horses.Add(new Horse(Fields, race));
+                            race.Horses.Add(new Horse(fi.FullName, Fields, race));
                         }
                     }
                 }
@@ -450,7 +450,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                         case BasisTypes.BaseAmountOrHigher:
                             foreach (DataRow r in dtHorses.Rows)
                             {
-                                if (Convert.ToDecimal(r[0]) >= ff.EvaluationValues[0])
+                                if (Convert.ToDecimal(r[0]) >= ff.EvaluationDecimalValues[0])
                                 {
                                     sortedHorses.Add((IHorse)r[1]);
                                 }
@@ -459,7 +459,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                         case BasisTypes.BaseAmountOrLower:
                             foreach (DataRow r in dtHorses.Rows)
                             {
-                                if (Convert.ToDecimal(r[0]) <= ff.EvaluationValues[0])
+                                if (Convert.ToDecimal(r[0]) <= ff.EvaluationDecimalValues[0])
                                 {
                                     sortedHorses.Add((IHorse)r[1]);
                                 }
@@ -468,7 +468,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                         case BasisTypes.BetweenTwoValues:
                             foreach (DataRow r in dtHorses.Rows)
                             {
-                                if (Convert.ToDecimal(r[0]) >= ff.EvaluationValues[0] && Convert.ToDecimal(r[0]) <= ff.EvaluationValues[1])
+                                if (Convert.ToDecimal(r[0]) >= ff.EvaluationDecimalValues[0] && Convert.ToDecimal(r[0]) <= ff.EvaluationDecimalValues[1])
                                 {
                                     sortedHorses.Add((IHorse)r[1]);
                                 }
@@ -477,7 +477,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                         case BasisTypes.Equals:
                             foreach (DataRow r in dtHorses.Rows)
                             {
-                                if (Convert.ToDecimal(r[0]) == ff.EvaluationValues[0])
+                                if (Convert.ToDecimal(r[0]) == ff.EvaluationDecimalValues[0])
                                 {
                                     sortedHorses.Add((IHorse)r[1]);
                                 }
@@ -487,7 +487,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 var highValue = (decimal)val;
-                                var floorValue = (decimal)val - ff.EvaluationValues[0];
+                                var floorValue = (decimal)val - ff.EvaluationDecimalValues[0];
 
                                 if ((Convert.ToDecimal(r[0]) <= highValue) &&
                                     (Convert.ToDecimal(r[0]) >= floorValue) &&
@@ -509,9 +509,9 @@ namespace Nilsen.Framework.Services.Objects.Classes
                         case BasisTypes.GreaterThanOrEqualTo:
                             foreach (DataRow r in dtHorses.Rows)
                             {
-                                for (var iIndex = 0; iIndex < ff.EvaluationValues.Count(); iIndex++)
+                                for (var iIndex = 0; iIndex < ff.EvaluationDecimalValues.Count(); iIndex++)
                                 {
-                                    var evalValue = ff.EvaluationValues[iIndex];
+                                    var evalValue = ff.EvaluationDecimalValues[iIndex];
                                     var horseValue = (ff.HorseValues.Count() > 0) ? ff.HorseValues[iIndex] : r[0];
 
                                     if (Convert.ToDecimal(r[0]) > evalValue)
@@ -583,7 +583,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 }
                             }
                             break;
-                        case BasisTypes.ValueExists:
+                        case BasisTypes.ValueNotInStringList:
                             foreach (DataRow r in dtHorses.Rows)
                             {
                                 if (!string.IsNullOrWhiteSpace(r[0].ToString()))
@@ -595,7 +595,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                         case BasisTypes.WithinRange:
                             foreach (DataRow r in dtHorses.Rows)
                             {
-                                if ((Convert.ToDecimal(r[0]) <= Convert.ToDecimal(val) + ff.EvaluationValues[0]) && (Convert.ToDecimal(r[0]) >= Convert.ToDecimal(val) - ff.EvaluationValues[0]))
+                                if ((Convert.ToDecimal(r[0]) <= Convert.ToDecimal(val) + ff.EvaluationDecimalValues[0]) && (Convert.ToDecimal(r[0]) >= Convert.ToDecimal(val) - ff.EvaluationDecimalValues[0]))
                                 {
                                     sortedHorses.Add((IHorse)r[1]);
                                 }
@@ -604,7 +604,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                         case BasisTypes.WithinRangeOfLastHorseInTopFive:
                             foreach (DataRow r in dtHorses.Rows)
                             {
-                                if (Convert.ToDecimal(r[0]) >= Convert.ToDecimal(val) - ff.EvaluationValues[0] && Convert.ToDecimal(r[0]) < Convert.ToDecimal(val))
+                                if (Convert.ToDecimal(r[0]) >= Convert.ToDecimal(val) - ff.EvaluationDecimalValues[0] && Convert.ToDecimal(r[0]) < Convert.ToDecimal(val))
                                 {
                                     sortedHorses.Add((IHorse)r[1]);
                                 }

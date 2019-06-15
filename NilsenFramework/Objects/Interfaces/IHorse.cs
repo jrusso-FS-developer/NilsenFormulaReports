@@ -21,6 +21,7 @@ namespace Nilsen.Framework.Objects.Interfaces
         decimal DST { get; set; }
         decimal Earnings { get; set; }
         string ExtendedComment { get; set; }
+        int JockeyMeetStarts { get; set; }
         decimal PPWR { get; set; }
         string HorseName { get; set; }
         List<string> KeyTrainerStatCategory { get; set; }
@@ -42,6 +43,7 @@ namespace Nilsen.Framework.Objects.Interfaces
         string Note { get; set; }
         string Note2 { get; set; }
         string Note3 { get; set; }
+        int MountCount { get; set; }
         int Pace { get; set; }
         int Place { get; set; }
         int PostPoints { get; set; }

@@ -48,7 +48,7 @@ namespace Nilsen.Framework.Common
             Top4,
             Top5,
             RnkWrkrsCustom,
-            ValueExists,
+            ValueNotInStringList,
             WithinRange,
             WithinRangeOfOtherFieldValue,
             WithinRangeOfLastHorseInTopFive
@@ -156,7 +156,8 @@ namespace Nilsen.Framework.Common
         public RaceFieldsFormat.FormatTypes FormatType { get; set; }
         public string Field { get; set; }
         public int WsColumnIndex { get; set; }
-        public List<decimal> EvaluationValues { get; set; }
+        public List<string> EvaluationStringValues { get; set; }
+        public List<decimal> EvaluationDecimalValues { get; set; }
         public List<decimal> HorseValues { get; set; }
         public RangeValues<decimal, decimal> EvaluationRangeValues { get; set; }
         #endregion
@@ -164,7 +165,7 @@ namespace Nilsen.Framework.Common
         #region Constructors
         public FieldFormat()
         {
-            EvaluationValues = new List<decimal>();
+            EvaluationDecimalValues = new List<decimal>();
             HorseValues = new List<decimal>();
         }
         #endregion
