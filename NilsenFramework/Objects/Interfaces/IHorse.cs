@@ -18,8 +18,10 @@ namespace Nilsen.Framework.Objects.Interfaces
         int Distance { get; set; } //#F Column
         int DSLR { get; set; }
         decimal DSR { get; set; }
+        decimal DST { get; set; }
         decimal Earnings { get; set; }
         string ExtendedComment { get; set; }
+        int JockeyMeetStarts { get; set; }
         decimal PPWR { get; set; }
         string HorseName { get; set; }
         List<string> KeyTrainerStatCategory { get; set; }
@@ -36,10 +38,12 @@ namespace Nilsen.Framework.Objects.Interfaces
         decimal MJS1163 { get; set; }
         decimal MJS1164 { get; set; }
         decimal MorningLine { get; set; }
+        decimal MUD { get; set; }
         decimal NilsenRating { get; set; }
         string Note { get; set; }
         string Note2 { get; set; }
         string Note3 { get; set; }
+        int MountCount { get; set; }
         int Pace { get; set; }
         int Place { get; set; }
         int PostPoints { get; set; }
@@ -57,6 +61,7 @@ namespace Nilsen.Framework.Objects.Interfaces
         decimal TB { get; set; }
         decimal Total { get; set; }
         string Trk { get; set; }
+        decimal TRF { get; set; }
         decimal TSR { get; set; }
         int TurfPedigree { get; set; }
         string TurfPedigreeDisplay { get; set; }

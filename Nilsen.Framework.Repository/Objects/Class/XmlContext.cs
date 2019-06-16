@@ -21,7 +21,7 @@ namespace Nilsen.Framework.Data.Repository.Objects.Class
 
         public XElement GetXml()
         {
-            var xmlElement = XElement.Load(Path.GetFullPath(string.Format("C:/Program Files (x86)/Flicker City Productions/Nilsen Race Formula Reports/Data/Xml/{1}", Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)))), FileName)));
+            var xmlElement = XElement.Load(Path.GetFullPath(string.Format("C:/Program Files/NilsenRaceFormulaReports/Data/Xml/{1}", Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)))), FileName)));
 
             return xmlElement;
         }
