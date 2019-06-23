@@ -1415,6 +1415,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 foreach (var ff in fieldFormats)
                 {
                     var val = new Object();
+                    var exitFor = false;
                     sortedHorses.Clear();
 
                     //set sort direction
@@ -1465,13 +1466,19 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             break;
                         case PaceForecasterFormatFields.TSR:
                         case PaceForecasterFormatFields.PPWR:  
-                            if (f.Key == PaceForecasterFormatFields.PPWR && ff.BasisType == BasisTypes.WithinRangeOfLastHorseInTopFive){
-                                val = Convert.ToDecimal(dtHorses.Rows[4][0]);
+                            if (f.Key == PaceForecasterFormatFields.PPWR && 
+                                ff.BasisType == BasisTypes.WithinRangeOfLastHorseInTopFive){
+                                if (dtHorses.Rows.Count >= 5)
+                                    val = Convert.ToDecimal(dtHorses.Rows[4][0]);
+                                else
+                                    exitFor = true;
                             } else {
                                 val = Convert.ToDecimal(dtHorses.Rows[0][0]);
                             }
                             break;
                     }
+
+                    if (exitFor) break;
 
                     switch (ff.BasisType)
                     {
