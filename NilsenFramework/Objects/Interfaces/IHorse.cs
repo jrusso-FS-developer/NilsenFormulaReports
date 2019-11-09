@@ -63,6 +63,7 @@ namespace Nilsen.Framework.Objects.Interfaces
         string Trk { get; set; }
         decimal TRF { get; set; }
         decimal TSR { get; set; }
+        bool TopCR { get; set; }
         int TurfPedigree { get; set; }
         string TurfPedigreeDisplay { get; set; }
         int Wins { get; set; }
