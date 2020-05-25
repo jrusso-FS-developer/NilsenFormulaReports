@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nilsen.Framework.Services",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nilsen.Framework.Data.Factory", "Nilsen.Framework.Data.Factory\Nilsen.Framework.Data.Factory.csproj", "{038705CE-E9F2-43E7-8CD4-F924DB09A34F}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "NilsenRaceFormulaReports_Setup", "NilsenRaceFormulaReports_Setup\NilsenRaceFormulaReports_Setup.vdproj", "{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -188,21 +186,6 @@ Global
 		{038705CE-E9F2-43E7-8CD4-F924DB09A34F}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{038705CE-E9F2-43E7-8CD4-F924DB09A34F}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
 		{038705CE-E9F2-43E7-8CD4-F924DB09A34F}.SingleImage|x86.ActiveCfg = Release|Any CPU
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.CD_ROM|Any CPU.ActiveCfg = Release
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.CD_ROM|Mixed Platforms.ActiveCfg = Release
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.CD_ROM|x86.ActiveCfg = Release
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.Debug|Any CPU.ActiveCfg = Debug
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.Debug|x86.ActiveCfg = Debug
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.DVD-5|Any CPU.ActiveCfg = Debug
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.DVD-5|Mixed Platforms.ActiveCfg = Debug
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.DVD-5|x86.ActiveCfg = Debug
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.Release|Any CPU.ActiveCfg = Release
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.Release|Mixed Platforms.ActiveCfg = Release
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.Release|x86.ActiveCfg = Release
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.SingleImage|Any CPU.ActiveCfg = Release
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.SingleImage|Mixed Platforms.ActiveCfg = Release
-		{80DC3B2A-A95F-4BAE-B379-451CD13B3EE5}.SingleImage|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

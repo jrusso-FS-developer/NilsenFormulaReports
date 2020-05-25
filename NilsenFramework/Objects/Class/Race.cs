@@ -19,6 +19,11 @@ namespace Nilsen.Framework.Objects.Class
             Type = Fields[8];
             AgeOfRace = Fields[9];
             PostTime = Fields[1373];
+            PAR = string.Format("{0} ({1}, {2}, {3}, {4})", (!string.IsNullOrWhiteSpace(Fields[216]) ? Fields[216] : "N/A"),
+            (!string.IsNullOrWhiteSpace(Fields[213]) ? Fields[213] : "N/A"),
+            (!string.IsNullOrWhiteSpace(Fields[214]) ? Fields[214] : "N/A"),
+            (!string.IsNullOrWhiteSpace(Fields[215]) ? Fields[215] : "N/A"),
+            (!string.IsNullOrWhiteSpace(Fields[217]) ? Fields[217] : "N/A"));
 
             Horses = new List<IHorse>();
         }
@@ -100,6 +105,8 @@ namespace Nilsen.Framework.Objects.Class
         public ITrack Track { get; set; }
 
         public string PostTime { get; set; }
+
+        public string PAR { get; set; }
 
         public void SortHorses()
         {

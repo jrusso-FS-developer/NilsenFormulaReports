@@ -15,6 +15,7 @@ namespace Nilsen.Framework.Objects.Interfaces
         List<IHorse> Horses { get; set; }
         ITrack Track { get; set; }
         String PostTime { get; set; }
+        string PAR { get; set; }
         void SortHorses();
         Decimal GetTop3Total();
         int GetGreatestKeyTrainerStatCategoryCount();
