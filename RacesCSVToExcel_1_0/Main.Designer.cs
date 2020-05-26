@@ -42,7 +42,7 @@
             // 
             // ofdRacesCSV
             // 
-            this.ofdRacesCSV.FileName = "openFileDialog1";
+            this.ofdRacesCSV.FileName = string.Empty;
             this.ofdRacesCSV.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdRacesCSV_FileOk);
             // 
             // lblHeaderMessage

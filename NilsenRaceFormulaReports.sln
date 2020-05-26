@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nilsen.Framework.Services",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nilsen.Framework.Data.Factory", "Nilsen.Framework.Data.Factory\Nilsen.Framework.Data.Factory.csproj", "{038705CE-E9F2-43E7-8CD4-F924DB09A34F}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "NilsenRaceFormulaReports_Setup", "NilsenRaceFormulaReports_Setup\NilsenRaceFormulaReports_Setup.vdproj", "{C257B7E7-F807-4575-80F7-D62B7BED6ACD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -186,6 +188,36 @@ Global
 		{038705CE-E9F2-43E7-8CD4-F924DB09A34F}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{038705CE-E9F2-43E7-8CD4-F924DB09A34F}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
 		{038705CE-E9F2-43E7-8CD4-F924DB09A34F}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.CD_ROM|Any CPU.ActiveCfg = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.CD_ROM|Any CPU.Build.0 = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.CD_ROM|Mixed Platforms.ActiveCfg = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.CD_ROM|Mixed Platforms.Build.0 = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.CD_ROM|x86.ActiveCfg = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.CD_ROM|x86.Build.0 = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.Debug|Any CPU.ActiveCfg = Debug
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.Debug|Any CPU.Build.0 = Debug
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.Debug|Mixed Platforms.Build.0 = Debug
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.Debug|x86.ActiveCfg = Debug
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.Debug|x86.Build.0 = Debug
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.DVD-5|Any CPU.ActiveCfg = Debug
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.DVD-5|Any CPU.Build.0 = Debug
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.DVD-5|Mixed Platforms.ActiveCfg = Debug
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.DVD-5|Mixed Platforms.Build.0 = Debug
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.DVD-5|x86.ActiveCfg = Debug
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.DVD-5|x86.Build.0 = Debug
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.Release|Any CPU.ActiveCfg = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.Release|Any CPU.Build.0 = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.Release|Mixed Platforms.ActiveCfg = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.Release|Mixed Platforms.Build.0 = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.Release|x86.ActiveCfg = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.Release|x86.Build.0 = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.SingleImage|Any CPU.ActiveCfg = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.SingleImage|Any CPU.Build.0 = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.SingleImage|Mixed Platforms.ActiveCfg = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.SingleImage|Mixed Platforms.Build.0 = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.SingleImage|x86.ActiveCfg = Release
+		{C257B7E7-F807-4575-80F7-D62B7BED6ACD}.SingleImage|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
