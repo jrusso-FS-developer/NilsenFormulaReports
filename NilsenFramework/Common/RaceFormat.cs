@@ -63,6 +63,9 @@ namespace Nilsen.Framework.Common
         {
             public const string SR = "SR";
             public const string TurfPedigree = "Turf Ped.";
+            public const string TFW = "TFW";
+            public const string E2_1 = "E2_1";
+            public const string E2_2 = "E2_2";
         }
 
         public struct PaceForecasterFormatFields
@@ -70,8 +73,10 @@ namespace Nilsen.Framework.Common
             public const string BCR = "B-CR";
             public const string BSR = "B-SR";
             public const string CR = "CR";
+            public const string CRF = "CRF";
             public const string CP = "CP";
             public const string DSLR = "DSLR";
+            public const string DIS = "DIS";
             public const string DSR = "DSR";
             public const string DST = "DST";
             public const string Distance = "F";
@@ -91,6 +96,7 @@ namespace Nilsen.Framework.Common
             public const string TotalPace = "Total";
             public const string TB = "TB";
             public const string TRF = "TRF";
+            public const string TRK = "TRK";
             public const string TSR = "TSR";
             public const string Workout = "W";
             public const string RnkWrkrsPercentage1 = "RnkWrkrsPercentage1";
@@ -107,6 +113,8 @@ namespace Nilsen.Framework.Common
                         { PaceForecasterFormatFields.BSR, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.CP, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.CR, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.CRF, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.DIS, Type.GetType("System.String") },
                         { PaceForecasterFormatFields.DSLR, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.DSR, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.DST, Type.GetType("System.Decimal") },
@@ -126,6 +134,7 @@ namespace Nilsen.Framework.Common
                         { PaceForecasterFormatFields.RBC, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.TB, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.TRF, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.TRK, Type.GetType("System.String") },
                         { PaceForecasterFormatFields.TSR, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.TotalPace, Type.GetType("System.Decimal") } ,
                         { PaceForecasterFormatFields.RnkWrkrsPercentage1, Type.GetType("System.Boolean") },
@@ -136,6 +145,9 @@ namespace Nilsen.Framework.Common
                     return new Dictionary<string, Type>() {
                         { TurfFormulaFormatFields.SR, Type.GetType("System.Decimal") },
                         { TurfFormulaFormatFields.TurfPedigree, Type.GetType("System.Decimal") },
+                        { TurfFormulaFormatFields.TFW, Type.GetType("System.Decimal") },
+                        { TurfFormulaFormatFields.E2_1, Type.GetType("System.Decimal") },
+                        { TurfFormulaFormatFields.E2_2, Type.GetType("System.Decimal") },
                     };
             }
 

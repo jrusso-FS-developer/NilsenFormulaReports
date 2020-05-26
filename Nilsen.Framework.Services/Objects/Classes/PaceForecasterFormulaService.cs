@@ -141,11 +141,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             if (race != null)
                             {
                                 iRow = listHorses(race, ws, iRow, iHeaderRow);
-                                ws.Cells[iTotalRow, 6].Value = race.GetTop3Total();
+                                ws.Cells[iTotalRow, 8].Value = race.GetTop3Total();
 
-                                ws.Cells[iTotalRow, 6].Font.Bold = (race.GetTop3Total() >= 490);
+                                ws.Cells[iTotalRow, 8].Font.Bold = (race.GetTop3Total() >= 490);
                                 if (race.GetTop3Total() >= 520)
-                                    ws.Cells[iTotalRow, 6].Interior.Color = XlRgbColor.rgbRed;
+                                    ws.Cells[iTotalRow, 8].Interior.Color = XlRgbColor.rgbRed;
                             }
 
                             race = RaceService.GetRace(Fields);
@@ -256,38 +256,40 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             ws.Cells[iHeaderRow, 3].Value = "BL";
                             ws.Cells[iHeaderRow, 4].Value = "J";
                             ws.Cells[iHeaderRow, 5].Value = "Horse Name";
-                            ws.Cells[iHeaderRow, 6].Value = "TOTAL";
-                            ws.Cells[iHeaderRow, 7].Value = "R/Q";
-                            ws.Cells[iHeaderRow, 8].Value = "PP";
-                            ws.Cells[iHeaderRow, 9].Value = "Pace";
-                            ws.Cells[iHeaderRow, 10].Value = "CP";
-                            ws.Cells[iHeaderRow, 11].Value = "DSLR";
-                            ws.Cells[iHeaderRow, 12].Value = "CR";
-                            ws.Cells[iHeaderRow, 13].Value = "LP";
-                            ws.Cells[iHeaderRow, 14].Value = "RBC%";
-                            ws.Cells[iHeaderRow, 15].Value = "B-CR";
-                            ws.Cells[iHeaderRow, 16].Value = "B-SR";
-                            ws.Cells[iHeaderRow, 17].Value = "PPWR";
-                            ws.Cells[iHeaderRow, 18].Value = "MJS";
-                            ws.Cells[iHeaderRow, 19].Value = "RET";
-                            ws.Cells[iHeaderRow, 20].Value = "MDC";
-                            ws.Cells[iHeaderRow, 21].Value = "TB";
-                            ws.Cells[iHeaderRow, 22].Value = "MUD";
-                            ws.Cells[iHeaderRow, 23].Value = "TRF";
-                            ws.Cells[iHeaderRow, 24].Value = "DST";
-                            ws.Cells[iHeaderRow, 25].Value = "Trk";
-                            ws.Cells[iHeaderRow, 26].Value = "Dis";
-                            ws.Cells[iHeaderRow, 27].Value = "T-SR";
-                            ws.Cells[iHeaderRow, 28].Value = "D-SR";
-                            ws.Cells[iHeaderRow, 29].Value = "Note";
-                            ws.Cells[iHeaderRow, 30].Value = "Note 2";
-                            ws.Cells[iHeaderRow, 31].Value = "Note 3";
-                            ws.Cells[iHeaderRow, 32].Value = "#W";
-                            ws.Cells[iHeaderRow, 33].Value = "#F";
-                            ws.Cells[iHeaderRow, 34].Value = "RK";
-                            ws.Cells[iHeaderRow, 35].Value = "WKrs";
-                            ws.Cells[iHeaderRow, 36].Value = string.Empty;
-                            ws.Cells[iHeaderRow, 37].Value = "Extended Comment";
+                            ws.Cells[iHeaderRow, 6].Value = "CR-F";
+                            ws.Cells[iHeaderRow, 7].Value = "LR";
+                            ws.Cells[iHeaderRow, 8].Value = "TOTAL";
+                            ws.Cells[iHeaderRow, 9].Value = "R/Q";
+                            ws.Cells[iHeaderRow, 10].Value = "PP";
+                            ws.Cells[iHeaderRow, 11].Value = "Pace";
+                            ws.Cells[iHeaderRow, 12].Value = "CP";
+                            ws.Cells[iHeaderRow, 13].Value = "DSLR";
+                            ws.Cells[iHeaderRow, 14].Value = "CR";
+                            ws.Cells[iHeaderRow, 15].Value = "LP";
+                            ws.Cells[iHeaderRow, 16].Value = "RBC%";
+                            ws.Cells[iHeaderRow, 17].Value = "B-CR";
+                            ws.Cells[iHeaderRow, 18].Value = "B-SR";
+                            ws.Cells[iHeaderRow, 19].Value = "PPWR";
+                            ws.Cells[iHeaderRow, 20].Value = "MJS";
+                            ws.Cells[iHeaderRow, 21].Value = "RET";
+                            ws.Cells[iHeaderRow, 22].Value = "MDC";
+                            ws.Cells[iHeaderRow, 23].Value = "TB";
+                            ws.Cells[iHeaderRow, 24].Value = "MUD";
+                            ws.Cells[iHeaderRow, 25].Value = "TRF";
+                            ws.Cells[iHeaderRow, 26].Value = "DST";
+                            ws.Cells[iHeaderRow, 27].Value = "Trk";
+                            ws.Cells[iHeaderRow, 28].Value = "Dis";
+                            ws.Cells[iHeaderRow, 29].Value = "T-SR";
+                            ws.Cells[iHeaderRow, 30].Value = "D-SR";
+                            ws.Cells[iHeaderRow, 31].Value = "Note";
+                            ws.Cells[iHeaderRow, 32].Value = "Note 2";
+                            ws.Cells[iHeaderRow, 33].Value = "Note 3";
+                            ws.Cells[iHeaderRow, 34].Value = "#W";
+                            ws.Cells[iHeaderRow, 35].Value = "#F";
+                            ws.Cells[iHeaderRow, 36].Value = "RK";
+                            ws.Cells[iHeaderRow, 37].Value = "WKrs";
+                            ws.Cells[iHeaderRow, 38].Value = string.Empty;
+                            ws.Cells[iHeaderRow, 39].Value = "Extended Comment";
 
                             ws.Cells[iHeaderRow, 1].HorizontalAlignment = XlHAlign.xlHAlignRight;
                             ws.Cells[iHeaderRow, 2].HorizontalAlignment = XlHAlign.xlHAlignRight;
@@ -325,7 +327,9 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             ws.Cells[iHeaderRow, 34].HorizontalAlignment = XlHAlign.xlHAlignRight;
                             ws.Cells[iHeaderRow, 35].HorizontalAlignment = XlHAlign.xlHAlignRight;
                             ws.Cells[iHeaderRow, 36].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                            ws.Cells[iHeaderRow, 37].HorizontalAlignment = XlHAlign.xlHAlignLeft;
+                            ws.Cells[iHeaderRow, 37].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                            ws.Cells[iHeaderRow, 38].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                            ws.Cells[iHeaderRow, 39].HorizontalAlignment = XlHAlign.xlHAlignLeft;
                         }
                         race.Horses.Add(new Horse(fi.FullName, Fields, race));
                     }
@@ -334,11 +338,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 if (race != null)
                 {
                     iRow = listHorses(race, ws, iRow, iHeaderRow);                    
-                    ws.Cells[iTotalRow, 6].Value = race.GetTop3Total();
+                    ws.Cells[iTotalRow, 8].Value = race.GetTop3Total();
 
-                    ws.Cells[iTotalRow, 6].Font.Bold = (race.GetTop3Total() >= 490);
+                    ws.Cells[iTotalRow, 8].Font.Bold = (race.GetTop3Total() >= 490);
                     if (race.GetTop3Total() >= 520)
-                        ws.Cells[iTotalRow, 6].Interior.Color = XlRgbColor.rgbRed;
+                        ws.Cells[iTotalRow, 8].Interior.Color = XlRgbColor.rgbRed;
                 }
             }
 
@@ -356,7 +360,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
         private int listHorses(IRace race, Worksheet ws, int iRowRangeStart, int iHeaderRow)
         {
             var iRow = iRowRangeStart;
-            var ktscFirstIndex = 38;
+            var ktscFirstIndex = 40;
             var ktscLastIndex = race.GetGreatestKeyTrainerStatCategoryCount() + ktscFirstIndex - 1;
             var iColIndex = 1;
             race.SortHorses();
@@ -368,44 +372,53 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
             foreach (Horse horse in race.Horses)
             {
+                int intOut;
+
                 iRow++;
                 ws.Cells[iRow, 1].Value = string.Format("{0})", horse.ProgramNumber); //Program Number
                 ws.Cells[iRow, 2].Value = horse.MorningLine; //Morning Line
                 ws.Cells[iRow, 3].Value = (horse.Blinkers.Equals(1)) ? "on" : (horse.Blinkers.Equals(2)) ? "OFF" : string.Empty; //Horse Name
                 ws.Cells[iRow, 4].Value = horse.MountCount == 1 ? "J" : string.Empty; //1 Jockey Mount
                 ws.Cells[iRow, 5].Value = horse.HorseName; //Horse Name
-                ws.Cells[iRow, 6].Value = horse.Total; //TOTAL
-                ws.Cells[iRow, 7].Value = (horse.RunStyle + horse.Quirin); //RQ 
-                ws.Cells[iRow, 8].Value = horse.PostPoints; //PP
-                ws.Cells[iRow, 9].Value = horse.Pace; //Pace
-                ws.Cells[iRow, 10].Value = horse.CP; //CP
-                ws.Cells[iRow, 11].Value = horse.DSLR; //DSLR
-                ws.Cells[iRow, 12].Value = horse.CR; //CR
-                ws.Cells[iRow, 13].Value = horse.LP; //LP
-                ws.Cells[iRow, 14].Value = horse.RBCPercent; //RBCPercent
-                ws.Cells[iRow, 15].Value = horse.BCR; //BCR
-                ws.Cells[iRow, 16].Value = horse.BSR; //BSR
-                ws.Cells[iRow, 17].Value = horse.PPWR; //PPWR
-                ws.Cells[iRow, 18].Value = horse.MJS; //MJS
-                ws.Cells[iRow, 19].Value = horse.RET; //RET
-                ws.Cells[iRow, 20].Value = horse.MDC; //MDC
-                ws.Cells[iRow, 21].Value = (horse.TB >= 110) ? "TB" : string.Empty; //TB
-                ws.Cells[iRow, 22].Value = horse.MUD; //MUD
-                ws.Cells[iRow, 23].Value = horse.TRF; //TRF
-                ws.Cells[iRow, 24].Value = horse.DST; //DST
-                ws.Cells[iRow, 25].Value = horse.Trk; //Trk
-                ws.Cells[iRow, 26].Value = horse.DIS; //Dis
-                ws.Cells[iRow, 27].Value = horse.TSR; //TSR
-                ws.Cells[iRow, 28].Value = horse.DSR; //DSR
-                ws.Cells[iRow, 29].Value = horse.Note; //Note
-                ws.Cells[iRow, 30].Value = horse.Note2; //Note2
-                ws.Cells[iRow, 31].Value = horse.Note3; //Note3
-                ws.Cells[iRow, 32].Value = horse.Workout; //Workout
-                ws.Cells[iRow, 33].Value = horse.Distance; //Distance
-                ws.Cells[iRow, 34].Value = horse.Rank; //Rank
-                ws.Cells[iRow, 35].Value = horse.Workers; //WKrs
-                ws.Cells[iRow, 36].Value = (Math.Round(horse.RnkWrkrsPct, MidpointRounding.AwayFromZero)).ToString() + "%"; //PERCENTAGE
-                ws.Cells[iRow, 37].Value = horse.ExtendedComment; //Extended Comment
+                ws.Cells[iRow, 6].Value = Math.Round(horse.CRF, 1).ToString("0.00"); //CRF
+                ws.Cells[iRow, 6].NumberFormat = "#,##0.0";
+                ws.Cells[iRow, 7].Value = horse.LR > 0 || horse.LR < 0 ? horse.LR.ToString() : string.Empty; //LR
+                ws.Cells[iRow, 8].Value = horse.Total; //TOTAL
+                ws.Cells[iRow, 9].Value = (horse.RunStyle + horse.Quirin); //RQ 
+                ws.Cells[iRow, 10].Value = horse.PostPoints; //PP
+                ws.Cells[iRow, 11].Value = horse.Pace; //Pace
+                ws.Cells[iRow, 12].Value = horse.CP; //CP
+                ws.Cells[iRow, 13].Value = horse.DSLR; //DSLR
+                ws.Cells[iRow, 14].Value = horse.CR; //CR
+                ws.Cells[iRow, 14].NumberFormat = "0.0";
+                ws.Cells[iRow, 15].Value = horse.LP; //LP
+                ws.Cells[iRow, 16].Value = horse.RBCPercent; //RBCPercent
+                ws.Cells[iRow, 16].NumberFormat = "0.00";
+                ws.Cells[iRow, 17].Value = horse.BCR; //BCR
+                ws.Cells[iRow, 17].NumberFormat = "0.0";
+                ws.Cells[iRow, 18].Value = horse.BSR; //BSR
+                ws.Cells[iRow, 19].Value = horse.PPWR; //PPWR
+                ws.Cells[iRow, 19].NumberFormat = "0.0";
+                ws.Cells[iRow, 20].Value = horse.MJS; //MJS
+                ws.Cells[iRow, 21].Value = horse.RET; //RET
+                ws.Cells[iRow, 22].Value = horse.MDC; //MDC
+                ws.Cells[iRow, 23].Value = (horse.TB >= 110) ? "TB" : string.Empty; //TB
+                ws.Cells[iRow, 24].Value = horse.MUD; //MUD
+                ws.Cells[iRow, 25].Value = horse.TRF; //TRF
+                ws.Cells[iRow, 26].Value = horse.DST; //DST
+                ws.Cells[iRow, 27].Value = horse.Trk; //Trk
+                ws.Cells[iRow, 28].Value = horse.DIS; //Dis
+                ws.Cells[iRow, 29].Value = horse.TSR; //TSR
+                ws.Cells[iRow, 30].Value = horse.DSR; //DSR
+                ws.Cells[iRow, 31].Value = horse.Note; //Note
+                ws.Cells[iRow, 32].Value = horse.Note2; //Note2
+                ws.Cells[iRow, 33].Value = horse.Note3; //Note3
+                ws.Cells[iRow, 34].Value = horse.Workout; //Workout
+                ws.Cells[iRow, 35].Value = horse.Distance; //Distance
+                ws.Cells[iRow, 36].Value = horse.Rank; //Rank
+                ws.Cells[iRow, 37].Value = horse.Workers; //WKrs
+                ws.Cells[iRow, 38].Value = (Math.Round(horse.RnkWrkrsPct, MidpointRounding.AwayFromZero)).ToString() + "%"; //PERCENTAGE
+                ws.Cells[iRow, 39].Value = horse.ExtendedComment; //Extended Comment
 
                 if (horse.Blinkers.Equals(1) || horse.Blinkers.Equals(2))
                 {
@@ -419,20 +432,20 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                 if (horse.Note.ToLower().Equals("lasix") || horse.Note.ToLower().Equals("mts"))
                 {
-                    ws.Cells[iRow, 29].Interior.Color = XlRgbColor.rgbLightGray;
-                    ws.Cells[iRow, 29].Font.Bold = true;
+                    ws.Cells[iRow, 31].Interior.Color = XlRgbColor.rgbLightGray;
+                    ws.Cells[iRow, 31].Font.Bold = true;
                 }
 
                 if (horse.Note2.ToLower().Equals("lasix") || horse.Note2.ToLower().Equals("mts"))
                 {
-                    ws.Cells[iRow, 30].Interior.Color = XlRgbColor.rgbLightGray;
-                    ws.Cells[iRow, 30].Font.Bold = true;
+                    ws.Cells[iRow, 32].Interior.Color = XlRgbColor.rgbLightGray;
+                    ws.Cells[iRow, 32].Font.Bold = true;
                 }
 
                 if (horse.Note3.ToLower().Equals("lasix") || horse.Note3.ToLower().Equals("mts") || horse.Note3.ToLower().Equals("ts"))
                 {
-                    ws.Cells[iRow, 31].Interior.Color = XlRgbColor.rgbLightGray;
-                    ws.Cells[iRow, 31].Font.Bold = true;
+                    ws.Cells[iRow, 33].Interior.Color = XlRgbColor.rgbLightGray;
+                    ws.Cells[iRow, 33].Font.Bold = true;
                 }
 
                 ws.Cells[iRow, 1].HorizontalAlignment = XlHAlign.xlHAlignRight;
@@ -471,13 +484,9 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 ws.Cells[iRow, 34].HorizontalAlignment = XlHAlign.xlHAlignRight;
                 ws.Cells[iRow, 35].HorizontalAlignment = XlHAlign.xlHAlignRight;
                 ws.Cells[iRow, 36].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                ws.Cells[iRow, 37].HorizontalAlignment = XlHAlign.xlHAlignLeft;
-
-                //format for decimal.  
-                ws.Cells[iRow, 12].NumberFormat = "0.00";
-                ws.Cells[iRow, 14].NumberFormat = "0.00";
-                ws.Cells[iRow, 15].NumberFormat = "0.00";
-                ws.Cells[iRow, 17].NumberFormat = "0.0";
+                ws.Cells[iRow, 37].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                ws.Cells[iRow, 38].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                ws.Cells[iRow, 39].HorizontalAlignment = XlHAlign.xlHAlignLeft;
 
                 for (var iColumnIndex = ktscFirstIndex; iColumnIndex <= ktscLastIndex; iColumnIndex++)
                 {
@@ -535,7 +544,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = bcrStyles,
-                                WsColumnIndex = 15
+                                WsColumnIndex = 17
                             });
                             fieldFormats.Add(new FieldFormat
                             {
@@ -544,7 +553,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = bcrStyles,
-                                WsColumnIndex = 15,
+                                WsColumnIndex = 17,
                                 EvaluationDecimalValues = bcrEvaluationValues
                             });
                             dr[0] = h.BCR;
@@ -568,7 +577,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = bsrStyles,
-                                WsColumnIndex = 16
+                                WsColumnIndex = 18
                             });
                             fieldFormats.Add(new FieldFormat
                             {
@@ -577,7 +586,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = bsrStyles,
-                                WsColumnIndex = 16,
+                                WsColumnIndex = 18,
                                 EvaluationDecimalValues = bsrEvaluationValues
                             });
                             dr[0] = h.BSR;
@@ -603,7 +612,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = cpStyles,
-                                WsColumnIndex = 10,
+                                WsColumnIndex = 12,
                                 EvaluationDecimalValues = evaluationValues
                             });
                             fieldFormats.Add(new FieldFormat
@@ -613,7 +622,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = cpStyles,
-                                WsColumnIndex = 10,
+                                WsColumnIndex = 12,
                                 EvaluationRangeValues = new RangeValues<decimal, decimal>(29, 39)
                             });
                             fieldFormats.Add(new FieldFormat
@@ -623,7 +632,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = cpStyles1,
-                                WsColumnIndex = 10,
+                                WsColumnIndex = 12,
                                 EvaluationRangeValues = new RangeValues<decimal, decimal>(19, 29)
                             });
 
@@ -648,7 +657,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = crStyles,
-                                WsColumnIndex = 12
+                                WsColumnIndex = 14
                             });
                             fieldFormats.Add(new FieldFormat
                             {
@@ -657,11 +666,70 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = crStyles,
-                                WsColumnIndex = 12,
+                                WsColumnIndex = 14,
                                 EvaluationDecimalValues = crEvaluationValues
                             });
 
                             dr[0] = h.CR;
+                            dr[1] = h;
+                            break;
+                        case PaceForecasterFormatFields.CRF: //CRF
+                            var crfStyles = new List<string>();
+                            var crfEvaluationValues = new List<decimal>();
+
+                            crfStyles.Add(Text.Style.Bold);
+                            crfEvaluationValues.Add((decimal)2);
+
+                            dr = dt.NewRow();
+                            dt.Rows.Add(dr);
+                            dr = dt.Rows[dt.Rows.Count - 1];
+
+                            fieldFormats.Add(new FieldFormat
+                            {
+                                Field = PaceForecasterFormatFields.CRF,
+                                BasisType = BasisTypes.HighestValue,
+                                BackgroundColor = XlRgbColor.rgbLightGrey,
+                                TextColor = XlRgbColor.rgbBlack,
+                                TextStyles = crfStyles,
+                                WsColumnIndex = 6
+                            });
+                            fieldFormats.Add(new FieldFormat
+                            {
+                                Field = PaceForecasterFormatFields.CRF,
+                                BasisType = BasisTypes.WithinRange,
+                                BackgroundColor = XlRgbColor.rgbWhite,
+                                TextColor = XlRgbColor.rgbBlack,
+                                TextStyles = crfStyles,
+                                WsColumnIndex = 6,
+                                EvaluationDecimalValues = crfEvaluationValues
+                            });
+
+                            dr[0] = h.CRF;
+                            dr[1] = h;
+                            break;
+                        case PaceForecasterFormatFields.DIS: //DIS
+                            var disStyles = new List<string>();
+                            var disEvaluationValues = new List<decimal>();
+
+                            disStyles.Add(Text.Style.Bold);
+                            disEvaluationValues.Add(2);
+
+                            dr = dt.NewRow();
+                            dt.Rows.Add(dr);
+                            dr = dt.Rows[dt.Rows.Count - 1];
+
+                            fieldFormats.Add(new FieldFormat
+                            {
+                                Field = PaceForecasterFormatFields.DIS,
+                                BasisType = BasisTypes.BaseAmountOrHigher,
+                                BackgroundColor = XlRgbColor.rgbWhite,
+                                TextColor = XlRgbColor.rgbBlack,
+                                TextStyles = disStyles,
+                                WsColumnIndex = 28,
+                                EvaluationDecimalValues = disEvaluationValues
+                            });
+
+                            dr[0] = (decimal)h.DIS_Value;
                             dr[1] = h;
                             break;
                         case PaceForecasterFormatFields.DSR: //DSR
@@ -682,7 +750,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGray,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = dsrStyles,
-                                WsColumnIndex = 28
+                                WsColumnIndex = 30
                             });
 
                             fieldFormats.Add(new FieldFormat
@@ -692,7 +760,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = dsrStyles,
-                                WsColumnIndex = 28,
+                                WsColumnIndex = 30,
                                 EvaluationDecimalValues = dsrEvaluationValues
                             });
                             dr[0] = (decimal)h.DSR;
@@ -716,7 +784,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = dstStyles,
-                                WsColumnIndex = 24
+                                WsColumnIndex = 26
                             });
 
                             fieldFormats.Add(new FieldFormat
@@ -726,7 +794,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = dstStyles1,
-                                WsColumnIndex = 24
+                                WsColumnIndex = 26
                             });
 
                             dr[0] = decimal.Round(h.DST, 1);
@@ -760,7 +828,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = dslrStyles2,
-                                WsColumnIndex = 11,
+                                WsColumnIndex = 13,
                                 EvaluationDecimalValues = dslrEvaluationRangeValues3
                             });
                             fieldFormats.Add(new FieldFormat
@@ -770,7 +838,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbRed,
                                 TextStyles = dslrStyles,
-                                WsColumnIndex = 11,
+                                WsColumnIndex = 13,
                                 EvaluationDecimalValues = dslrEvaluationRangeValues
                             });
                             fieldFormats.Add(new FieldFormat
@@ -780,7 +848,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = dslrStyles,
-                                WsColumnIndex = 11,
+                                WsColumnIndex = 13,
                                 EvaluationDecimalValues = dslrEvaluationRangeValues1
                             });
                             fieldFormats.Add(new FieldFormat
@@ -790,7 +858,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = dslrStyles1,
-                                WsColumnIndex = 11,
+                                WsColumnIndex = 12,
                                 EvaluationRangeValues = dslrEvaluationRangeValues2
                             });
                             dr[0] = (decimal)h.DSLR;
@@ -891,7 +959,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = lpStyles,
-                                WsColumnIndex = 13
+                                WsColumnIndex = 15
                             });
                             fieldFormats.Add(new FieldFormat
                             {
@@ -900,7 +968,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = lpStyles,
-                                WsColumnIndex = 13
+                                WsColumnIndex = 15
                             });
                             dr[0] = (decimal)h.LP;
                             dr[1] = h;
@@ -923,7 +991,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 HorseValues = new List<decimal>() { Math.Round((h.LastPurse / h.RacePurse), 2), h.ClaimingPriceLastRace },
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = mdcStyles,
-                                WsColumnIndex = 20
+                                WsColumnIndex = 22
                             });
 
                             dr[0] = Math.Round(h.LastPurse / h.RacePurse);
@@ -946,7 +1014,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 EvaluationDecimalValues = new List<decimal>() { (decimal).38 },
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = new List<string>() { Text.Style.Regular },
-                                WsColumnIndex = 18
+                                WsColumnIndex = 20
                             });
                             fieldFormats.Add(new FieldFormat
                             {
@@ -956,7 +1024,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 EvaluationDecimalValues = new List<decimal>() { (decimal).59 },
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = new List<string>() { Text.Style.Bold },
-                                WsColumnIndex = 18
+                                WsColumnIndex = 20
                             });
 
                             var winPercentage = ((h.MJS1157 + h.MJS1162) > 0 && (h.MJS1156 + h.MJS1161) > 0) ? (h.MJS1157 + h.MJS1162) / (h.MJS1156 + h.MJS1161) : (decimal)0.00;
@@ -1004,7 +1072,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = mudStyles,
-                                WsColumnIndex = 22
+                                WsColumnIndex = 24
                             });
 
                             fieldFormats.Add(new FieldFormat
@@ -1014,7 +1082,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = mudStyles1,
-                                WsColumnIndex = 22
+                                WsColumnIndex = 24
                             });
 
                             dr[0] = decimal.Round(h.MUD, 1);
@@ -1036,7 +1104,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbRed,
                                 TextStyles = ppStyles,
-                                WsColumnIndex = 8
+                                WsColumnIndex = 10
                             });
                             dr[0] = (decimal)h.PostPoints;
                             dr[1] = h;
@@ -1059,7 +1127,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = paceStyles,
-                                WsColumnIndex = 9
+                                WsColumnIndex = 11
                             });
                             fieldFormats.Add(new FieldFormat
                             {
@@ -1068,7 +1136,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = paceStyles,
-                                WsColumnIndex = 9,
+                                WsColumnIndex = 11,
                                 EvaluationDecimalValues = paceEvaluationValues
                             });
                             dr[0] = (decimal)h.Pace;
@@ -1097,7 +1165,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = ppwrStyles,
-                                WsColumnIndex = 17
+                                WsColumnIndex = 19
                             });
                             fieldFormats.Add(new FieldFormat
                             {
@@ -1106,7 +1174,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = ppwrStyles1,
-                                WsColumnIndex = 17
+                                WsColumnIndex = 19
                             });
                             fieldFormats.Add(new FieldFormat
                             {
@@ -1115,7 +1183,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = ppwrStyles2,
-                                WsColumnIndex = 17,
+                                WsColumnIndex = 19,
                                 EvaluationDecimalValues = ppwrEvaluationValues
                             });
                             dr[0] = Decimal.Round(h.PPWR, 1);
@@ -1147,7 +1215,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rbcStyles,
-                                WsColumnIndex = 14,
+                                WsColumnIndex = 16,
                                 EvaluationDecimalValues = rbcEvaluationValues
                             });
                             fieldFormats.Add(new FieldFormat
@@ -1157,7 +1225,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rbcStyles,
-                                WsColumnIndex = 14,
+                                WsColumnIndex = 16,
                                 EvaluationDecimalValues = rbcEvaluationValues1
                             });
                             rbcStyles1.Add(Text.Style.Italic);
@@ -1168,7 +1236,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextStyles = rbcStyles1,
                                 TextColor = XlRgbColor.rgbBlack,
-                                WsColumnIndex = 14,
+                                WsColumnIndex = 16,
                                 EvaluationDecimalValues = rbcEvaluationValues2
                             });
                             rbcStyles2.Add(Text.Style.Regular);
@@ -1179,7 +1247,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextStyles = rbcStyles2,
                                 TextColor = XlRgbColor.rgbRed,
-                                WsColumnIndex = 14,
+                                WsColumnIndex = 15,
                                 EvaluationDecimalValues = rbcEvaluationValues3
                             });
                             dr[0] = decimal.Round(h.RBCPercent, 2);
@@ -1203,7 +1271,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rqStyles,
-                                WsColumnIndex = 7
+                                WsColumnIndex = 9
                             });
                             fieldFormats.Add(new FieldFormat
                             {
@@ -1212,7 +1280,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rqStyles,
-                                WsColumnIndex = 7,
+                                WsColumnIndex = 9,
                                 EvaluationDecimalValues = rqEvaluationValues
                             });
                             dr[0] = (decimal)(h.RunStyle + h.Quirin);
@@ -1237,7 +1305,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 EvaluationDecimalValues = tbEvaluationValues,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = tbStyles,
-                                WsColumnIndex = 21
+                                WsColumnIndex = 23
                             });
                             dr[0] = h.TB;
                             dr[1] = h;
@@ -1258,7 +1326,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = totalPaceStyles,
-                                WsColumnIndex = 6
+                                WsColumnIndex = 8
                             });
 
                             dr[0] = h.Total;
@@ -1282,7 +1350,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = trfStyles,
-                                WsColumnIndex = 23
+                                WsColumnIndex = 25
                             });
 
                             fieldFormats.Add(new FieldFormat
@@ -1292,10 +1360,35 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = trfStyles1,
-                                WsColumnIndex = 23
+                                WsColumnIndex = 25
                             });
 
                             dr[0] = decimal.Round(h.TRF, 1);
+                            dr[1] = h;
+                            break;
+                        case PaceForecasterFormatFields.TRK: //TRK
+                            var trkStyles = new List<string>();
+                            var trkEvaluationValues = new List<decimal>();
+
+                            trkStyles.Add(Text.Style.Bold);
+                            trkEvaluationValues.Add(2);
+
+                            dr = dt.NewRow();
+                            dt.Rows.Add(dr);
+                            dr = dt.Rows[dt.Rows.Count - 1];
+
+                            fieldFormats.Add(new FieldFormat
+                            {
+                                Field = PaceForecasterFormatFields.TRK,
+                                BasisType = BasisTypes.BaseAmountOrHigher,
+                                BackgroundColor = XlRgbColor.rgbWhite,
+                                TextColor = XlRgbColor.rgbBlack,
+                                TextStyles = trkStyles,
+                                WsColumnIndex = 27,
+                                EvaluationDecimalValues = trkEvaluationValues
+                            });
+
+                            dr[0] = (decimal)h.Trk_Value;
                             dr[1] = h;
                             break;
                         case PaceForecasterFormatFields.TSR: //TSR
@@ -1316,7 +1409,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGray,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = tsrStyles,
-                                WsColumnIndex = 27
+                                WsColumnIndex = 29
                             });
 
                             fieldFormats.Add(new FieldFormat
@@ -1326,7 +1419,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = tsrStyles,
-                                WsColumnIndex = 27,
+                                WsColumnIndex = 29,
                                 EvaluationDecimalValues = tsrEvaluationValues
                             });
                             dr[0] = h.TSR;
@@ -1349,7 +1442,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rnkWrkrsStyles1,
-                                WsColumnIndex = 36,
+                                WsColumnIndex = 38,
                                 EvaluationDecimalValues = rnkWrkrsEvaluationValues1
                             });
                             dr[0] = (h.RnkWrkrsPct < (decimal)16) && (h.Workers >= 40);
@@ -1372,7 +1465,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rnkWrkrsStyles2,
-                                WsColumnIndex = 36,
+                                WsColumnIndex = 37,
                                 EvaluationDecimalValues = rnkWrkrsEvaluationValues2
                             });
                             dr[0] = (((h.RnkWrkrsPct >= (decimal)16) && (h.RnkWrkrsPct <= (decimal)30)) && (h.Workers >= 40)) || ((h.RnkWrkrsPct <= (decimal)30) && (h.RnkWrkrsPct > (decimal)0) && (h.Workers < 40));
@@ -1396,7 +1489,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = distanceStyles,
-                                WsColumnIndex = 30,
+                                WsColumnIndex = 35,
                                 EvaluationDecimalValues = distanceEvaluationValues
                             });
                             dr[0] = (decimal)h.Distance;
@@ -1420,7 +1513,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = workoutStyles,
-                                WsColumnIndex = 32,
+                                WsColumnIndex = 34,
                                 EvaluationDecimalValues = workoutEvaluationValues
                             });
                             dr[0] = (decimal)h.Workout;
@@ -1463,8 +1556,9 @@ namespace Nilsen.Framework.Services.Objects.Classes
                     switch (f.Key)
                     {
                         case PaceForecasterFormatFields.TotalPace: 
-                        case PaceForecasterFormatFields.CR:
                         case PaceForecasterFormatFields.CP:
+                        case PaceForecasterFormatFields.CR:
+                        case PaceForecasterFormatFields.CRF:
                         case PaceForecasterFormatFields.DSLR:
                         case PaceForecasterFormatFields.DSR: 
                         case PaceForecasterFormatFields.LP:
@@ -1561,7 +1655,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                     if (f.Key.Equals(PaceForecasterFormatFields.CR))
                                     {
                                         horse.TopCR = true;
-                                    }
+                                    } 
                                 }
                             }
                             break;
@@ -1572,7 +1666,6 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 for (var iIndex = 0; iIndex < ff.EvaluationDecimalValues.Count(); iIndex++)
                                 {
                                     var evalValue = ff.EvaluationDecimalValues[iIndex];
-                                    var horseValue = (ff.HorseValues.Count() > 0) ? ff.HorseValues[iIndex] : r[0];
 
                                     if (Convert.ToDecimal(r[0]) >= evalValue)
                                     {

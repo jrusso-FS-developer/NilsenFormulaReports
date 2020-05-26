@@ -252,6 +252,14 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 ws.Cells[iHeaderRow, 14].Value = "SR";
                                 ws.Cells[iHeaderRow, 15].Value = "Turf Ped.";
                                 ws.Cells[iHeaderRow, 16].Value = "DSLR";
+                                ws.Cells[iHeaderRow, 17].Value = string.Empty;
+                                ws.Cells[iHeaderRow, 18].Value = "TFW";
+                                ws.Cells[iHeaderRow, 19].Value = "E2 (1)";
+                                ws.Cells[iHeaderRow, 20].Value = "E2 (2)";
+                                ws.Cells[iHeaderRow, 21].Value = ""; // EMPTY COLUMN
+                                ws.Cells[iHeaderRow, 22].Value = "MUD-SR";
+                                ws.Cells[iHeaderRow, 23].Value = "MUD-ST";
+                                ws.Cells[iHeaderRow, 24].Value = "MUD-W";
 
                                 ws.Cells[iHeaderRow, 1].HorizontalAlignment = XlHAlign.xlHAlignRight;
                                 ws.Cells[iHeaderRow, 2].HorizontalAlignment = XlHAlign.xlHAlignRight;
@@ -269,6 +277,14 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 ws.Cells[iHeaderRow, 14].HorizontalAlignment = XlHAlign.xlHAlignRight;
                                 ws.Cells[iHeaderRow, 15].HorizontalAlignment = XlHAlign.xlHAlignRight;
                                 ws.Cells[iHeaderRow, 16].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 17].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 18].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 19].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 20].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 21].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 22].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 23].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                                ws.Cells[iHeaderRow, 24].HorizontalAlignment = XlHAlign.xlHAlignRight;
                             }
                             race.Horses.Add(new Horse(fi.FullName, Fields, race));
                         }
@@ -318,6 +334,15 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 ws.Cells[iRow, 15].Value = horse.TurfPedigreeDisplay;
                 ws.Cells[iRow, 16].Value = horse.DSLR.ToString();
                 ws.Cells[iRow, 17].Value = sNote;
+                ws.Cells[iRow, 18].Value = horse.TFW;
+                ws.Cells[iRow, 19].Value = horse.E2_1.HasValue ? horse.E2_1.Value.ToString() : "N/A";
+                ws.Cells[iRow, 20].Value = horse.E2_2.HasValue ? horse.E2_2.Value.ToString() : "N/A";
+                ws.Cells[iRow, 21].Value = string.Empty;
+                ws.Cells[iRow, 22].Value = horse.MUD_SR;
+                ws.Cells[iRow, 23].Value = horse.MUD_ST;
+                ws.Cells[iRow, 24].Value = horse.MUD_W;
+
+                // Index used in cell should always be the index used for 'Note' cell above.  
                 if ((horse.TurfStarts.Equals(0) || horse.TurfStarts.Equals(1)) && horse.DSLR > 0)
                     ws.Cells[iRow, 17].Interior.Color = XlRgbColor.rgbLightGray;
 
@@ -338,6 +363,13 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 ws.Cells[iRow, 15].HorizontalAlignment = XlHAlign.xlHAlignRight;
                 ws.Cells[iRow, 16].HorizontalAlignment = XlHAlign.xlHAlignRight;
                 ws.Cells[iRow, 17].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                ws.Cells[iRow, 18].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                ws.Cells[iRow, 19].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                ws.Cells[iRow, 20].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                ws.Cells[iRow, 21].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                ws.Cells[iRow, 22].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                ws.Cells[iRow, 23].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                ws.Cells[iRow, 24].HorizontalAlignment = XlHAlign.xlHAlignRight;
             }
             return FormatFields(race.Horses, ws, iRangeStart, iRow);
         }
@@ -356,7 +388,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 System.Data.DataTable dtHorses = null;
 
                 dt.Columns.Add(new DataColumn("Value", f.Value));
-                dt.Columns.Add(new DataColumn("Horse", System.Type.GetType("System.Object")));
+                dt.Columns.Add(new DataColumn("Horse", Type.GetType("System.Object")));
 
                 foreach (var h in horses)
                 {
@@ -364,6 +396,50 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                     switch (f.Key)
                     {
+                        case TurfFormulaFormatFields.E2_1:
+                            var e21Styles = new List<string>();
+
+                            e21Styles.Add(Text.Style.Bold);
+
+                            dr = dt.NewRow();
+                            dt.Rows.Add(dr);
+                            dr = dt.Rows[dt.Rows.Count - 1];
+
+                            fieldFormats.Add(new FieldFormat
+                            {
+                                Field = TurfFormulaFormatFields.E2_1,
+                                BasisType = BasisTypes.Top4,
+                                BackgroundColor = XlRgbColor.rgbWhite,
+                                TextColor = XlRgbColor.rgbBlack,
+                                TextStyles = e21Styles,
+                                WsColumnIndex = 19
+                            });
+
+                            dr[0] = h.E2_1.HasValue ? h.E2_1.Value : (decimal)0.00;
+                            dr[1] = h;
+                            break;
+                        case TurfFormulaFormatFields.E2_2:
+                            var e22Styles = new List<string>();
+
+                            e22Styles.Add(Text.Style.Bold);
+
+                            dr = dt.NewRow();
+                            dt.Rows.Add(dr);
+                            dr = dt.Rows[dt.Rows.Count - 1];
+
+                            fieldFormats.Add(new FieldFormat
+                            {
+                                Field = TurfFormulaFormatFields.E2_2,
+                                BasisType = BasisTypes.Top4,
+                                BackgroundColor = XlRgbColor.rgbWhite,
+                                TextColor = XlRgbColor.rgbBlack,
+                                TextStyles = e22Styles,
+                                WsColumnIndex = 20
+                            });
+
+                            dr[0] = h.E2_2.HasValue ? h.E2_2.Value : (decimal)0.00;
+                            dr[1] = h;
+                            break;
                         case TurfFormulaFormatFields.SR:
                             var srStyles = new List<string>();
 
@@ -383,6 +459,31 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 WsColumnIndex = 14
                             });
                             dr[0] = h.SR;
+                            dr[1] = h;
+                            break;
+                        case TurfFormulaFormatFields.TFW:
+                            var tfwStyles = new List<string>();
+                            var evaluationValues = new List<decimal>();
+
+                            tfwStyles.Add(Text.Style.Regular);
+
+                            evaluationValues.Add(3);
+
+                            dr = dt.NewRow();
+                            dt.Rows.Add(dr);
+                            dr = dt.Rows[dt.Rows.Count - 1];
+
+                            fieldFormats.Add(new FieldFormat
+                            {
+                                Field = TurfFormulaFormatFields.TFW,
+                                BasisType = BasisTypes.GreaterThanOrEqualTo,
+                                BackgroundColor = XlRgbColor.rgbLightGrey,
+                                TextColor = XlRgbColor.rgbBlack,
+                                TextStyles = tfwStyles,
+                                WsColumnIndex = 18,
+                                EvaluationDecimalValues = evaluationValues
+                            });
+                            dr[0] = h.TFW;
                             dr[1] = h;
                             break;
                         case TurfFormulaFormatFields.TurfPedigree:
@@ -419,6 +520,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                         case BasisTypes.HighestValue:
                         case BasisTypes.HighestValueWithinFloorRange:
                         case BasisTypes.Top5:
+                        case BasisTypes.Top4:
                             ff.SortDirection = SortDirections.Desc;
                             break;
                         case BasisTypes.LowestValue:
@@ -509,14 +611,15 @@ namespace Nilsen.Framework.Services.Objects.Classes
                         case BasisTypes.GreaterThanOrEqualTo:
                             foreach (DataRow r in dtHorses.Rows)
                             {
+                                var horse = (IHorse)r[1];
                                 for (var iIndex = 0; iIndex < ff.EvaluationDecimalValues.Count(); iIndex++)
                                 {
                                     var evalValue = ff.EvaluationDecimalValues[iIndex];
-                                    var horseValue = (ff.HorseValues.Count() > 0) ? ff.HorseValues[iIndex] : r[0];
+                                    var horseValue = Convert.ToDecimal(r[0]);
 
-                                    if (Convert.ToDecimal(r[0]) > evalValue)
+                                    if (horseValue >= evalValue)
                                     {
-                                        sortedHorses.Add((IHorse)r[1]);
+                                        sortedHorses.Add(horse);
                                     }
                                 }
                             }
@@ -540,21 +643,31 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             }
                             break;
                         case BasisTypes.Top5:
+                        case BasisTypes.Top4:
                             var iHorseCount = 0;
+                            var basis = ff.BasisType == BasisTypes.Top4 ? 4 : 5;
+                            decimal lastValue = 0;
+
                             foreach (DataRow r in dtHorses.Rows)
                             {
-                                if (iHorseCount < 5)
+                                var value = Convert.ToDecimal(r[0]);
+
+                                if (iHorseCount < basis)
                                 {
-                                    if (Convert.ToDecimal(r[0]) > (decimal)0)
+                                    if (value > 0)
                                     {
+                                        iHorseCount++;
+                                        lastValue = value;
                                         sortedHorses.Add((IHorse)r[1]);
                                     }
                                 }
                                 else
                                 {
-                                    break;
+                                    if (lastValue.Equals(value))
+                                        sortedHorses.Add((IHorse)r[1]);
+                                    else
+                                        break;
                                 }
-                                iHorseCount++;
                             }
                             break;
                         case BasisTypes.RnkWrkrsCustom:

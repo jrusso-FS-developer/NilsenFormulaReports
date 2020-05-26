@@ -40,13 +40,18 @@ namespace Nilsen.Framework.Objects.Class
             PPWR = (decimal.TryParse(fields[250].Trim(), out outDec)) ? outDec : (decimal)0.00;
             CR = (decimal.TryParse(fields[1145].Trim(), out outDec)) ? outDec : (decimal)0.00;
             Trk = (int.TryParse(fields[70].Trim(), out outInt)) ? (outInt >= 1) ? "T" : string.Empty : string.Empty;
-            DIS = (int.TryParse(fields[65].Trim(), out outInt)) ? (outInt >= 1) ? "D" : string.Empty : string.Empty;
+            Trk_Value = (decimal.TryParse(fields[70].Trim(), out outDec)) ? outDec : (decimal)0.00;
+            DIS = (int.TryParse(fields[65].Trim(), out outInt)) ? (outInt >= 1) ? "D": string.Empty : string.Empty;
+            DIS_Value = (decimal.TryParse(fields[65].Trim(), out outDec)) ? outDec : (decimal)0.00;
             TSR = (decimal.TryParse(fields[1330].Trim(), out outDec)) ? outDec : (decimal)0.00;
             DSR = (decimal.TryParse(fields[1180].Trim(), out outDec)) ? outDec : (decimal)0.00; 
             MUD = (decimal.TryParse(Regex.Replace(fields[1264], "[^0-9]", "").Trim(), out outDec)) ? outDec : (decimal)0.00;
+            MUD_SR = (decimal.TryParse(Regex.Replace(fields[1179], "[^0-9]", "").Trim(), out outDec)) ? outDec : (decimal)0.00;
+            MUD_ST = (decimal.TryParse(Regex.Replace(fields[79], "[^0-9]", "").Trim(), out outDec)) ? outDec : (decimal)0.00;
+            MUD_W = (decimal.TryParse(Regex.Replace(fields[80], "[^0-9]", "").Trim(), out outDec)) ? outDec : (decimal)0.00;
             TRF = (decimal.TryParse(Regex.Replace(fields[1265], "[^0-9]", "").Trim(), out outDec)) ? outDec : (decimal)0.00;
             DST = (decimal.TryParse(Regex.Replace(fields[1266], "[^0-9]", "").Trim(), out outDec)) ? outDec : (decimal)0.00;
-            SR = Convert.ToInt32((string.IsNullOrEmpty(fields[1178]) ? "0" : fields[1178]));
+            SR = Convert.ToDecimal((string.IsNullOrEmpty(fields[1178]) ? "0" : fields[1178])) * (decimal) 1.4;
             Show = Convert.ToInt32((string.IsNullOrEmpty(fields[77]) ? "0" : fields[77]));
             TurfStarts = Convert.ToInt32((string.IsNullOrEmpty(fields[74]) ? "0" : fields[74]));
             HorseName = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(fields[44].Trim().ToLower());
@@ -58,14 +63,18 @@ namespace Nilsen.Framework.Objects.Class
             CalcCP(fields, race);
             CalcPace(fields);
             CalcLP(fields, race.Track);
+            CalcLR(fields, race);
             CalcBCR(fields, race);
             CalcBSR(fields, race.Track);
+            CalcCRF(fields, race);
+            CalcE2(fields);
             CalcRBCPercent(fields);
             CalcRET(fields, race);
             CalcMDC(fields);
             CalcMJS(fields);
             CalcWorkouts(fields, race);
             CalcTB(fields);
+            CalcTFW(fields);
             CalcTotal();
             CalcRnkWrksPct();
             CalcWinPercent(fields);
@@ -91,11 +100,15 @@ namespace Nilsen.Framework.Objects.Class
 
         public decimal CR { get; set; }
 
+        public decimal CRF { get; set; }
+
         public decimal BCR { get; set; }
 
         public decimal BSR { get; set; }
 
         public string DIS { get; set; }
+
+        public decimal DIS_Value { get; set; }
 
         public int Distance { get; set; }
 
@@ -104,6 +117,10 @@ namespace Nilsen.Framework.Objects.Class
         public decimal DSR { get; set; }
 
         public decimal DST { get; set; }
+
+        public decimal? E2_1 { get; set; }
+
+        public decimal? E2_2 { get; set; }
 
         public decimal Earnings { get; set; }
 
@@ -118,6 +135,8 @@ namespace Nilsen.Framework.Objects.Class
         public decimal LastPurse { get; set; }
 
         public int LP { get; set; }
+
+        public decimal LR { get; set; }
 
         public string MDC { get; set; }
 
@@ -142,6 +161,12 @@ namespace Nilsen.Framework.Objects.Class
         public decimal MorningLine { get; set; }
 
         public decimal MUD { get; set; }
+
+        public decimal MUD_SR { get; set; }
+
+        public decimal MUD_ST { get; set; }
+
+        public decimal MUD_W { get; set; }
 
         public decimal NilsenRating { get; set; }
 
@@ -177,15 +202,15 @@ namespace Nilsen.Framework.Objects.Class
 
         public int RunStyle { get; set; }
 
-        public int SR { get; set; }
+        public decimal SR { get; set; }
 
         public int Show { get; set; }
 
         public bool TopCR { get; set; }
 
-        public int TurfStarts { get; set; }
-
         public decimal TB { get; set; }
+
+        public int TFW { get; set; }
 
         public decimal Total { get; set; }
 
@@ -193,7 +218,11 @@ namespace Nilsen.Framework.Objects.Class
 
         public string Trk { get; set; }
 
+        public decimal Trk_Value { get; set; }
+
         public decimal TSR { get; set; }
+
+        public int TurfStarts { get; set; }
 
         public int TurfPedigree { get; set; }
 
@@ -509,7 +538,80 @@ namespace Nilsen.Framework.Objects.Class
                 startCount += (valCount > 0) ? 1 : 0;
             }
 
-            CP = ((Decimal)CP * ((startCount == 1) ? (Decimal)3 : ((startCount == 2) ? (Decimal)1.5 : (Decimal)1.0)));
+            CP = (CP * ((startCount == 1) ? 3 : ((startCount == 2) ? (decimal)1.5 : (decimal)1.0)));
+        }
+
+        private void CalcCRF(string[] Fields, IRace race)
+        {
+            var crfValues = new List<decimal>();
+            decimal crfOut;
+            var crfBeginIndex = 835;
+            var crfEndIndex = 840;
+            var daysOldDifference = 580;
+            CRF = 0;
+
+            for (var iIndex = crfBeginIndex; iIndex <= crfEndIndex; iIndex++)
+            {
+                var crfValueString = Fields[iIndex];
+                if (crfValueString.Length > 0)
+                {
+                    var daysOldDateString = Fields[iIndex - daysOldDifference].ToString();
+                    var daysOldDateFormattedString = $"{daysOldDateString.Substring(4, 2)}/{daysOldDateString.Substring(2, 2)}/{daysOldDateString.Substring(0, 4)}";
+
+                    DateTime daysOldDateOut;
+                    DateTime.TryParse(daysOldDateFormattedString, out daysOldDateOut);
+                    TimeSpan daysOld = race.Date.Subtract(daysOldDateOut);
+
+                    if (daysOld.TotalDays < 500 && decimal.TryParse(crfValueString, out crfOut))
+                        crfValues.Add(crfOut);
+                }
+            }
+
+            crfValues = (from crf in crfValues
+                         select crf).OrderByDescending(i => i).ToList();
+
+            if (crfValues.Count > 3)
+            {
+                CRF = crfValues.Take(2).Average();
+            }
+            else
+            {
+                if (crfValues.Count > 0)
+                    CRF = crfValues.Take(1).FirstOrDefault();
+            }
+        }
+
+        private void CalcE2 (string[] Fields)
+        {
+            var e2EvalList = new List<decimal>();
+            var beginIndex = 775;
+            var endIndex = 779;
+            decimal valueOut;
+
+            for (var iIndex = beginIndex; iIndex <= endIndex; iIndex++)
+            {
+                if (decimal.TryParse(Fields[iIndex], out valueOut))
+                    e2EvalList.Add(valueOut);
+            }
+
+            e2EvalList = e2EvalList.OrderByDescending(x => x).ToList();
+
+            E2_1 = e2EvalList.Count > 0 ? e2EvalList[0] : (decimal?)null;
+            E2_2 = e2EvalList.Count > 1 ? e2EvalList[1] : (decimal?)null;
+        }
+
+        private void CalcLR(string[] Fields, IRace race)
+        {
+            decimal firstValueOut;
+            decimal secondValueOut;
+
+            var firstValue = decimal.TryParse(Fields[835], out firstValueOut) ? firstValueOut : 0;
+            var secondValue = decimal.TryParse(Fields[836], out secondValueOut) ? secondValueOut : 0;
+            var diff = firstValue - secondValue;
+
+            LR = 0;
+
+            LR = ((diff > 3) || (diff < -3)) ? diff : LR;
         }
 
         private void CalcPace(string[] Fields)
@@ -575,6 +677,18 @@ namespace Nilsen.Framework.Objects.Class
             TB = lastDistance - todayDistance;
         }
 
+        private void CalcTFW(string[] Fields)
+        {
+            var startIndex = 173;
+            var endIndex = 184;
+            TFW = 0;
+
+            for(var i = startIndex; i <= endIndex; i++)
+            {
+                if (Fields[i] == "T" || Fields[i] == "IT" || Fields[i] == "TN" || Fields[i] == "IN") TFW++;
+            }
+        }
+
         private void CalcRBCPercent(string[] Fields)
         {
             const int secondCallIndex = 585;
@@ -617,9 +731,10 @@ namespace Nilsen.Framework.Objects.Class
                     evalSum += (finishPositionSums[iIndex] <= secondCallSums[iIndex] + (decimal).5) ? 1 : 0;
                 }
             }
+
             if ((evalCount > 0) && (evalSum > 0))
             {
-                RBCPercent = (decimal)(evalSum / evalCount);
+                RBCPercent = Math.Round((evalSum / evalCount), 2);
             }
         }
 
@@ -752,8 +867,9 @@ namespace Nilsen.Framework.Objects.Class
                 if (TurfStarts <= 1 && Wins == 0 && Place == 0 && Show == 0)
                     NilsenRating = Convert.ToDecimal(TurfPedigree) * (decimal)2.6;
                 else
-                    NilsenRating = (WinPercent * 5 + WinPlacePercent * 2 + WinPlaceShowPercent + AverageEarnings / 200 + SR + ((TurfPedigree < 40) ?
-                        110 : TurfPedigree)) - ((Convert.ToDecimal(DSLR / 5))) + (Convert.ToDecimal(TurfStarts) * Convert.ToDecimal(1.7));
+                    NilsenRating = (WinPercent * 5 + WinPlacePercent * 2 + WinPlaceShowPercent + AverageEarnings / 200 + 
+                    (((SR > 0) ? SR : 60) * (decimal)1.4) + ((TurfPedigree < 40) ? 110 : TurfPedigree)) - ((Convert.ToDecimal(DSLR / 5))) + 
+                    (Convert.ToDecimal(TurfStarts) * Convert.ToDecimal(1.7));
             }
         }
 
@@ -793,7 +909,7 @@ namespace Nilsen.Framework.Objects.Class
             var sbTurfPed = new StringBuilder();
             var sbTurfPedChars = new StringBuilder();
 
-            foreach (Char c in Fields[1265].ToCharArray())
+            foreach (var c in Fields[1265].ToCharArray())
             {
                 if (Char.IsNumber(c))
                     sbTurfPed.Append(c);
