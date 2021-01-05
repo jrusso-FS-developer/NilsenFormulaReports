@@ -25,6 +25,7 @@ namespace Nilsen.Framework.Objects.Interfaces
         decimal? E2_2 { get; set; }
         decimal Earnings { get; set; }
         string ExtendedComment { get; set; }
+        int Field96 { get; set; }
         string HorseName { get; set; }
         int JockeyMeetStarts { get; set; }
         List<string> KeyTrainerStatCategory { get; set; }
