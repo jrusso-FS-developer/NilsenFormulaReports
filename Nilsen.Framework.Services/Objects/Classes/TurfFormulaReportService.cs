@@ -330,7 +330,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 ws.Cells[iRow, 11].Value = string.Format("{0}%", Convert.ToInt32(horse.WinPlaceShowPercent));
                 ws.Cells[iRow, 12].Value = string.Format("{0:C0}", horse.Earnings);
                 ws.Cells[iRow, 13].Value = string.Format("{0:C0}", horse.AverageEarnings);
-                ws.Cells[iRow, 14].Value = horse.SR.ToString();
+                ws.Cells[iRow, 14].Value = Math.Round(horse.SR, 0).ToString();
+                ws.Cells[iRow, 14].NumberFormat = "0";
                 ws.Cells[iRow, 15].Value = horse.TurfPedigreeDisplay;
                 ws.Cells[iRow, 16].Value = horse.DSLR.ToString();
                 ws.Cells[iRow, 17].Value = sNote;

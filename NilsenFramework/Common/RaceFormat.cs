@@ -41,6 +41,7 @@ namespace Nilsen.Framework.Common
             GreaterThanOrEqualTo,
             HighestValue,
             HighestValueWithinFloorRange,
+            IsTrue,
             LessThanZero,
             LowestValue,
             None,
@@ -84,6 +85,7 @@ namespace Nilsen.Framework.Common
             public const string KeyTrainerStatCategory2 = "KeyTrainerStatCategories2";
             public const string KeyTrainerStatCategory3 = "KeyTrainerStatCategories3";
             public const string LP = "LP";
+            public const string LR = "LR";
             public const string MDC = "MDC";
             public const string MJS = "MJS";
             public const string ML = "ML";
@@ -125,6 +127,7 @@ namespace Nilsen.Framework.Common
                         { PaceForecasterFormatFields.MDC, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.MJS, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.LP, Type.GetType("System.Decimal") },
+                        { PaceForecasterFormatFields.LR, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.ML, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.MUD, Type.GetType("System.Decimal") },
                         { PaceForecasterFormatFields.Pace, Type.GetType("System.Int32") },

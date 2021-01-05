@@ -382,7 +382,24 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 ws.Cells[iRow, 5].Value = horse.HorseName; //Horse Name
                 ws.Cells[iRow, 6].Value = Math.Round(horse.CRF, 1).ToString("0.00"); //CRF
                 ws.Cells[iRow, 6].NumberFormat = "#,##0.0";
-                ws.Cells[iRow, 7].Value = horse.LR > 0 || horse.LR < 0 ? horse.LR.ToString() : string.Empty; //LR
+
+                if (horse.Field96 != 1) //LR
+                {
+                    if (horse.LR > 0 || horse.LR < 0) {
+                        ws.Cells[iRow, 7].Value = horse.LR.ToString();
+
+                        if (horse.LR > 0)
+                        {
+                            ws.Cells[iRow, 7].NumberFormat = "+#.##";
+                        }
+                    }
+                } 
+                else
+                {
+                    ws.Cells[iRow, 7].Value = "2TS";
+                    ws.Cells[iRow, 7].Font.Bold = true;
+                }
+
                 ws.Cells[iRow, 8].Value = horse.Total; //TOTAL
                 ws.Cells[iRow, 9].Value = (horse.RunStyle + horse.Quirin); //RQ 
                 ws.Cells[iRow, 10].Value = horse.PostPoints; //PP
@@ -973,6 +990,31 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             dr[0] = (decimal)h.LP;
                             dr[1] = h;
                             break;
+                        case PaceForecasterFormatFields.LR: //LR
+                            var lrStyles = new List<string>();
+                            var lrEvaluationRangeValues = new List<decimal>();
+
+                            lrStyles.Add(Text.Style.Bold);
+                            lrEvaluationRangeValues.Add((decimal)0.00);
+
+                            dr = dt.NewRow();
+                            dt.Rows.Add(dr);
+                            dr = dt.Rows[dt.Rows.Count - 1];
+
+                            fieldFormats.Add(new FieldFormat
+                            {
+                                Field = PaceForecasterFormatFields.LR,
+                                BasisType = BasisTypes.GreaterThanOrEqualTo,
+                                BackgroundColor = XlRgbColor.rgbWhite,
+                                TextColor = XlRgbColor.rgbBlack,
+                                TextStyles = lrStyles,
+                                EvaluationDecimalValues = lrEvaluationRangeValues,
+                                WsColumnIndex = 7
+                            });
+
+                            dr[0] = (decimal)h.LR;
+                            dr[1] = h;
+                            break;
                         case PaceForecasterFormatFields.MDC: //MDC
                             var mdcStyles = new List<string>();
 
@@ -1247,7 +1289,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextStyles = rbcStyles2,
                                 TextColor = XlRgbColor.rgbRed,
-                                WsColumnIndex = 15,
+                                WsColumnIndex = 16,
                                 EvaluationDecimalValues = rbcEvaluationValues3
                             });
                             dr[0] = decimal.Round(h.RBCPercent, 2);
@@ -1465,7 +1507,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rnkWrkrsStyles2,
-                                WsColumnIndex = 37,
+                                WsColumnIndex = 38,
                                 EvaluationDecimalValues = rnkWrkrsEvaluationValues2
                             });
                             dr[0] = (((h.RnkWrkrsPct >= (decimal)16) && (h.RnkWrkrsPct <= (decimal)30)) && (h.Workers >= 40)) || ((h.RnkWrkrsPct <= (decimal)30) && (h.RnkWrkrsPct > (decimal)0) && (h.Workers < 40));

@@ -36,6 +36,7 @@ namespace Nilsen.Framework.Objects.Class
             DSLR = int.TryParse(fields[223].Trim(), out outInt) ? outInt : 0;
             Earnings = Convert.ToDecimal((string.IsNullOrEmpty(fields[78]) ? "0" : fields[78]));
             ExtendedComment = fields[1382];
+            Field96 = int.TryParse(fields[96], out outInt) ? outInt : 0;
             Place = Convert.ToInt32((string.IsNullOrEmpty(fields[76]) ? "0" : fields[76]));
             PPWR = (decimal.TryParse(fields[250].Trim(), out outDec)) ? outDec : (decimal)0.00;
             CR = (decimal.TryParse(fields[1145].Trim(), out outDec)) ? outDec : (decimal)0.00;
@@ -51,7 +52,7 @@ namespace Nilsen.Framework.Objects.Class
             MUD_W = (decimal.TryParse(Regex.Replace(fields[80], "[^0-9]", "").Trim(), out outDec)) ? outDec : (decimal)0.00;
             TRF = (decimal.TryParse(Regex.Replace(fields[1265], "[^0-9]", "").Trim(), out outDec)) ? outDec : (decimal)0.00;
             DST = (decimal.TryParse(Regex.Replace(fields[1266], "[^0-9]", "").Trim(), out outDec)) ? outDec : (decimal)0.00;
-            SR = Convert.ToDecimal((string.IsNullOrEmpty(fields[1178]) ? "0" : fields[1178])) * (decimal) 1.4;
+            SR = (decimal.TryParse(fields[1178].Trim(), out outDec)) ? outDec : (decimal)0.00; ;
             Show = Convert.ToInt32((string.IsNullOrEmpty(fields[77]) ? "0" : fields[77]));
             TurfStarts = Convert.ToInt32((string.IsNullOrEmpty(fields[74]) ? "0" : fields[74]));
             HorseName = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(fields[44].Trim().ToLower());
@@ -125,6 +126,8 @@ namespace Nilsen.Framework.Objects.Class
         public decimal Earnings { get; set; }
 
         public string ExtendedComment { get; set; }
+
+        public int Field96 { get; set; }
 
         public string HorseName { get; set; }
 
@@ -546,7 +549,7 @@ namespace Nilsen.Framework.Objects.Class
             var crfValues = new List<decimal>();
             decimal crfOut;
             var crfBeginIndex = 835;
-            var crfEndIndex = 840;
+            var crfEndIndex = 839;
             var daysOldDifference = 580;
             CRF = 0;
 
@@ -798,6 +801,7 @@ namespace Nilsen.Framework.Objects.Class
         {
             var alphaNumericRegEx = new Regex("[^a-zA-Z0-9 -]");
             var jockeyName = Fields[32].ToLower();
+            MJS = string.Empty;
             jockeyName = alphaNumericRegEx.Replace(jockeyName, string.Empty);
 
             MJS1156 = (!string.IsNullOrWhiteSpace(Fields[1156])) ? Convert.ToDecimal(Fields[1156]) : (decimal)0.00;
@@ -808,6 +812,7 @@ namespace Nilsen.Framework.Objects.Class
             MJS1162 = (!string.IsNullOrWhiteSpace(Fields[1162])) ? Convert.ToDecimal(Fields[1162]) : (decimal)0.00;
             MJS1163 = (!string.IsNullOrWhiteSpace(Fields[1163])) ? Convert.ToDecimal(Fields[1163]) : (decimal)0.00;
             MJS1164 = (!string.IsNullOrWhiteSpace(Fields[1164])) ? Convert.ToDecimal(Fields[1164]) : (decimal)0.00;
+
             if (jockeyName != Fields[1065].ToLower())
             {
                 MJS = "MJS";
@@ -831,28 +836,27 @@ namespace Nilsen.Framework.Objects.Class
                 MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1074].ToLower(), string.Empty) &&
                     int.TryParse(Fields[624].ToString(), out intOut) && intOut.Equals(1)) ? "MJS-W" : MJS;
 
-                MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1066].ToLower(), string.Empty) &&
-                    int.TryParse(Fields[616].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
-                MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1067].ToLower(), string.Empty) &&
-                    int.TryParse(Fields[617].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
-                MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1068].ToLower(), string.Empty) &&
-                    int.TryParse(Fields[618].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
-                MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1069].ToLower(), string.Empty) &&
-                    int.TryParse(Fields[619].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
-                MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1070].ToLower(), string.Empty) &&
-                    int.TryParse(Fields[620].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
-                MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1071].ToLower(), string.Empty) &&
-                    int.TryParse(Fields[621].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
-                MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1072].ToLower(), string.Empty) &&
-                    int.TryParse(Fields[622].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
-                MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1073].ToLower(), string.Empty) &&
-                    int.TryParse(Fields[623].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
-                MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1074].ToLower(), string.Empty) &&
-                    int.TryParse(Fields[624].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
-            }
-            else
-            {
-                MJS = string.Empty;
+                if (!MJS.Equals("MJS-W"))
+                {
+                    MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1066].ToLower(), string.Empty) &&
+                        int.TryParse(Fields[616].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
+                    MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1067].ToLower(), string.Empty) &&
+                        int.TryParse(Fields[617].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
+                    MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1068].ToLower(), string.Empty) &&
+                        int.TryParse(Fields[618].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
+                    MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1069].ToLower(), string.Empty) &&
+                        int.TryParse(Fields[619].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
+                    MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1070].ToLower(), string.Empty) &&
+                        int.TryParse(Fields[620].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
+                    MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1071].ToLower(), string.Empty) &&
+                        int.TryParse(Fields[621].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
+                    MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1072].ToLower(), string.Empty) &&
+                        int.TryParse(Fields[622].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
+                    MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1073].ToLower(), string.Empty) &&
+                        int.TryParse(Fields[623].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
+                    MJS = (jockeyName == alphaNumericRegEx.Replace(Fields[1074].ToLower(), string.Empty) &&
+                        int.TryParse(Fields[624].ToString(), out intOut) && intOut.Equals(2)) ? "MJS~w" : MJS;
+                }
             }
         }
         
