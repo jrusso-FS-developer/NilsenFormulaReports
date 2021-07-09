@@ -27,6 +27,26 @@ namespace Nilsen.Framework.Common
             }
         }
 
+        public struct NilsenCell
+        {
+            public struct BorderStyle
+            {
+                public struct Weight
+                {
+                    public const string Bold = "Bold";
+                    public const string Regular = "Thin";
+                }
+                public struct Sides
+                {
+                    public const string Bottom = "Bottom";
+                    public const string Top = "Top";
+                    public const string Left = "Left";
+                    public const string Right = "Right";
+                    public const string All = "All";
+                }
+            }
+        }
+
         public enum FormTypes
         {
             PaceForecasterFormula, TurfFormula
@@ -167,6 +187,7 @@ namespace Nilsen.Framework.Common
         public string SortDirection { get; set; }
         public XlRgbColor TextColor { get; set; }
         public List<string> TextStyles { get; set; }
+        public List<string> CellStyles { get; set; }
         public RaceFieldsFormat.BasisTypes BasisType { get; set; }
         public RaceFieldsFormat.FormatTypes FormatType { get; set; }
         public string Field { get; set; }

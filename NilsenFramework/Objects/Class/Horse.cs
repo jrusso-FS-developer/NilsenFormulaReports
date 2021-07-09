@@ -69,6 +69,7 @@ namespace Nilsen.Framework.Objects.Class
             CalcBSR(fields, race.Track);
             CalcCRF(fields, race);
             CalcE2(fields);
+            CalcHT(fields);
             CalcRBCPercent(fields);
             CalcRET(fields, race);
             CalcMDC(fields);
@@ -130,6 +131,10 @@ namespace Nilsen.Framework.Objects.Class
         public int Field96 { get; set; }
 
         public string HorseName { get; set; }
+
+        public decimal HT { get; set; }
+
+        public string HTDisplay { get; set; }
 
         public int JockeyMeetStarts { get; set; }
 
@@ -584,7 +589,7 @@ namespace Nilsen.Framework.Objects.Class
             }
         }
 
-        private void CalcE2 (string[] Fields)
+        private void CalcE2(string[] Fields)
         {
             var e2EvalList = new List<decimal>();
             var beginIndex = 775;
@@ -602,6 +607,23 @@ namespace Nilsen.Framework.Objects.Class
             E2_1 = e2EvalList.Count > 0 ? e2EvalList[0] : (decimal?)null;
             E2_2 = e2EvalList.Count > 1 ? e2EvalList[1] : (decimal?)null;
         }
+
+        private void CalcHT(string[] Fields)
+        {
+            var field28 = Convert.ToDecimal(Fields[28]);
+            var field29 = Convert.ToDecimal(Fields[29]);
+
+            HT = (field29 > 0) ? field28 / field29 * 100 : HT;
+
+            if ((field28 >= 2 && field29 <= 7 && HT >= 28) ||
+                (field28 >= 8 && field28 <= 12 && HT >= 28) ||
+                (field28 >= 13 && HT >= 20))
+                        HTDisplay = "+";
+            else if ((field28 >= 12 && HT >= 0) ||
+                (field28 >= 21 && HT >= 5))
+                HTDisplay = "C";
+
+        }        
 
         private void CalcLR(string[] Fields, IRace race)
         {
@@ -674,8 +696,8 @@ namespace Nilsen.Framework.Objects.Class
             decimal todayDistance;
             decimal lastDistance;
 
-            todayDistance = (Decimal.TryParse(Fields[5].Trim(), out decimal todayDistanceOut)) ? todayDistanceOut : (Decimal)0.00;
-            lastDistance = (Decimal.TryParse(Fields[315].Trim(), out decimal lastDistanceOut)) ? lastDistanceOut : (Decimal)0.00;
+            todayDistance = (decimal.TryParse(Fields[5].Trim(), out decimal todayDistanceOut)) ? todayDistanceOut : (decimal)0.00;
+            lastDistance = (decimal.TryParse(Fields[315].Trim(), out decimal lastDistanceOut)) ? lastDistanceOut : (decimal)0.00;
 
             TB = lastDistance - todayDistance;
         }
@@ -773,10 +795,8 @@ namespace Nilsen.Framework.Objects.Class
 
         private void CalcMDC(string[] Fields)
         {
-            var stateBred = false;
-            var lastRaceStateBred = false;
-            var claimingPrice = (decimal)0.00;
-            var claimingPriceLastRace = (decimal)0.00;
+            bool stateBred;
+            bool lastRaceStateBred;
 
             int.TryParse(Fields[11], out int racePurse);
             RacePurse = racePurse;
@@ -784,9 +804,9 @@ namespace Nilsen.Framework.Objects.Class
             int.TryParse(Fields[555], out int lastRacePurse);
             LastPurse = lastRacePurse;
             lastRaceStateBred = (Fields[1105].ToLower().Equals("s"));
-            decimal.TryParse(Fields[12], out claimingPrice);
+            decimal.TryParse(Fields[12], out decimal claimingPrice);
             ClaimingPrice = claimingPrice;
-            decimal.TryParse(Fields[1211], out claimingPriceLastRace);
+            decimal.TryParse(Fields[1211], out decimal claimingPriceLastRace);
             ClaimingPriceLastRace = claimingPriceLastRace;
 
             MDC = string.Empty;
@@ -795,6 +815,10 @@ namespace Nilsen.Framework.Objects.Class
             {
                 MDC = "MDC";
             }
+
+            MDC += (Fields[535].ToLower() == "mdspwt" && ClaimingPrice <= 35000) ? 
+                "*" : 
+                string.Empty;
         }
 
         private void CalcMJS(string[] Fields)

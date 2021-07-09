@@ -21,7 +21,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
     public class PaceForecasterFormulaReportService : IReportService
     {
         private ConsoleService consoleSvc;
-        private string _SavePath = string.Format("{0}\\Flicker City Productions\\RacesCSVToExcel\\files", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+        private string _SavePath = string.Format("{0}Flicker City Productions\\RacesCSVToExcel\\files", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
         private string[] Fields;
 
         public PaceForecasterFormulaReportService(System.Windows.Forms.TextBox consoleWindow, System.Windows.Forms.Button btnProcess)
@@ -33,7 +33,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
         {
             Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
             Workbook wb = ExcelApp.Workbooks.Add(Type.Missing);
-            Worksheet ws = wb.Sheets.Add();
+            Worksheet secondPaceWorksheet = wb.Sheets.Add();
+            Worksheet mainPaceWorksheet = wb.Sheets.Add();
             var sbFullFileName = new StringBuilder();
             var sbFileName = new StringBuilder();
             var bContinue = true;
@@ -45,7 +46,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
             //Build Worksheet
             consoleSvc.UpdateConsoleText("Creating Worksheet...", true);
-            BuildWorksheet(ws, fi);
+            BuildMainWorksheet(mainPaceWorksheet, fi);
+            BuildSecondWorksheet(secondPaceWorksheet, fi);
 
             //Clear Extra Worksheet
             wb.Sheets[wb.Sheets.Count].Delete();
@@ -83,7 +85,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
             //Cleanup
             ExcelApp.Application.Visible = true;
-            Marshal.ReleaseComObject(ws);
+            Marshal.ReleaseComObject(mainPaceWorksheet);
+            Marshal.ReleaseComObject(secondPaceWorksheet); 
 
             wb.Close();
             Marshal.ReleaseComObject(wb);
@@ -98,7 +101,96 @@ namespace Nilsen.Framework.Services.Objects.Classes
             consoleSvc.ToggleProcessButton(true);
         }
 
-        public void BuildWorksheet(Worksheet ws, FileInfo fi)
+        public void BuildSecondWorksheet(Worksheet ws, FileInfo fi)
+        {
+            var reader = new StreamReader(File.OpenRead(fi.FullName));
+            string[] Lines;
+            var iRow = 1;
+            var iHeaderRow = 1;
+            var bInitialHeader = true;
+            Range rHeader;
+            IRace race = null;
+            var iTotalRow = 0;
+            var worksheetName = "Nilsen Pace - Second";
+            consoleSvc.UpdateConsoleText($"Building second Worksheet, '{worksheetName}'...", false);
+            ws.Name = worksheetName;
+            ws.get_Range("A1", "F1").Merge(Type.Missing);
+            rHeader = ws.get_Range("A1", Type.Missing);
+            rHeader.Value = "Nilsen Pace Rating Report - Second Page";
+            rHeader.Font.Bold = true;
+            ws.Cells[1, 1].HorizontalAlignment = XlHAlign.xlHAlignCenter;
+            Lines = Regex.Split(reader.ReadToEnd(), Environment.NewLine);
+
+            //page style
+            ws.PageSetup.Orientation = XlPageOrientation.xlPortrait;
+            var sRaceName = string.Empty;
+
+            consoleSvc.UpdateConsoleText("Reading CSV File...", false);
+
+            if (Lines.GetLength(0) > 0)
+            {
+                foreach (var line in Lines)
+                {
+                    var lineParser = new TextFieldParser(new StringReader(line));
+                    lineParser.TextFieldType = FieldType.Delimited;
+                    lineParser.SetDelimiters(new string[] { "," });
+                    lineParser.HasFieldsEnclosedInQuotes = true;
+
+                    while (!lineParser.EndOfData)
+                    {
+                        Fields = lineParser.ReadFields();
+
+                        //New Race Record
+                        if (!Fields[2].ToLower().Equals(sRaceName))
+                        {
+                            if (race != null)
+                            {
+                                // TODO:: Add logic for aggregating all horses now.
+                            }
+
+                            race = RaceService.GetRace(Fields);
+
+                            consoleSvc.UpdateConsoleText(string.Format("Reading and building Race {0}...", Fields[2]), false);
+                            iRow += 2;
+
+                            //Only show the Race Date and Track
+                            if (bInitialHeader)
+                            {
+                                //race vars
+                                string sRaceDate = DateTime.ParseExact(race.DateText, "yyyyMMdd", CultureInfo.InvariantCulture).ToString("MM/dd/yyyy");
+                                ws.get_Range(string.Format("A{0}", iRow), string.Format("D{0}", iRow)).Merge(Type.Missing);
+                                ws.Cells[iRow, 1].HorizontalAlignment = XlHAlign.xlHAlignLeft;
+                                ws.Cells[iRow++, 1].Value = sRaceDate;
+                                ws.get_Range(string.Format("A{0}", iRow), string.Format("D{0}", iRow)).Merge(Type.Missing);
+                                ws.Cells[iRow, 1].HorizontalAlignment = XlHAlign.xlHAlignLeft;
+                                ws.Cells[iRow++, 1].Value = race.Track.TrackName;
+                                bInitialHeader = false;
+                            }
+
+                            ws.Cells[iRow++, 1].Value = race.Name;
+                            ws.Cells[iRow, 2].Value = $"{race.Track.Furlongs} / {race.Track.TrackType}";
+                            ws.Cells[iRow, 3].Value = race.Horses.Sum(x => x.Pace);
+
+                            iRow++;
+
+                            sRaceName = Fields[2];
+                        }
+                    }
+
+                    race.Horses.Add(new Horse(fi.FullName, Fields, race));
+                }
+            }
+
+            foreach (Range c in ws.get_Range("A1", "AZ1"))
+            {
+                c.EntireColumn.AutoFit();
+            }
+
+            Marshal.ReleaseComObject(rHeader);
+            Marshal.ReleaseComObject(ws);
+        }
+
+        public void BuildMainWorksheet(Worksheet ws, FileInfo fi)
         {
             //declares and assigns
             var reader = new StreamReader(File.OpenRead(fi.FullName));
@@ -109,10 +201,12 @@ namespace Nilsen.Framework.Services.Objects.Classes
             var bInitialHeader = true;
             IRace race = null;
             var iTotalRow = 0;
-            ws.Name = "Nilsen Pace Rating";
+            var worksheetName = "Nilsen Pace - Main Page";
+            consoleSvc.UpdateConsoleText($"Building first Worksheet, '{worksheetName}'...", false);
+            ws.Name = worksheetName;
             ws.get_Range("A1", "F1").Merge(Type.Missing);
             rHeader = ws.get_Range("A1", Type.Missing);
-            rHeader.Value = "Nilsen Pace Rating Report";
+            rHeader.Value = "Nilsen Pace Rating Report - Main";
             rHeader.Font.Bold = true;
             ws.Cells[1, 1].HorizontalAlignment = XlHAlign.xlHAlignCenter;
             Lines = Regex.Split(reader.ReadToEnd(), Environment.NewLine);
@@ -281,15 +375,16 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             ws.Cells[iHeaderRow, 28].Value = "Dis";
                             ws.Cells[iHeaderRow, 29].Value = "T-SR";
                             ws.Cells[iHeaderRow, 30].Value = "D-SR";
-                            ws.Cells[iHeaderRow, 31].Value = "Note";
-                            ws.Cells[iHeaderRow, 32].Value = "Note 2";
-                            ws.Cells[iHeaderRow, 33].Value = "Note 3";
-                            ws.Cells[iHeaderRow, 34].Value = "#W";
-                            ws.Cells[iHeaderRow, 35].Value = "#F";
-                            ws.Cells[iHeaderRow, 36].Value = "RK";
-                            ws.Cells[iHeaderRow, 37].Value = "WKrs";
-                            ws.Cells[iHeaderRow, 38].Value = string.Empty;
-                            ws.Cells[iHeaderRow, 39].Value = "Extended Comment";
+                            ws.Cells[iHeaderRow, 31].Value = "HT";
+                            ws.Cells[iHeaderRow, 32].Value = "Note";
+                            ws.Cells[iHeaderRow, 33].Value = "Note 2";
+                            ws.Cells[iHeaderRow, 34].Value = "Note 3";
+                            ws.Cells[iHeaderRow, 35].Value = "#W";
+                            ws.Cells[iHeaderRow, 36].Value = "#F";
+                            ws.Cells[iHeaderRow, 37].Value = "RK";
+                            ws.Cells[iHeaderRow, 38].Value = "WKrs";
+                            ws.Cells[iHeaderRow, 39].Value = string.Empty;
+                            ws.Cells[iHeaderRow, 40].Value = "Extended Comment";
 
                             ws.Cells[iHeaderRow, 1].HorizontalAlignment = XlHAlign.xlHAlignRight;
                             ws.Cells[iHeaderRow, 2].HorizontalAlignment = XlHAlign.xlHAlignRight;
@@ -329,7 +424,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             ws.Cells[iHeaderRow, 36].HorizontalAlignment = XlHAlign.xlHAlignRight;
                             ws.Cells[iHeaderRow, 37].HorizontalAlignment = XlHAlign.xlHAlignRight;
                             ws.Cells[iHeaderRow, 38].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                            ws.Cells[iHeaderRow, 39].HorizontalAlignment = XlHAlign.xlHAlignLeft;
+                            ws.Cells[iHeaderRow, 39].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                            ws.Cells[iHeaderRow, 40].HorizontalAlignment = XlHAlign.xlHAlignLeft;
                         }
                         race.Horses.Add(new Horse(fi.FullName, Fields, race));
                     }
@@ -360,7 +456,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
         private int listHorses(IRace race, Worksheet ws, int iRowRangeStart, int iHeaderRow)
         {
             var iRow = iRowRangeStart;
-            var ktscFirstIndex = 40;
+            var ktscFirstIndex = 41;
             var ktscLastIndex = race.GetGreatestKeyTrainerStatCategoryCount() + ktscFirstIndex - 1;
             var iColIndex = 1;
             race.SortHorses();
@@ -372,8 +468,6 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
             foreach (Horse horse in race.Horses)
             {
-                int intOut;
-
                 iRow++;
                 ws.Cells[iRow, 1].Value = string.Format("{0})", horse.ProgramNumber); //Program Number
                 ws.Cells[iRow, 2].Value = horse.MorningLine; //Morning Line
@@ -385,7 +479,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                 if (horse.Field96 != 1) //LR
                 {
-                    if (horse.LR > 0 || horse.LR < 0) {
+                    if (horse.LR >= -30 && horse.LR <= 30) {
                         ws.Cells[iRow, 7].Value = horse.LR.ToString();
 
                         if (horse.LR > 0)
@@ -427,15 +521,16 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 ws.Cells[iRow, 28].Value = horse.DIS; //Dis
                 ws.Cells[iRow, 29].Value = horse.TSR; //TSR
                 ws.Cells[iRow, 30].Value = horse.DSR; //DSR
-                ws.Cells[iRow, 31].Value = horse.Note; //Note
-                ws.Cells[iRow, 32].Value = horse.Note2; //Note2
-                ws.Cells[iRow, 33].Value = horse.Note3; //Note3
-                ws.Cells[iRow, 34].Value = horse.Workout; //Workout
-                ws.Cells[iRow, 35].Value = horse.Distance; //Distance
-                ws.Cells[iRow, 36].Value = horse.Rank; //Rank
-                ws.Cells[iRow, 37].Value = horse.Workers; //WKrs
-                ws.Cells[iRow, 38].Value = (Math.Round(horse.RnkWrkrsPct, MidpointRounding.AwayFromZero)).ToString() + "%"; //PERCENTAGE
-                ws.Cells[iRow, 39].Value = horse.ExtendedComment; //Extended Comment
+                ws.Cells[iRow, 31].Value = horse.HTDisplay; //HT
+                ws.Cells[iRow, 32].Value = horse.Note; //Note
+                ws.Cells[iRow, 33].Value = horse.Note2; //Note2
+                ws.Cells[iRow, 34].Value = horse.Note3; //Note3
+                ws.Cells[iRow, 35].Value = horse.Workout; //Workout
+                ws.Cells[iRow, 36].Value = horse.Distance; //Distance
+                ws.Cells[iRow, 37].Value = horse.Rank; //Rank
+                ws.Cells[iRow, 38].Value = horse.Workers; //WKrs
+                ws.Cells[iRow, 39].Value = (Math.Round(horse.RnkWrkrsPct, MidpointRounding.AwayFromZero)).ToString() + "%"; //PERCENTAGE
+                ws.Cells[iRow, 40].Value = horse.ExtendedComment; //Extended Comment
 
                 if (horse.Blinkers.Equals(1) || horse.Blinkers.Equals(2))
                 {
@@ -449,20 +544,20 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
                 if (horse.Note.ToLower().Equals("lasix") || horse.Note.ToLower().Equals("mts"))
                 {
-                    ws.Cells[iRow, 31].Interior.Color = XlRgbColor.rgbLightGray;
-                    ws.Cells[iRow, 31].Font.Bold = true;
-                }
-
-                if (horse.Note2.ToLower().Equals("lasix") || horse.Note2.ToLower().Equals("mts"))
-                {
                     ws.Cells[iRow, 32].Interior.Color = XlRgbColor.rgbLightGray;
                     ws.Cells[iRow, 32].Font.Bold = true;
                 }
 
-                if (horse.Note3.ToLower().Equals("lasix") || horse.Note3.ToLower().Equals("mts") || horse.Note3.ToLower().Equals("ts"))
+                if (horse.Note2.ToLower().Equals("lasix") || horse.Note2.ToLower().Equals("mts"))
                 {
                     ws.Cells[iRow, 33].Interior.Color = XlRgbColor.rgbLightGray;
                     ws.Cells[iRow, 33].Font.Bold = true;
+                }
+
+                if (horse.Note3.ToLower().Equals("lasix") || horse.Note3.ToLower().Equals("mts") || horse.Note3.ToLower().Equals("ts"))
+                {
+                    ws.Cells[iRow, 34].Interior.Color = XlRgbColor.rgbLightGray;
+                    ws.Cells[iRow, 34].Font.Bold = true;
                 }
 
                 ws.Cells[iRow, 1].HorizontalAlignment = XlHAlign.xlHAlignRight;
@@ -503,7 +598,8 @@ namespace Nilsen.Framework.Services.Objects.Classes
                 ws.Cells[iRow, 36].HorizontalAlignment = XlHAlign.xlHAlignRight;
                 ws.Cells[iRow, 37].HorizontalAlignment = XlHAlign.xlHAlignRight;
                 ws.Cells[iRow, 38].HorizontalAlignment = XlHAlign.xlHAlignRight;
-                ws.Cells[iRow, 39].HorizontalAlignment = XlHAlign.xlHAlignLeft;
+                ws.Cells[iRow, 39].HorizontalAlignment = XlHAlign.xlHAlignRight;
+                ws.Cells[iRow, 40].HorizontalAlignment = XlHAlign.xlHAlignLeft;
 
                 for (var iColumnIndex = ktscFirstIndex; iColumnIndex <= ktscLastIndex; iColumnIndex++)
                 {
@@ -518,7 +614,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
             return iRow;
         }
 
-        public int FormatFields(List<IHorse> horses, Worksheet ws, int iRangeStart, int iRangeEnd, int ktscFirstIndex, int ktscLastIndex)
+        private int FormatFields(List<IHorse> horses, Worksheet ws, int iRangeStart, int iRangeEnd, int ktscFirstIndex, int ktscLastIndex)
         {
             List<FieldFormat> fieldFormats = null;
             var sortedHorses = new List<IHorse>();
@@ -992,9 +1088,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             break;
                         case PaceForecasterFormatFields.LR: //LR
                             var lrStyles = new List<string>();
+                            var lrStyles2 = new List<string>();
                             var lrEvaluationRangeValues = new List<decimal>();
 
                             lrStyles.Add(Text.Style.Bold);
+                            lrStyles2.Add(Text.Style.Regular);
                             lrEvaluationRangeValues.Add((decimal)0.00);
 
                             dr = dt.NewRow();
@@ -1008,6 +1106,17 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = lrStyles,
+                                EvaluationDecimalValues = lrEvaluationRangeValues,
+                                WsColumnIndex = 7
+                            });
+
+                            fieldFormats.Add(new FieldFormat
+                            {
+                                Field = PaceForecasterFormatFields.LR,
+                                BasisType = BasisTypes.LessThanZero,
+                                BackgroundColor = XlRgbColor.rgbWhite,
+                                TextColor = XlRgbColor.rgbRed,
+                                TextStyles = lrStyles2,
                                 EvaluationDecimalValues = lrEvaluationRangeValues,
                                 WsColumnIndex = 7
                             });
@@ -1077,8 +1186,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             break;
                         case PaceForecasterFormatFields.ML: //ML
                             var mlStyles = new List<string>();
+                            var mlCellBorderStyles = new List<string>();
 
                             mlStyles.Add(Text.Style.Regular);
+                            mlCellBorderStyles.Add(NilsenCell.BorderStyle.Sides.Bottom);
+                            mlCellBorderStyles.Add(NilsenCell.BorderStyle.Weight.Bold);
 
                             dr = dt.NewRow();
                             dt.Rows.Add(dr);
@@ -1092,6 +1204,16 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 TextColor = XlRgbColor.rgbRed,
                                 TextStyles = mlStyles,
                                 WsColumnIndex = 2
+                            });
+                            fieldFormats.Add(new FieldFormat
+                            {
+                                Field = PaceForecasterFormatFields.MJS,
+                                BasisType = BasisTypes.GreaterThanOrEqualTo,
+                                BackgroundColor = XlRgbColor.rgbWhite,
+                                CellStyles = mlCellBorderStyles,
+                                EvaluationDecimalValues = new List<decimal>() { 3 },
+                                TextColor = XlRgbColor.rgbBlack,
+                                WsColumnIndex = 20
                             });
                             dr[0] = h.MorningLine;
                             dr[1] = h;
@@ -1484,7 +1606,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbLightGrey,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rnkWrkrsStyles1,
-                                WsColumnIndex = 38,
+                                WsColumnIndex = 39,
                                 EvaluationDecimalValues = rnkWrkrsEvaluationValues1
                             });
                             dr[0] = (h.RnkWrkrsPct < (decimal)16) && (h.Workers >= 40);
@@ -1507,7 +1629,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = rnkWrkrsStyles2,
-                                WsColumnIndex = 38,
+                                WsColumnIndex = 39,
                                 EvaluationDecimalValues = rnkWrkrsEvaluationValues2
                             });
                             dr[0] = (((h.RnkWrkrsPct >= (decimal)16) && (h.RnkWrkrsPct <= (decimal)30)) && (h.Workers >= 40)) || ((h.RnkWrkrsPct <= (decimal)30) && (h.RnkWrkrsPct > (decimal)0) && (h.Workers < 40));
@@ -1531,7 +1653,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = distanceStyles,
-                                WsColumnIndex = 35,
+                                WsColumnIndex = 36,
                                 EvaluationDecimalValues = distanceEvaluationValues
                             });
                             dr[0] = (decimal)h.Distance;
@@ -1555,7 +1677,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                 BackgroundColor = XlRgbColor.rgbWhite,
                                 TextColor = XlRgbColor.rgbBlack,
                                 TextStyles = workoutStyles,
-                                WsColumnIndex = 34,
+                                WsColumnIndex = 35,
                                 EvaluationDecimalValues = workoutEvaluationValues
                             });
                             dr[0] = (decimal)h.Workout;
@@ -1613,6 +1735,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
                         case PaceForecasterFormatFields.BCR:
                         case PaceForecasterFormatFields.BSR:
                         case PaceForecasterFormatFields.PP:
+                        case PaceForecasterFormatFields.LR:
                         case PaceForecasterFormatFields.Pace:
                         case PaceForecasterFormatFields.RQ:
                             val = Convert.ToDecimal(dtHorses.Rows[0][0]);
@@ -1873,35 +1996,66 @@ namespace Nilsen.Framework.Services.Objects.Classes
                                             }
                                         }
                                         cell.Font.Color = ff.TextColor;
-                                        foreach (var style in ff.TextStyles)
+
+                                        if (ff.TextStyles != null)
                                         {
-                                            if (style.Equals(XlUnderlineStyle.xlUnderlineStyleDouble.ToString()))
+                                            foreach (var style in ff.TextStyles)
                                             {
-                                                var underline = addUnderline(style, ff, h);
-                                                cell.Font.Underline = underline;
-
-                                                if (underline && ff.Field.Equals(PaceForecasterFormatFields.DSLR))
+                                                if (style.Equals(XlUnderlineStyle.xlUnderlineStyleDouble.ToString()))
                                                 {
-                                                    var peerCell = ws.Cells[iIndex, ff.WsColumnIndex + 1];
+                                                    var underline = addUnderline(style, ff, h);
+                                                    cell.Font.Underline = underline;
 
-                                                    peerCell.Font.Underline = underline;
+                                                    if (underline && ff.Field.Equals(PaceForecasterFormatFields.DSLR))
+                                                    {
+                                                        var peerCell = ws.Cells[iIndex, ff.WsColumnIndex + 1];
+
+                                                        peerCell.Font.Underline = underline;
+                                                    }
+                                                }
+                                                cell.Font.Bold = style.Equals(Text.Style.Bold);
+                                                cell.Font.Italic = style.Equals(Text.Style.Italic);
+
+                                                if (ff.BasisType == BasisTypes.RnkWrkrsCustom)
+                                                {
+                                                    var indexAdjust = ff.WsColumnIndex;
+                                                    ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
+                                                    ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
+                                                    ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
+                                                    ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
+                                                    ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
+                                                    ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
+                                                    ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
+                                                    ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
                                                 }
                                             }
-                                            cell.Font.Bold = style.Equals(Text.Style.Bold);
-                                            cell.Font.Italic = style.Equals(Text.Style.Italic);
+                                        }
 
-                                            if (ff.BasisType == BasisTypes.RnkWrkrsCustom)
+                                        if (ff.CellStyles != null)
+                                        {
+                                            dynamic border = new object();
+
+                                            ff.CellStyles.ForEach(cellStyle =>
                                             {
-                                                var indexAdjust = ff.WsColumnIndex;
-                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
-                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
-                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
-                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
-                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
-                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
-                                                ws.Cells[iIndex, --indexAdjust].Font.Bold = style.Equals(Text.Style.Bold);
-                                                ws.Cells[iIndex, indexAdjust].Font.Italic = style.Equals(Text.Style.Italic);
-                                            }
+                                                switch (cellStyle)
+                                                {
+                                                    case NilsenCell.BorderStyle.Weight.Bold:
+                                                        border.Weight = 4d;
+                                                        break;
+                                                    case NilsenCell.BorderStyle.Sides.Right:
+                                                        border = cell.Borders[XlBordersIndex.xlEdgeRight];
+                                                        break;
+                                                    case NilsenCell.BorderStyle.Sides.Left:
+                                                        border = cell.Borders[XlBordersIndex.xlEdgeLeft];
+                                                        break;
+                                                    case NilsenCell.BorderStyle.Sides.Bottom:
+                                                        border = cell.Borders[XlBordersIndex.xlEdgeBottom];
+                                                        break;
+                                                    case NilsenCell.BorderStyle.Sides.Top:
+                                                        border = cell.Borders[XlBordersIndex.xlEdgeTop];
+                                                        break;
+                                                }
+                                            });
                                         }
                                     }
                                     break;
@@ -1936,6 +2090,15 @@ namespace Nilsen.Framework.Services.Objects.Classes
                             row.Insert();
                             var newRow = ws.Rows[iIndex];
                             newRow.ClearFormats();
+                            var newCells = ws.Cells[iIndex, ktscLastIndex];
+
+                            for(var zIndex = 1; zIndex <= ktscLastIndex; zIndex++)
+                            {
+                                var borders = ws.Cells[iIndex, zIndex].Borders;
+
+                                borders[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeBottom].LineStyle = XlLineStyle.xlLineStyleNone;
+                            }
+
                             iIndex++;
                             iRangeEnd++;
                         }

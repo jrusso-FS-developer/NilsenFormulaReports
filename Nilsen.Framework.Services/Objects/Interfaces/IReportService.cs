@@ -11,6 +11,7 @@ namespace Nilsen.Framework.Services.Objects.Interfaces
     public interface IReportService
     {
         void CreateExcelFile(FileInfo fi);
-        void BuildWorksheet(Worksheet ws, FileInfo fi);
+        void BuildMainWorksheet(Worksheet ws, FileInfo fi);
+        void BuildSecondWorksheet(Worksheet ws, FileInfo fi);
     }
 }

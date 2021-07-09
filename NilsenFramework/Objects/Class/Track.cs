@@ -11,7 +11,7 @@ namespace Nilsen.Framework.Objects.Class
     public sealed class Track : ITrack
     {
         #region "constructors"
-        public Track(String[] Fields, Decimal furlongs)
+        public Track(String[] Fields)
         {
             //declares and assigns
             string tt;

@@ -27,6 +27,8 @@ namespace Nilsen.Framework.Objects.Interfaces
         string ExtendedComment { get; set; }
         int Field96 { get; set; }
         string HorseName { get; set; }
+        decimal HT { get; set; }
+        string HTDisplay { get; set; }
         int JockeyMeetStarts { get; set; }
         List<string> KeyTrainerStatCategory { get; set; }
         decimal LastPurse { get; set; }

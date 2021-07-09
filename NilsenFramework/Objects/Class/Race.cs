@@ -1,4 +1,5 @@
-﻿using Nilsen.Framework.Objects.Interfaces;
+﻿using Microsoft.Office.Interop.Excel;
+using Nilsen.Framework.Objects.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,18 +13,19 @@ namespace Nilsen.Framework.Objects.Class
     {      
         public Race(string[] Fields)
         {
-            Track = new Track(Fields, Convert.ToDecimal(Fields[5]));
+            Track = new Track(Fields);
             Name = Fields[2];
             DateText = Fields[1];
             Date = DateTime.ParseExact(Fields[1], "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
             Type = Fields[8];
             AgeOfRace = Fields[9];
             PostTime = Fields[1373];
-            PAR = string.Format("{0} ({1}, {2}, {3}, {4})", (!string.IsNullOrWhiteSpace(Fields[216]) ? Fields[216] : "N/A"),
-            (!string.IsNullOrWhiteSpace(Fields[213]) ? Fields[213] : "N/A"),
-            (!string.IsNullOrWhiteSpace(Fields[214]) ? Fields[214] : "N/A"),
-            (!string.IsNullOrWhiteSpace(Fields[215]) ? Fields[215] : "N/A"),
-            (!string.IsNullOrWhiteSpace(Fields[217]) ? Fields[217] : "N/A"));
+            PAR = string.Format("{0} ({1}, {2}, {3}, {4})", 
+                (!string.IsNullOrWhiteSpace(Fields[216]) ? Fields[216] : "N/A"),
+                (!string.IsNullOrWhiteSpace(Fields[213]) ? Fields[213] : "N/A"),
+                (!string.IsNullOrWhiteSpace(Fields[214]) ? Fields[214] : "N/A"),
+                (!string.IsNullOrWhiteSpace(Fields[215]) ? Fields[215] : "N/A"),
+                (!string.IsNullOrWhiteSpace(Fields[217]) ? Fields[217] : "N/A"));
 
             Horses = new List<IHorse>();
         }
@@ -111,7 +113,7 @@ namespace Nilsen.Framework.Objects.Class
         public void SortHorses()
         {
             //declares and assigns
-            var dt = new DataTable();
+            var dt = new System.Data.DataTable();
             var iHorseIndex = 0;
             dt.Columns.Add(new DataColumn("Total", System.Type.GetType("System.Int32")));
             dt.Columns.Add(new DataColumn("Horse", System.Type.GetType("System.Object")));
@@ -172,6 +174,11 @@ namespace Nilsen.Framework.Objects.Class
             }
 
             return greatestCount;
+        }
+
+        private void GetTotalPaceForAllHorses()
+        {
+
         }
 
     }

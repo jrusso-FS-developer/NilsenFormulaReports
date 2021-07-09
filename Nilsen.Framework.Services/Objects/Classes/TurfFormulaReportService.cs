@@ -47,7 +47,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
 
             //Build Worksheet
             consoleSvc.UpdateConsoleText("Creating Worksheet...", true);
-            BuildWorksheet(wb.Sheets.Add(), fi);
+            BuildMainWorksheet(wb.Sheets.Add(), fi);
 
             //Clear Extra Worksheet
             wb.Sheets[wb.Sheets.Count].Delete();
@@ -94,7 +94,7 @@ namespace Nilsen.Framework.Services.Objects.Classes
             consoleSvc.ToggleProcessButton(true);
         }
 
-        public void BuildWorksheet(Worksheet ws, FileInfo fi)
+        public void BuildMainWorksheet(Worksheet ws, FileInfo fi)
         {
             //declares and assigns
             var reader = new StreamReader(File.OpenRead(fi.FullName));
@@ -819,6 +819,11 @@ namespace Nilsen.Framework.Services.Objects.Classes
             }
 
             return string.Format("Turf:   {0}", sbHorses.ToString()); 
+        }
+
+        public void BuildSecondWorksheet(Worksheet ws, FileInfo fi)
+        {
+            throw new NotImplementedException();
         }
     }
 }
